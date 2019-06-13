@@ -1,0 +1,81 @@
+\documentclass{acm_proc_article-sp}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx} 			%Grafiken
+\usepackage{xcolor}   			%Farbige Schrift ermöglichen
+\usepackage{amsmath}  			%Zusätzliche Mathebefehle
+
+% own packages
+%--------------------------------------------------------------------------------------------------------
+\usepackage{hyperref}			
+
+\begin{document}
+
+\title{Algorithms for the Moving Target Travelling Salesmen Problem}
+\subtitle{[Bachelor thesis]}
+\numberofauthors{1} 
+\author{
+\alignauthor
+Felix Greuling\\
+       \affaddr{Universität zu Lübeck}\\ 
+       \affaddr{Ratzeburger Allee 160}\\
+       \affaddr{23562 Lübeck, Deutschland}\\ 
+       \email{Felix.Greuling@student.uni-luebeck.de}
+}
+\date{16. Oktober 2018}
+\maketitle
+
+%Abstract
+\begin{abstract}
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+%\cite{de2019experimental}
+%\cite{helvig2003moving}
+\end{abstract}
+
+%------------------------------------------------------------------------------------------
+\section{Introduction}
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+%------------------------------------------------------------------------------------------
+\section{Definitions}
+In MT-TSP we consider an amount of targets $T=\{t_1,...,t_n\}$ and a set of velocities $V=\{v_1,...,v_n\}$ so that each moving with a constant movement speed $\overrightarrow{v_i}$. A pursuer starts at the origin $O$ (a defined position), moving with a velocity of $v_p$.  His target is to visit all targets once and return to the origin at the end.
+
+Therefore, we can model this problem as a graph \\
+$G=(T, V, O, v_p)$. 
+
+%------------------------------------------------------------------------------------------
+\section{Instances of Moving-Target TSP}
+
+It was proved that MT-TSP is NP-hard. Some instances can result in an unbounded error, whenever the pursuer choses a non-optimal tour. Therefore, the condition $v_p > |\overrightarrow{v_i}|$ must apply to avoid those errors. The authors of \cite{helvig2003moving} proved this, since the goal is the most fast optimal tour.  Thus, instead of directly calculating the tour of the pursuer, it is necessary to determine the solvability of the input. Whenever it is not possible we gain a 'No'-instance, otherwise we go ahead and calculate the tour. 
+
+This paper presents two concrete cases:
+
+\begin{itemize}
+\item[1)]
+1D-case: 
+Each target's movement is limited to a single line 
+
+\item[2)]
+2D-case:
+The movement direction of a target consists of a two-dimensional vector 
+
+\end{itemize}
+
+Each case is investigated for the shortest tour length and the fastest tour. We will consider different instances and try to approximate and analyse each one. 
+
+
+\subsection{One-dimensional-case}
+
+
+
+\subsection{Two-dimensional-case}
+
+
+%------------------------------------------------------------------------------------------
+\section{Summary and Outlook}
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+\bibliography{bibtex}{}
+\bibliographystyle{plain}
+\end{document}
