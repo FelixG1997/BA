@@ -29,8 +29,6 @@ Felix Greuling\\
 %Abstract
 \begin{abstract}
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-%\cite{de2019experimental}
-%\cite{helvig2003moving}
 \end{abstract}
 
 %------------------------------------------------------------------------------------------
@@ -39,18 +37,16 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 
 %------------------------------------------------------------------------------------------
 \section{Definitions}
-In MT-TSP we consider an amount of targets $T=\{t_1,...,t_n\}$ and a set of velocities $V=\{v_1,...,v_n\}$ so that each moving with a constant movement speed $\overrightarrow{v_i}$. A pursuer starts at the origin $O$ (a defined position), moving with a velocity of $v_p$.  His target is to visit all targets once and return to the origin at the end.
+In MT-TSP we consider an amount of targets $T=\{t_1,...,t_n\}$ and a set of velocities $V=\{v_1,...,v_n\}$ so that each moving with a constant movement speed $\overrightarrow{v_i}$. A pursuer starts at the origin $O$ (a defined position), moving with a velocity of $v_p$. His aim is to visit all targets once and finishes with returning to the origin.
 
-Therefore, we can model this problem as a graph \\
+Therefore, we can model this problem as the following graph \\
 $G=(T, V, O, v_p)$. 
 
 %------------------------------------------------------------------------------------------
 \section{Instances of Moving-Target TSP}
 
-It was proved that MT-TSP is NP-hard. Some instances can result in an unbounded error, whenever the pursuer choses a non-optimal tour. Therefore, the condition $v_p > |\overrightarrow{v_i}|$ must apply to avoid those errors. The authors of \cite{helvig2003moving} proved this, since the goal is the most fast optimal tour.  Thus, instead of directly calculating the tour of the pursuer, it is necessary to determine the solvability of the input. Whenever it is not possible we gain a 'No'-instance, otherwise we go ahead and calculate the tour. 
-
+It was proven that MT-TSP is NP-hard. Some instances can result in an unbounded error, whenever the pursuer choses a non-optimal tour. Therefore, the condition $v_p > |\overrightarrow{v_i}|$ must apply, to avoid these errors. This was proven by the authors in \cite{helvig}, since the goal is the most fast optimal tour.  Thus, instead of directly calculating the tour of the pursuer, it is necessary to determine the solvability of the input. Whenever it is not possible we gain a 'No'-instance, otherwise we go ahead and calculate the tour. \\
 This paper presents two concrete cases:
-
 \begin{itemize}
 \item[1)]
 1D-case: 
@@ -62,19 +58,45 @@ The movement direction of a target consists of a two-dimensional vector
 
 \end{itemize}
 
-Each case is investigated for the shortest tour length and the fastest tour. We will consider different instances and try to approximate and analyse each one. 
+Each case is investigated for the shortest and the fastest tour. Helvig , Robins and Zelikovsky showed in \cite{helvig} specific algorithms for 3 concrete cases: $\mathcal{O}(n^2)$-time algorithm in 1D-case, $(1+\alpha)$-approximation algorithm when the number of moving targets is small and $\mathcal{O}(n^2)$-time algorithm whenever enough targets are stationary. However, determining the approximation for general cases is hard, because there are many influences that determine the complexity of the problem. The approximation research in \cite{hammar} showed that MT-TSP cannot be approximated better than by a factor of $2^{\pi (\sqrt{n})}$ by a polynomial time algorithm unless P=NP.
 
+Later on, we will compare new heuristics and algorithms with those that recently proposed in \cite{moraes}. This paper examines Genetic Algorithm (GA), Simulated Annealing (SA) and Ant Colony Optimization (ACO) to solve MT-TSP.
 
+%------------------------------------------------------------------------------------------
 \subsection{One-dimensional-case}
 
 
+This specific case is already introduced extensive in \cite{helvig}. As previously m
+entioned, the authors showed an exact $\mathcal{O}(n^2)$-time algorithm for 1D-cases, which is based on dynamic programming.
 
+
+
+
+
+
+
+%Furthermore, the case of the shortest tour is introduced, which was not examined in the work of %Helvig, Robins and Zelikovsky.
+
+%\subsubsection{Shortest tour in 1D-case}
+
+
+%\subsubsection{Fastest tour in 1D-case}
+
+
+%------------------------------------------------------------------------------------------
 \subsection{Two-dimensional-case}
 
+
+%\subsubsection{Shortest tour in 2D-case}
+
+
+%\subsubsection{Fastest tour in 2D-case}
 
 %------------------------------------------------------------------------------------------
 \section{Summary and Outlook}
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+%\cite{moraes}
+%\cite{helvig}
 
 \bibliography{bibtex}{}
 \bibliographystyle{plain}
