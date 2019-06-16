@@ -23,17 +23,17 @@ Felix Greuling\\
        \affaddr{23562 Lübeck, Deutschland}\\ 
        \email{Felix.Greuling@student.uni-luebeck.de}
 }
-\date{16. Oktober 2018}
+\date{01. Juni 2018}
 \maketitle
 
 %Abstract
 \begin{abstract}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
 \end{abstract}
 
 %------------------------------------------------------------------------------------------
 \section{Introduction}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
 
 %------------------------------------------------------------------------------------------
 \section{Definitions}
@@ -65,7 +65,6 @@ Later on, we will compare new heuristics and algorithms with those that recently
 %------------------------------------------------------------------------------------------
 \subsection{One-dimensional-case}
 
-
 This specific case is already introduced extensive in \cite{helvig}. Each movement is fixed on a single line, thus, there are two possible directions for a target and the pursuer. 
 
 
@@ -73,47 +72,49 @@ This specific case is already introduced extensive in \cite{helvig}. Each moveme
 
 %------------------------------------------------------------------------------------------
 \subsection{Two-dimensional-case}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
 
+In this case another dimension is added. We will consider different scenarios with fixed numbers of targets and corridors. Compared to the 1D-case, in which a target is fixed on a line, targets freely move within the space. Therefore, we define corridors, representing the number of vectors in which the targets move, resulting in different complexities.
+
+This paper focusses on the 2D-case. Previous works did not construct concrete heuristics for this type of case, therefore, this paper shows new aspects in the field of MT-TSP.
 
 %------------------------------------------------------------------------------------------
 
 
 \section{Algorithms for MT-TSP}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
 
 \subsection{Algorithms for 1D-case}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
 
 
 \subsubsection{Algorithm by Helvig, Robins and Zelikovsky}
 As previously mentioned, the authors of \cite{helvig} showed an exact $\mathcal{O}(n^2)$-time algorithm for 1D-cases, which is based on dynamic programming. The goal is to receive the fastest, optimal tour, intercepting each target. 
 
-The algorithm is based on the idea, that the pursuer cannot change his direction until he intercepts the fastest target ahead of him. Therefore, only targets, where the pursuer changes direction, need to be considered. Thus, the tour is a sequence of snapshots with turning points and can denote each snapshot as a state $A$. Each tour starts as well at $A_0$ and as finishing in $A_end$. A state $A_i=(s_k, s_f)$ consists of a target just intercepted ($s_k$) and the fastest target on the other side of the origin ($s_f$). There are at most two transitions ensuing a state, the fastest on the left or the right of the pursuer. The time of a transition $\tau$ is determined with $t(\tau)$. 
+The algorithm is based on the idea, that the pursuer cannot change its direction until it intercepts the fastest target ahead of him. Therefore, only targets, where the pursuer changes direction, need to be considered. Thus, the tour is a sequence of snapshots with turning points and a snapshot can be denoted as a state $A$. Each tour always starts in $A_0$ and finishes in $A_{end}$. A state $A_i=(s_k, s_f)$ consists of a target which just intercepted ($s_k$) and the fastest target on the other side of the origin ($s_f$). Ensuing a state, there are at most two transitions to other states, the fastest on the left or the right of the pursuer. The time of a transition $\tau$ is determined with $t(\tau)$. 
 
-The Algorithm starts with dividing all targets into two lists, according to whether a target is on the left or right side of the origin. Both lists are then sorted in descending order of their speeds. The Algorithm executes at each state with one of the following steps:
+The algorithm begins with dividing all targets into two lists, according to whether a target is on the left or right side of the origin. Afterwards, both lists are sorted in descending order of their speed. The algorithm executes at each state with one of the following steps:
 \begin{itemize}
 \item
 if the state has no transitions into it, we proceed to the next state in the list
 \item
 if the pursuer has intercepted all of the targets on one side, we make a transition into
-the final state $A_final$
+the final state $A_{final}$
 \item
 we make two transitions which correspond to sending the pursuer after either the
 fastest target on the left or the fastest target on the right
 
 \end{itemize}
 
-To denote the time to reach a state $B_i$ with the shortest sequence of states, the time-function $t$ is used with $t(A_i)=min\{t(A)+t(\tau)|\tau:A\rightarrow B\}$. As usual in dynamic programming, we can traverse backwards from $A_{final}$ to $A_0$, which denote the reversed list of turning points that describes an optimal tour.
+To denote the time used to reach a state $B_i$ with the shortest sequence of states, the time-function $t$ is used with $t(A_i)=min\{t(A)+t(\tau)|\tau:A\rightarrow B\}$. As usual in dynamic programming, we can traverse backwards from $A_{final}$ to $A_0$, which denotes the reversed list of turning points that describes an optimal tour.
 
 
 %------------------------------------------------------------------------------------------
 \subsection{Algorithms for 2D-case}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua
 
 %------------------------------------------------------------------------------------------
 \section{Summary and Outlook}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
 %\cite{moraes}
 %\cite{helvig}
 
