@@ -60,7 +60,8 @@ The movement direction of a target consists of a two-dimensional vector
 
 Each case is investigated for the shortest and the fastest tour. Helvig , Robins and Zelikovsky showed in \cite{helvig} specific algorithms for 3 concrete cases: $\mathcal{O}(n^2)$-time algorithm in 1D-case, $(1+\alpha)$-approximation algorithm when the number of moving targets is small and $\mathcal{O}(n^2)$-time algorithm whenever enough targets are stationary. However, determining the approximation for general cases is hard, because there are many influences that determine the complexity of the problem. The approximation research in \cite{hammar} showed that MT-TSP cannot be approximated better than by a factor of $2^{\pi (\sqrt{n})}$ by a polynomial time algorithm unless P=NP.
 
-Later on, we will compare new heuristics and algorithms with those that recently proposed in \cite{moraes}. This paper examines Genetic Algorithm (GA), Simulated Annealing (SA) and Ant Colony Optimization (ACO) to solve MT-TSP.
+Later on, we will compare new heuristics and algorithms with those that recently proposed in \cite{moraes}. This paper examines Genetic Algorithm, Simulated Annealing and Ant Colony Optimization to solve MT-TSP.
+
 
 %------------------------------------------------------------------------------------------
 \subsection{One-dimensional-case}
@@ -78,8 +79,14 @@ In this case another dimension is added. We will consider different scenarios wi
 This paper focusses on the 2D-case. Previous works did not construct concrete heuristics for this type of case, therefore, this paper shows new aspects in the field of MT-TSP.
 
 %------------------------------------------------------------------------------------------
+\subsection{Input \& Output}
+To set up heuristics a suitable input and output are necessary. Thus, the MT-TSP can be modelled as graph problem (refering section 2), further heuristics just expect a graph $G$ as parameter. 
 
+The Output, on the other hand, can look very different. The most obvious parameter are the length and the time needed to finish the tour. Whenever, there is no possible tour, an MT-TSP algorithm needs to return a 'No'-instance. 
 
+Furthermore, a tour should be comprehensible. Therefore, the targets are displayed in the order in that the pursuer executes the tour. For each target the initial coordinates and the time and the position whenever the pursuer intercepts the target are monitored. To fully understand and analyse the tour a visualization is a good application, but not necessary. 
+
+%------------------------------------------------------------------------------------------
 \section{Algorithms for MT-TSP}
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
 
@@ -111,6 +118,16 @@ To denote the time used to reach a state $B_i$ with the shortest sequence of sta
 %------------------------------------------------------------------------------------------
 \subsection{Algorithms for 2D-case}
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua
+
+%------------------------------------------------------------------------------------------
+\subsection{Algorithms for general cases}
+Most of previous works refer to general cases without specific consideration of 1D- and 2D-cases. In the following subsection innovative approaches are shown, just developed in 2019, mentionned in \cite{moraes}.
+
+%------------------------------------------------------------------------------------------
+\subsubsection{Algorithm by de Moraes and de Freitas}
+In \cite{moraes} the authors proposed to solve MT-TSP with colony-algorithms. This includes the Genetic Algorithm (GA), Simulated Annealing (SA) and Ant Colony Optimization (ACO), which try to evolve a population to an optimum.
+
+GA evolve candidate solutions until a certain fitness or a number of iterations is reached. The operands selection, crossover and mutation take care of generating new variations within the population. 
 
 %------------------------------------------------------------------------------------------
 \section{Summary and Outlook}
