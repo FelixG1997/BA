@@ -58,7 +58,7 @@ The movement direction of a target consists of a two-dimensional vector
 
 \end{itemize}
 
-Each case is investigated for the shortest and the fastest tour. Helvig , Robins and Zelikovsky showed in \cite{helvig} specific algorithms for 3 concrete cases: $\mathcal{O}(n^2)$-time algorithm in 1D-case, $(1+\alpha)$-approximation algorithm when the number of moving targets is small and $\mathcal{O}(n^2)$-time algorithm whenever enough targets are stationary. However, determining the approximation for general cases is hard, because there are many influences that determine the complexity of the problem. The approximation research in \cite{hammar} showed that MT-TSP cannot be approximated better than by a factor of $2^{\pi (\sqrt{n})}$ by a polynomial time algorithm unless P=NP.
+Each case is investigated for the shortest and the fastest tour. Helvig , Robins and Zelikovsky presented in \cite{helvig} the first heuristics in the field of MT-TSP. However, determining the approximation for general cases is hard, because there are many influences that determine the complexity of the problem. The approximation research in \cite{hammar} showed that MT-TSP cannot be approximated better than by a factor of $2^{\pi (\sqrt{n})}$ by a polynomial time algorithm unless P=NP.
 
 Later on, we will compare new heuristics and algorithms with those that recently proposed in \cite{moraes}. This paper examines Genetic Algorithm, Simulated Annealing and Ant Colony Optimization to solve MT-TSP.
 
@@ -114,6 +114,13 @@ fastest target on the left or the fastest target on the right
 
 To denote the time used to reach a state $B_i$ with the shortest sequence of states, the time-function $t$ is used with $t(A_i)=min\{t(A)+t(\tau)|\tau:A\rightarrow B\}$. As usual in dynamic programming, we can traverse backwards from $A_{final}$ to $A_0$, which denotes the reversed list of turning points that describes an optimal tour.
 
+\subsubsection{Results of Helvig, Robins and Zelikovsky}
+
+These first heuristics in the field of MT-TSP investigate three cases, which result in different approximations. three concrete cases: $\mathcal{O}(n^2)$-time in 1D-case, $(1+\alpha)$-approximation, when the number of moving targets is small and $\mathcal{O}(n^2)$-time, whenever enough targets are stationary. 
+
+However, the authors focused on minimizing the time a pursuer needs to perform the tour. The heuristics just considered 1D-cases and did not focus on finding the smallest tour.
+
+
 
 %------------------------------------------------------------------------------------------
 \subsection{Algorithms for 2D-case}
@@ -129,11 +136,24 @@ In \cite{moraes} the authors proposed to solve MT-TSP with colony-algorithms. Th
 
 GA evolve candidate solutions until a certain fitness or a number of iterations is reached. The operands selection, crossover and mutation take care of generating new variations within the population. 
 
+\textcolor{red}{TODO: GA, SA, ACO description}
+
 %------------------------------------------------------------------------------------------
 \section{Summary and Outlook}
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
 %\cite{moraes}
 %\cite{helvig}
+
+\section{Fragen}
+\begin{itemize}
+\item
+$(1+\alpha)$-approximation algorithm, where $\alpha$ denotes the approximation ratio of the best classical TSP heuristic
+
+\item
+It was shown in [4] that the (2 - $\epsilon$)-approximation is NP-hard even in the case when only two targets are
+moving.
+
+\end{itemize}
 
 \bibliography{bibtex}{}
 \bibliographystyle{plain}
