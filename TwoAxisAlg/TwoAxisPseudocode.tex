@@ -124,7 +124,8 @@ Sort the targets on the right into list \emph{Right} in order of nonincreasing s
 \textcolor{red}{Sort the targets on the top into list \emph{Top} in order of nonincreasing speeds }\\
 \textcolor{red}{Sort the targets on the bottom into list \emph{Bottom} in order of nonincreasing speeds}\\
 \textcolor{red}{Delete targets in \emph{Left, Right, Top and Bottom} which are closer to the origin than faster targets in this list. Don't remove targets which move towards the other direction so they are crossing the origin.} \\
-
+\textcolor{red}{Add an empty Target to \emph{Left, Right, Top and Bottom} to the end of each list}
+\\
 %\If {\emph{Left} or \emph{Right} is empty} 
 \If {\textcolor{red}{3 of the 4 lists are empty}}
 \State Calculate the time required to intercept all remaining targets; and 
@@ -142,7 +143,7 @@ Sort the targets on the right into list \emph{Right} in order of nonincreasing s
 \State \textbf{Main Algorithm}
 \State Let $A_0$ be the start state \\
 Let $A_{final}$ be the final state \\
-STATE is the sorted list of states in order of nondecreasing sum of the indices of each state’s targets in lists \emph{Left, Right, \textcolor{red}{Top and Bottom}} \\
+STATE is the sorted list of states in order of nondecreasing sum of the indices of each state's targets in lists \emph{Left, Right, \textcolor{red}{Top and Bottom.}} \textcolor{red}{Leave out the case with 4 empty targets} \\
 Place $A_0$ first in the list STATE \\
 Place $A_{final}$ last in the list STATE \\
 $t(A) \leftarrow \infty$ for any state $A\neq A_0$  \\
@@ -154,17 +155,27 @@ $current \leftarrow 0$
 \If {there are no transitions into $A$}
 \State Increment \emph{current} and jump back to the beginning of the while loop
 \EndIf
-\If {for state $A$, all remaining targets are on one side of the origin}
+\If {for state $A$, all remaining targets are on one side of the origin \textcolor{red}{($A$ consists of exactly 
+\State three empty targets)}}
 \State $t(\tau_{final})\leftarrow$ time required to intercept the remaining targets (and return to the 
 \State origin)
 \Else
-\State Calculate the two transitions $\tau_{left}$ and $\tau_{right}$ from state $A$ using lists Left and Right
+\State Calculate the \textcolor{red}{four transitions $\tau_{left}, \tau_{right}, \tau_{top}, \tau_{bottom}$ from state $A$ using 
+\State lists \emph{Left, Right, Top, Bottom}}
 \If {$t(A) + t(\tau_{left}) < t(A_{left})$}
 \State $t(A_{left}) \leftarrow t(A) + t(\tau_{left})$
 \EndIf
 \If {$t(A) + t(\tau_{right}) < t(A_{right})$}
 \State $t(A_{right}) \leftarrow t(A) + t(\tau_{right})$
 \EndIf
+\textcolor{red}{
+\If {$t(A) + t(\tau_{top}) < t(A_{top})$}
+\State $t(A_{top}) \leftarrow t(A) + t(\tau_{top})$
+\EndIf
+\If {$t(A) + t(\tau_{bottom}) < t(A_{bottom})$}
+\State $t(A_{bottom}) \leftarrow t(A) + t(\tau_{bottom})$
+\EndIf 
+}
 \EndIf
 \State Increment \emph{current}
 \EndWhile
@@ -189,7 +200,7 @@ $current \leftarrow 0$
 \end{algorithm}
 \end{minipage}
 
-\section*{Laufzeit}
+%\section*{Laufzeit}
 
 
 
