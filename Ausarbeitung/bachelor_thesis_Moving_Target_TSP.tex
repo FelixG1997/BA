@@ -268,15 +268,16 @@
 
 \chapter{The moving-target traveling salesman problem in general}
 \section{Definitions}
-In MT-TSP we consider an amount of targets $T=\{t_1,...,t_n\}$ and a set of velocities $V=\{v_1,...,v_n\}$ so that each moving with a constant movement speed $\overrightarrow{v_i}$. A pursuer starts at the origin $O$ (a defined position), moving with a velocity of $v_p$. His aim is to visit all targets once and finishes with returning to the origin.
+In moving-target TSP we consider an amount of targets $T=\{t_0,...,t_n\}$. Each target $t_i $ consists of a tuple $(p_i, v_i)$ where $p_i = \begin{pmatrix} p_{i,0}, p_{i,1}, ... , p_{i,d-1} \end{pmatrix}^T$ denotes the position vector and $v_i = \begin{pmatrix} v_{i,0}, v_{i,1}, ... , v_{i,d-1} \end{pmatrix}^T$ the velocity vector of $t_i$. Thus, each target has a start position and moves with a constant movement speed in the directions of the respective dimensions per time step. The dimensions $d$ of the vectors depend on the cases which are mentioned in the next section (Instances of Moving-Target TSP). Note, all positions $p_i$ and velocities $v_i$ can be represented by the matrices $P$ and $V$
 
-Therefore, we can model this problem as the following graph \\
-$G=(T, V, O, v_p)$. 
+The pursuer starts at the origin of the tour $p_{pursuer}$, moving with a velocity of $v_{pursuer}$. These are also $d$-dimensional vectors. The aim of the pursuer is to visit all targets once and finishes with returning to the origin. Note, the origin is stationary. It applies each number of $p_i, v_i, p_{pursuer}, v_{pursuer} \in \mathbb{N}$.
 
 %------------------------------------------------------------------------------------------
 \section{Instances of Moving-Target TSP}
 
-It was proven that MT-TSP is NP-hard. Some instances can result in an unbounded error, whenever the pursuer choses a non-optimal tour. Therefore, the condition $v_p > |\overrightarrow{v_i}|$ must apply, to avoid these errors. This was proven by the authors in \cite{helvig}, since the goal is the most fast optimal tour.  Thus, instead of directly calculating the tour of the pursuer, it is necessary to determine the solvability of the input. Whenever it is not possible we gain a 'No'-instance, otherwise we go ahead and calculate the tour. \\
+It was proven that MT-TSP is NP-hard. Some instances can result in an unbounded error, whenever the pursuer choses a non-optimal tour. Therefore, the condition $v_p > \forall \vert v_i\vert \in V$ must apply, to avoid these errors. This was proven by the authors in \cite{helvig}, since the goal is the most fast optimal tour. The proof is based on the fact, that moving slower than maximum speed is equivalent to waiting time at a point. This time can be shifted at the end of the tour. With this fact the tour is not optimal anymore.
+Instead of directly calculating the tour of the pursuer, it is necessary to determine the solvability of the input. Whenever it is not possible return a 'No'-instance, otherwise go ahead and calculate an optimal tour. 
+
 This paper presents two concrete cases:
 \begin{itemize}
 \item[1)]
@@ -284,38 +285,24 @@ This paper presents two concrete cases:
 Each target's movement is limited to a single line 
 
 \item[2)]
-2D-case:
-The movement direction of a target consists of a two-dimensional vector 
+two-orthogonal-axes-case:
+A second line with the same conditions of the 1D-case is orthogonal to the other line
 
 \end{itemize}
 
-Each case is investigated for the shortest and the fastest tour. Helvig , Robins and Zelikovsky presented in \cite{helvig} the first heuristics in the field of MT-TSP. However, determining the approximation for general cases is hard, because there are many influences that determine the complexity of the problem. The approximation research in \cite{hammar} showed that MT-TSP cannot be approximated better than by a factor of $2^{\pi (\sqrt{n})}$ by a polynomial time algorithm unless P=NP.
-
-Later on, we will compare new heuristics and algorithms with those that recently proposed in \cite{moraes}. This paper examines Genetic Algorithm, Simulated Annealing and Ant Colony Optimization to solve MT-TSP.
-
-
-%------------------------------------------------------------------------------------------
-\subsection{One-dimensional-case}
-
-This specific case is already introduced extensive in \cite{helvig}. Each movement is fixed on a single line, thus, there are two possible directions for a target and the pursuer. 
-
-
-%Furthermore, the case of the shortest tour is introduced, which was not examined in the work of %Helvig, Robins and Zelikovsky.
-
-%------------------------------------------------------------------------------------------
-\subsection{Two-dimensional-case}
-
-In this case another dimension is added. We will consider different scenarios with fixed numbers of targets and corridors. Compared to the 1D-case, in which a target is fixed on a line, targets freely move within the space. Therefore, we define corridors, representing the number of vectors in which the targets move, resulting in different complexities.
-
-This paper focusses on the 2D-case. Previous works did not construct concrete heuristics for this type of case, therefore, this paper shows new aspects in the field of MT-TSP.
+Helvig , Robins and Zelikovsky presented in \cite{helvig} the first heuristics in the field of MT-TSP. However, determining the approximation for general cases is hard, because there are many influences that determine the complexity of the problem. The approximation research in \cite{hammar} showed that MT-TSP cannot be approximated better than by a factor of $2^{\pi (\sqrt{n})}$ by a polynomial time algorithm unless P=NP. 
+This work will further expand the 1D-case, later on, new heuristics and algorithms for the two-orthogonal-axes-case are presented. 
+%Also recently work of \cite{moraes} will be . This paper examines Genetic Algorithm, Simulated Annealing and Ant Colony Optimization to solve MT-TSP.
 
 %------------------------------------------------------------------------------------------
 \subsection{Input \& Output}
-To set up heuristics a suitable input and output are necessary. Thus, the MT-TSP can be modelled as graph problem (refering section 2), further heuristics just expect a graph $G$ as parameter. 
+To set up heuristics a suitable input and output are necessary. 
 
-The Output, on the other hand, can look very different. The most obvious parameter are the length and the time needed to finish the tour. Whenever, there is no possible tour, an MT-TSP algorithm needs to return a 'No'-instance. 
+The Input mainly consists of the parameters in the section \emph{Definitions}. This includes a set of targets $T$ which contain tuples $(p_i, v_i)$ with the initial positions and velocities of each target. Also for the the input required the origin, which is equivalent to the initial position of the pursuer and the final destination. Last, the pursuer's speed is needed.
 
-Furthermore, a tour should be comprehensible. Therefore, the targets are displayed in the order in that the pursuer executes the tour. For each target the initial coordinates and the time and the position whenever the pursuer intercepts the target are monitored. To fully understand and analyse the tour a visualization is a good application, but not necessary. 
+The Output depends on how detailed the tour has to be described. As the most obvious parameter there are the length and the time needed to finish the tour. Furthermore, a tour should be comprehensible. Therefore, the targets are displayed in the order in that the pursuer executes the tour. For each target the initial coordinates and the time and the position whenever the pursuer intercepts the target are monitored. To fully understand and analyse the tour a visualization is a good application, but not necessary. Whenever, there is no possible tour, an MT-TSP algorithm needs to return a 'No'-instance.
+
+The algorithms in this paper will return the tour length, duration and intercepting order of the targets.
 
 %------------------------------------------------------------------------------------------
 \chapter{Moving-Target TSP in one dimension}%: Document Setup and Document Structure}
@@ -356,6 +343,9 @@ Otherwise calculate the transitions $\tau_{left}$ and $\tau_{right}$, which corr
 
 Therefore, the time used to reach a state $B_i$ with the shortest sequence of states is defined by $t(A_i)=min\{t(A)+t(\tau)\vert\tau:A\rightarrow B\}$. Then traverse backwards from $A_{final}$ to $A_0$, which denotes the reversed list of turning points. Last calculate which targets are intercepted between the state pair, so we can describe an optimal tour of targets. Iterating the states squares the runtime, which requires the algorithm to run exactly in $\mathcal{O}(n^2)$.
 
+
+%------------------------------------------------------------------------------------------
+\chapter{Moving-Target TSP in two-orthogonal-axes}
 
 \chapter{Conclusion}
 % In a German thesis write: \subsection{Zusammenfassung und Ausblick}
