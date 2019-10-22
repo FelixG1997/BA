@@ -77,10 +77,10 @@
   % The titles:
   %
   Titel auf Deutsch     = {
-    Algorithmen für bewegende Ziele in TSP
+    Algorithmen für bewegende Ziele beim Travelling Salesman Problem
   }, 
   Titel auf Englisch    = {
-    Algorithms for Moving-Target TSP
+    Algorithms for Moving-Target Travelling Salesman Problem
   },
   %
   % Author and supervisor:
@@ -310,7 +310,7 @@ The algorithms in this paper will return the tour length, duration and intercept
 
 This specific instance was introduced in \cite{helvig}. Each target and the pursuer are restricted to a single line, so there are only two possible directions of movement. The first naive approach is to calculate the cost of the tour to intercept all the targets on the right side of the origin and then on the left and vice versa. Choose the tour with lower costs. This will probably result in an unbounded error with simple counter examples (\textcolor{red}{TODO}: create a graphic with a counter example), where the pursuer probably takes and eternity to intercept a target.
 
-Therefore, the pursuer is only allowed to change his direction, whenever he intercepts the fastest target either on the left or right side of the origin. These targets are named as turning points. Turning points that are not the fastest target can not reduce the tour time. This time not used to catch up with the fastest target is equivalent to waiting at one point. As already mentioned (\textcolor{red}{TODO}), waiting at one point results in not optimal tours. 
+Therefore, the pursuer is only allowed to change his direction, whenever he intercepts the fastest target either on the left or right side of the origin. These targets are named as turning points. Turning points that are not the fastest target can not reduce the tour time. This time not used to catch up with the fastest target is equivalent to waiting at one point. As already mentioned, waiting at one point results in not optimal tours. 
 
 With this knowledge about turning points, the term \emph{state} is introduced. A state is a snapshot of a tour. It represents a potential turning point at which the pursuer then attempts to reach either the next fastest target on the same or the other side of the origin. It required two targets to define a state. First, the target, where the pursuer is currently located ($s_k$), and second, the fastest target ($s_f$) on the other side of the origin. Thus, a state can be described as the a tuple ($s_k, s_f$). As special cases, there are the states $A_0$ and $A_{final}$. Neither $A_0$ or $A_{final}$ have such a tuple ($s_k, s_f$), these states just define the start and end of each tour. For each state $A_i$, the shortest time to reach the state can be calculated with the time function $t$. It applies $t(A_0) = 0$.
 
@@ -346,6 +346,26 @@ Therefore, the time used to reach a state $B_i$ with the shortest sequence of st
 
 %------------------------------------------------------------------------------------------
 \chapter{Moving-Target TSP in two-orthogonal-axes}
+
+Additionally to the single line of the 1D-case an orthogonal axis is added. Therefore, the axes are divided into the sides left, right, top and bottom. Targets are just allowed to move on their line. Thus, a target, moving from left to right, can not change the direction at the intersection of the axis. In 1D-cases, targets get eliminated and are not considered as turning points, when they move towards the origin, except targets at the end of one side of the line. These targets are automatically intercepted. This does not apply for targets in two-orthogonal-axes-cases. While the pursuer intercepts targets on the top-side, targets of the left and right side can cross the intersection. Thus, more conditions are necessary to eliminate a target. Overall, significantly less targets are eliminated in the \emph{Preprocessing} step than in 1D-cases.
+
+\section{Constant velocities in two-orthogonal-axes-case}
+
+Considering the two-orthogonal-axes-case with constant velocities, the algorithm of \cite{helvig} can slightly modified and then applied. In the \emph{Preprocessing}-step each target is divided into the lists \emph{Right, Left, Top, Bottom}, depending on the initial position of the target. A target $t_i$ is eliminated, if
+\begin{itemize}
+\item
+
+\item
+
+\item
+
+\end{itemize}
+
+
+Thus, the lists \emph{Right, Left, Top, Bottom} contain at most two targets. 
+\textcolor{red}{TODO - ist dem wirklich so?}
+
+
 
 \chapter{Conclusion}
 % In a German thesis write: \subsection{Zusammenfassung und Ausblick}
