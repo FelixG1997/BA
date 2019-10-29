@@ -343,8 +343,9 @@ public class SolveOneDim {
 				// time to get a to t
 				double tau = calcTransWeight(i==0? 0 : a.getSk().getPos(), t.getPos(), v1, v2, timestampA);
 				
+				//  TODO: fix! 
 				if(rightDirection) {
-					if(posT1 < posA || posT2 > posB) {
+					if(posT1 > posA && posT2 < posB) {
 						continue;
 					} else {
 						// t is intercepted between A and B
@@ -353,7 +354,7 @@ public class SolveOneDim {
 					}
 				// left Direction
 				} else {
-					if(posT1 > posA || posT2 < posB) {
+					if(posT1 < posA && posT2 > posB) {
 						continue;
 					} else {
 						// t is intercepted between A and B

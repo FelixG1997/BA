@@ -107,7 +107,8 @@ public class Target {
 	
 	@Override
 	public String toString() {
-		String tmp = interceptingTime == -1 ? "Not calculated yet" : String.valueOf(interceptingTime);
+		String tmp = !Constants.is1D ? "L-R-Axis: " + this.leftRightAxis + ", " : "";
+		tmp += interceptingTime == Double.MAX_VALUE ? "Not calculated yet" : String.valueOf(interceptingTime);
 		return "(" + this.pos + ", " + this.vel + ") - Intercepting time: " + tmp;
 	}
 
