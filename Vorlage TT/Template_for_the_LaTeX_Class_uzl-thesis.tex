@@ -1,4 +1,5 @@
-\documentclass[english,version-2019-07]{uzl-thesis}
+\documentclass[german,version-2019-11]{uzl-thesis}
+
 
 
 % Copy this file as a template for your thesis. You will have to take
@@ -134,7 +135,7 @@
   %
   % Date on which the thesis is turned in:
   %
-  Datum                 = {1. Juli 2019},
+  Datum                 = {1. January 2020},
   %
   % The English abstract. You must always provide abstracts in German
   % and in English. 
@@ -399,6 +400,7 @@
 %
 % Replace with your own introduction:
 
+% DELETE the following line for your own thesis - it causes trouble!
 \lstMakeShortInline[style=code,style=inline,language={[LaTeX]tex},moretexcs={chapter}]|
 
 Writing a bachelor's or master's thesis is not easy.\footnote{Neither
@@ -438,7 +440,7 @@ of code.
   },
   label={listing-hello-world}
   ]
-\documentclass[english, version-2019-07]{uzl-thesis}
+\documentclass[english, version-2019-11]{uzl-thesis}
 
 \UzLStyle{computer modern oldschool design}
 
@@ -779,13 +781,13 @@ line of the listing, namely the class options.
 Your manuscript must start with
 
 \begin{Latex}
-\documentclass[german, version-2019-07]{uzl-thesis}
+\documentclass[german, version-2019-11]{uzl-thesis}
 \end{Latex}
 %
 or with
 %
 \begin{Latex}
-\documentclass[english, version-2019-07]{uzl-thesis}
+\documentclass[english, version-2019-11]{uzl-thesis}
 \end{Latex}
 %
 depending, of course, on whether your thesis is written in German or
@@ -798,14 +800,14 @@ language options\footnote{Do not worry about that fact than an English
   not have thought about.}.
 
 You \emph{must} also provide the class version key\footnote{In
-  computer science parlor, a “key” is a text like \Latex{version-2019-07}
+  computer science parlor, a “key” is a text like \Latex{version-2019-11}
   that is specified in lists and that causes some configuration to be
-  chosen} and note that this is the version and date of the thesis
+  chosen.} and note that this is the version and date of the thesis
   \emph{class} and not the date when you turn in \emph{your} thesis. The key ensures  
 that when the thesis class is changed in the coming years, using a
 new version together with your (original) manuscript will still produce
-the same \textsc{pdf} as it did in 2019. Just leave this class version
-key as it is. 
+the same \textsc{pdf} as it did when you wrote your thesis. Just leave
+this class version key as it is. 
 
 \section{Specifying the Overall Design}
 
@@ -860,8 +862,8 @@ lowercase, as in |\UzLStyle{alegrya basic design}| for instnace):
   
   Note that this design uses the Myriad font for the title page (one
   of the “modern aspects”), which means that this font must be
-  installed. This font is the university's official font, which is why it
-  appropriate for the title page. However, the font does not otherwise
+  installed. This font is the university's official font, which is why
+  it is appropriate for the title page. However, the font does not otherwise
   go well with the Computer Modern font, so it is used only on the
   title page.
 \item[computer modern scholary design]
@@ -1235,7 +1237,7 @@ structure of the thesis must look like.
 \subsection{Chapters and Sections}
 
 The main part of your thesis consists of \emph{chapters}\footnote{In a
-  German thesis, use the word “\foreignlanguage{german}{Kapitel}” to refer to a section.} (using
+  German thesis, use the word “\foreignlanguage{german}{Kapitel}” to refer to a chapter.} (using
 the |\chapter| command) and those in turn consist of 
 \emph{sections}\footnote{In a  German thesis, use the word “\foreignlanguage{german}{Abschnitt}”
   to refer to a section.} (using the |\section| command). The commands
@@ -1262,7 +1264,9 @@ them. Also, do not even think of using |\subsubsection|.
 
 In some books you will find lists of all figures and lists of all
 tables as separate lists. Frankly, I have never looked at any of them
-and consider them perfectly superfluous. I guess they are mainly
+and consider them perfectly superfluous (and a very unscientific
+survey that I conducted shows that all of my colleagues agree). I
+guess they are mainly 
 included in books (and some theses) because \LaTeX\ makes it easy to
 generate them and because they make theses appear longer than they
 actually are.
@@ -2055,13 +2059,13 @@ You will rarely wish to put a graphic in the middle of a sentence
 inside a |{figure}| environment: Recall that it is the job of the
 environment to creating “floating” text with a caption -- and it is
 then the job of |\includegraphics| to replace the “text” by a
-picture. Here is an example how you will usually do this:
+picture. Here is an example of how you will usually do this:
 
 \begin{Latex}
 \begin{figure}[htpb]
   \centering
   \includegraphics{uzl-thesis-logo-uzl.pdf}
-  \caption{The logo of the University of Lübeck. It consists..}
+  \caption{The logo of the University of Lübeck. It consists...}
   \label{fig-logo}
 \end{figure}
 \end{Latex}
@@ -2123,7 +2127,7 @@ graphics, use Ti\emph kZ. If you wish to learn Ti\emph kZ, please read
 the tutorials from the manual \cite[Part I]{Tantau2019}.
 
 The thesis class sets up some styles for Ti\emph kZ that you can
-either explicitly use or that are generally setup. For instance, the
+either explicitly use or that are generally set up. For instance, the
 default arrow tip is setup according to the chosen design as well as
 the standard line width. You usually do not need to worry about these
 automatic settings.
@@ -2161,13 +2165,13 @@ There are several styles that are predefined and that you are
 \tikz [baseline, anchor=base] \node [base shape, small shape, ellipse] {Hello};.
 \item[block] A rectangular node: |\tikz \node [block] {Hello};| yields
 \tikz [baseline, anchor=base] \node [block] {Hello};.
-\item[small block] A small rectangular node: Saying
+\item[small block] A smaller version: Saying
 |\tikz \node [small block] {Hello};|
-  yields
+  will now give
 \tikz [baseline, anchor=base] \node [small block] {Hello};.
 \item[node] A circular node, especially in a graph: |\tikz \node [node] {$n$};|
   yields
-\smash{\tikz [baseline, anchor=base] \node [node] {$n$};}.
+\tikz [baseline, anchor=base] \node [node] {$n$};.
 \item[small node] Small version: |\tikz \node [small node] {$n$};|
   yields
 \tikz [baseline, anchor=base] \node [small node] {$n$};.
@@ -2359,7 +2363,7 @@ different “look”:
 yields
 {%
 \tikzset{thesis outline shapes}% generally set the design
-\tikz[baseline, anchor=base] \node [block] {Hello};    
+\tikz[baseline, anchor=base] \node [block] {Hello};%    
 }. See Figure~\vref{fig-tikz-white} for a larger example.
 \item[thesis box shapes] This style defines |base shape| similarly to
   the outline style, but fills the shapes with a light background:
@@ -2370,10 +2374,10 @@ yields
 yields
 {%
 \tikzset{thesis box shapes}% generally set the design
-\tikz[baseline, anchor=base] \node [block] {Hello};    
+\tikz[baseline, anchor=base] \node [block] {Hello};%    
 }. See Figure~\vref{fig-tikz-box} for an example.
-\item[thesis flat shapes] This style redefines |base shape| in a quite
-  different manner: The shapes are only filled and no border is
+\item[thesis flat shapes] This style redefines |base shape|
+  differently: The shapes are only filled and no border is 
   drawn. This creates a stylish “flat” look:
 \begin{Latex}
 \tikzset{thesis flat shapes} % generally set the design
@@ -2382,7 +2386,7 @@ yields
 yields
 {%
 \tikzset{thesis flat shapes}% generally set the design
-\tikz[baseline, anchor=base] \node [block] {Hello};    
+\tikz[baseline, anchor=base] \node [block] {Hello};%   
 }. See Figure~\vref{fig-tikz-flat} for a larger example.
 \end{description}
 
@@ -2437,7 +2441,7 @@ In your thesis, you will and should use citations. This is done in
 The \TeX\ system~\cite{Knuth1986} is due to Donald Knuth.
 \end{Latex}
 and would get “The \TeX\ system~\cite{Knuth1986} is due to Donald
-Knuth.“ The |\cite| command looks up the \emph{bibliography key}
+Knuth.” The |\cite| command looks up the \emph{bibliography key}
 |Knuth1986| in the list of bibliography entries (see below) and then
 inserts the citation into the text and the bibliography entry into the
 bibliography. All of this happens automatically, you just need to
@@ -2519,7 +2523,7 @@ The \TeX\ system~\cite{Knuth1986} is due to Donald Knuth.
 
 \subsection{The Bibliography}
 
-The bibliography itself (the “list of references“) is inserted
+The bibliography itself (the “list of references”) is inserted
 automatically at the end of the thesis. Do not mess with this.
 
 The bibliography style (the way the bibliography “looks”) is also not
@@ -2566,7 +2570,7 @@ particular, you can use the useful |\vref| command, see
 
 Suppose that, like me (Professor Tantau), you are asked to grade a
 thesis that a hopeful student just turned in. Suppose that, like me,
-you have to grade a \emph{lot} of thesis (at least one per month) and
+you have to grade a \emph{lot} of theses (at least one per month) and
 you start reading 
 it. Certainly, you strive to be as fair and even-minded as humanly
 possible when it comes to grading the thesis. In particular, you have
@@ -2630,8 +2634,9 @@ that is \emph{a pleasure to read!} This will determine which of the
 two reviews will be written.
 
 Of course, if your thesis proves $\mathrm P \neq \mathrm{NP}$ or
-presents a cure for cancer, you can make as many spelling mistakes as
-you like, you can write your thesis on a napkin and the thesis can
+presents a cure for cancer, you can turn in total gibberish, you can
+use a spelling that would make even your friends cringe when used in a
+chat, you can write your thesis on a napkin and the thesis can 
 have two pages or 1000 pages -- you will still get an outstanding
 grade. The other way round, no matter how stylish your thesis looks,
 how carefully it is phrased and how nicely you have wrapped the
@@ -3233,7 +3238,7 @@ Question~\ref{qu-we}, we have a look at why \emph{we} have a look).
   are as follows:
   \begin{itemize}
   \item In a single-author paper (such as your thesis), the word “we”
-    always refers to “the reader and I” (that is, “you and me”). Thus,
+    always refers to “the reader and me” (that is, “you and me”). Thus,
     you write “we will see later on” since you mean “you (and I) will
     see later on” and certainly not “I will see later on”.
   \item Since “we” means “you and me”, you cannot use “we” when the
@@ -3624,7 +3629,7 @@ Several well-known politicians recently lost their jobs because of
 some missing or incorrect citations in their PhD theses. Clearly,
 getting these citations right must be something important. Well, there
 is a very simple basic rule that the politicians violated: For every
-word of the text, it must be \emph{crystal clear who had the idea for that
+word of the text, it must be \emph{crystal-clear who had the idea for that
   word.} There is nothing wrong, at all, with citing even a whole page
 from another paper -- as long as it is clear that this is text from
 another paper! 
@@ -3635,7 +3640,7 @@ another paper!
 
 \begin{answer}
   In accordance with the basic rule (“for each word of the thesis it
-  must be crystal clear who had the idea for that word“) whenever an
+  must be crystal-clear who had the idea for that word“) whenever an
   idea or a concept is from someone else, a citation is added. You add
   these citations next to the point of the idea or the text using the
   |\cite| command or related commands such as for instance

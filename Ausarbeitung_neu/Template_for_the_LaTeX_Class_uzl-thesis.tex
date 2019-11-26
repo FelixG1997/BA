@@ -1,0 +1,173 @@
+\documentclass[german,version-2019-11]{uzl-thesis}
+\UzLThesisSetup{
+  Logo-Dateiname        = {uzl-thesis-logo-itcs.pdf},
+  Verfasst              = {am}{Institut für Theoretische Informatik},
+  %
+  % The titles:
+  %
+  Titel auf Deutsch     = {
+    Algorithmen für bewegende Ziele im Travelling Salesman Problem
+  }, 
+  Titel auf Englisch    = {
+    Algorithms for Moving-Target Travelling Salesman Problem
+  },
+  Autor                 = {Felix Greuling},
+  Betreuerin            = {Prof. Dr. Maciej Liskiewicz},
+  Bachelorarbeit,
+  Studiengang           = {Informatik},
+  Datum                 = {30. Dezember 2019},
+  Abstract              = {
+    \textcolor{red}{TODO}
+  },
+  Zusammenfassung       = {
+    \textcolor{red}{TODO}  
+  },
+  Acknowledgements      = {
+
+  }, 
+  % Alphabetische Bibliographie
+  % Alternatively:
+  Numerische Bibliographie
+}
+
+% \UzLStyle{pagella basic design}
+% \UzLStyle{pagella centered design}
+% \UzLStyle{pagella contrast design}
+% \UzLStyle{alegrya basic design}
+% \UzLStyle{alegrya scholary design}
+% \UzLStyle{alegrya stylish design}
+\UzLStyle{alegrya modern design}
+
+% Now, include the package you need here using \usepackage. 
+
+\begin{document}
+% \chapter{Introduction}
+\chapter{Einleitung}
+
+
+%\section{Contributions of this Thesis}
+\section{Beiträge dieser Arbeit}
+
+
+
+%\section{Related Work}
+\section{Verwandte Arbeiten}
+
+
+
+%\section{Structure of this Thesis}
+\section{Aufbau dieser Arbeit}
+
+
+\chapter{Grundlagen}
+\label{chapter-use}
+Im folgenden Kapitel werden alle nötigen Grundlagen für bewegende Ziele im Travelling-Salesman-Problem erläutert. Dabei werden zwei konkrete Fälle vorgestellt:
+\begin{enumerate}
+\item eindimensionaler Fall: Jedes Ziel kann sich nur auf einer Linie bewegen
+\item zwei-orthogonale-Achsen-Fall: Erweitert den eindimensionalen Fall um eine orthogonal, auf der ersten Linie, liegenden Achse, auf der sich die Ziele bewegen können.
+\end{enumerate}
+
+\section{Fallübergreifende Definitionen}
+\begin{description}
+\item[Definition 2.1] 
+Jede Instanz enthält eine Anzahl $n$ von Zielen $Z = \{z_0,...,z_n-1\}$. Jedes Ziel $z_i$ befindet sich zunächst an einem Startpunkt $p_i$ und bewegt sich dann mit einer konstanten Geschwindigkeit $v_i$ entlang einer Achse , $p_i, v_i \in\mathbb{Z}$. Die Positionen und Geschwindigkeiten können dabei als Vektoren $P$ und $V$ dargestellt werden.
+\begin{align*}
+P = (p_0, \; ..., \; ,p_{n-1})^T \\
+V = (v_0, \; ..., \; ,v_{n-1})^T
+\end{align*}
+Demnach kann ein Ziel als ein Tupel $z_i = (p_i, v_i)$ dargestellt werden. Der Ursprung ist definiert durch einen Punkt ohne Geschwindigkeit. Das Tupel $(-1,0)$ würde also bedeuten, dass der Verfolger an der Koordinate $-1$ startet.
+\end{description}
+
+\begin{description}
+\item[Definition 2.2] 
+Der Verfolger kann sich ebenfalls nur auf den Achsen bewegen. Sein Ziel ist die schnellst möglichste Tour zu finden, um alle Punkte zu besuchen. Dabei bewegt sich der Verfolger mit der Maximalgeschwindigkeit 
+\begin{align*}
+v_{max} > |v_i|, \forall v_i\in V.
+\end{align*}
+Dies stellt sicher, dass der Verfolger nach einer gewissen Zeit jedes Ziel auf jeden Fall eingeholt hat. Andernfalls würde eine unendlich große Tourzeit berechnet werden. Der Ursprung ist gleichzeitig auch der Ziel der Tour. Demnach startet und endet jede Tour an diesem stationären Punkt.
+\end{description}
+
+\begin{description}
+\item[Definition 2.3]
+Mit dem Zeitstempel $t\in \mathbb{R}^+_0$ kann genau bestimmt werden, an welcher Position sich ein Ziel hinbewegt hat. Die Position eines Ziels ist also abhängig vom aktuellen Zeitstempel $t$. Jede Tour beginnt bei $t=0$. \\
+Es gilt
+\begin{align*}
+p_{i,t} = p_{i,0} + v_i\cdot t.
+\end{align*} 
+\end{description}
+
+\item[Definition 2.4]
+% Punkt einholen
+\begin{align*}
+
+\end{align*} 
+\end{description}
+
+
+\section{eindimensionaler Fall}
+
+
+\section{zwei-orthogonale-Achsen-Fall}
+
+
+%Probnlem, Modell, ...
+
+
+
+
+
+%\chapter{Conclusion}
+\chapter{Zusammenfassung und Ausblick}
+\textcolor{red}{TODO}
+
+
+
+
+\begin{bibtex-entries}
+@article{helvig,
+  title={The moving-target traveling salesman problem},
+  author={Helvig, Christopher S and Robins, Gabriel and Zelikovsky, Alex},
+  journal={Journal of Algorithms},
+  volume={49},
+  number={1},
+  pages={153--174},
+  year={2003},
+  publisher={Elsevier}
+}
+
+@article{moraes,
+  title={Experimental Analysis of Heuristic Solutions for the Moving Target Traveling Salesman Problem Applied to a Moving Targets Monitoring System},
+  author={de Moraes, Rodrigo S and de Freitas, Edison P},
+  journal={Expert Systems with Applications},
+  year={2019},
+  publisher={Elsevier}
+}
+
+@inproceedings{hammar,
+  title={Approximation results for kinetic variants of TSP},
+  author={Hammar, Mikael and Nilsson, Bengt J},
+  booktitle={International Colloquium on Automata, Languages, and Programming},
+  pages={392--401},
+  year={1999},
+  organization={Springer}
+}
+\end{bibtex-entries}
+
+
+
+% If you need to have an appendix (I advise against it), insert it
+% here using, first, \appendix and then \chapter and then,
+% possibly, \section. 
+%
+% \appendix
+%
+% \chapter{Technical Appendix}
+%
+% \section{Experimental Parameters} % possibly
+%
+% Again, I advise against using an appendix.
+
+
+\end{document}
+
+%\begin{lemma|proof}
