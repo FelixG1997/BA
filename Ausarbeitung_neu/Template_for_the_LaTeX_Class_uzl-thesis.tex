@@ -37,9 +37,12 @@
 % \UzLStyle{alegrya scholary design}
 % \UzLStyle{alegrya stylish design}
 \UzLStyle{alegrya modern design}
+% \UzLStyle{thesis black and white structure}
 
 % Now, include the package you need here using \usepackage. 
+% \usepackage{graphicx,float,wrapfig}
 
+% begin of the document
 \begin{document}
 % \chapter{Introduction}
 \chapter{Einleitung}
@@ -82,7 +85,7 @@ Demnach kann ein Ziel als ein Tupel $z_i = (p_i, v_i)$ dargestellt werden. Der U
 \item[Definition 2.2] 
 Der Verfolger kann sich ebenfalls nur auf den Achsen bewegen. Sein Ziel ist die schnellst möglichste Tour zu finden, um alle Punkte zu besuchen. Dabei bewegt sich der Verfolger mit der Maximalgeschwindigkeit 
 \begin{align*}
-v_{max} > |v_i|, \forall v_i\in V.
+v_{verfolger} > |v_i|, \forall v_i\in V.
 \end{align*}
 Dies stellt sicher, dass der Verfolger nach einer gewissen Zeit jedes Ziel auf jeden Fall eingeholt hat. Andernfalls würde eine unendlich große Tourzeit berechnet werden. Der Ursprung ist gleichzeitig auch der Ziel der Tour. Demnach startet und endet jede Tour an diesem stationären Punkt.
 \end{description}
@@ -96,30 +99,143 @@ p_{i,t} = p_{i,0} + v_i\cdot t.
 \end{align*} 
 \end{description}
 
-\item[Definition 2.4]
-% Punkt einholen
+\begin{description}
+\item[Definition 2.4] 
+Die Zeit, ein Ziel $B$ von der Position von Ziel $A$ einzuholen, ist als $\tau$ definiert. Die Berechnung beruht auf der nach der Zeit (in diesem Fall $\tau$) gleichgesetzten und umgestellten physikalischen Formel \footnote{Gleichförmige Bewegung: $s=v\cdot t+s_0$}
 \begin{align*}
-
+v_{verfolger}\cdot\tau + pos_A &= v_{B}\cdot\tau + pos_B \\
+(v_{verfolger}-v_B)\cdot\tau &= pos_B-pos_A \\
+\tau &= \bigg\vert\frac{pos_B-pos_A}{v_{verfolger}-v_B}\bigg\vert
 \end{align*} 
+\end{description}
+Bemerke, $v_A$ wird durch $v_{verfolger}$ ersetzt, da sich der Verfolger immer mit maximaler Geschwindigkeit bewegt. 
+
+\begin{description}
+\item[Definition 2.5] 
+Eine optimale Tour ist die kürzeste Reihenfolge an Zielen, bei dem jedes $z_i\in Z$ eingeholt wurde. Dabei startet und beendet der Verfolger jede Tour im Ursprung. 
+\end{description}
+
+\section{Eindimensionaler Fall}
+Der eindimensionale Fall wurde zuerst in \cite{helvig} präsentiert. Die Autoren modellieren das Problem als Graph-Problem, wobei der eigentliche Graph on-the-fly erstellt wird. Mit linearer Programmierung wird anschließend die optimale Tourzeit bestimmt.
+Im eindimensionalen Fall befinden sich alle Ziele auf einer Achse und können sich nur in zwei verschiedene Richtungen bewegen. Dasselbe gilt auch für den Verfolger. Wichtig ist zunächst die Bedingung, dass der Verfolger sich immer mit seiner maximalen Geschwindigkeit $v_{verfolger}$ bewegt. Helvig et. al. bewiesen dies mit dem Aspekt, dass ein eine Reisegeschwindigkeit von $v<v_{verfolger}$ äquivalent zu einer Wartezeit an einem Punkt ist. Dies resultiert in eine längere Tourzeit, das heißt die Tour wäre nicht mehr optimal.
+
+Um das Problem der kürzesten Route zu lösen, muss sich der Verfolger an einem Ziel entscheiden, das nächste Ziel in derselben oder entgegengesetzte Richtung einzuholen. Die Kostenberechnung für eine schnellste Tour aus
+\begin{itemize}
+\item alle Ziele links vom Ursprung aus gesehen und danach alle rechten Ziele einholen
+\item alle Ziele rechts vom Ursprung aus gesehen und danach alle linken Ziele einholen
+\end{itemize} 
+ist zwar simpel und einfach berechenbar, reicht aber nicht aus (siehe Abbildung \ref{fig:GegenBsp1Dim}).
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.09]{../Grafiken/Whiteboard/GegenBsp1Dim.jpg}
+\caption{Offensichtlich würde der Verfolger mit der Geschwindigkeit $v_{verfolger}=11$ deutlich länger für eine Tour brauchen, sofern er zunächst alle Ziele auf der einen und dann auf der anderen Seite abarbeitet. Hierbei wäre es sinnvoll, zunächst die Ziele $(-1,-10)$ und $(1,10)$ einzuholen.}
+\label{fig:GegenBsp1Dim}
+\end{figure}
+Im worst case geht $t\rightarrow\infty$, sobald die äußersten Ziele noch deutlich weiter entfernt vom Ursprung aus liegen. 
+
+Die Autoren aus \cite{helvig} definierten anschließend Wendepunkte und bewiesen ihre Korrektheit. Nur an diesen ist es dem Verfolger möglich, die Richtung zu ändern. Wendepunkte sind dabei die schnellsten Ziele auf der rechten bzw. rechten Seite des Verfolgers. Sofern der Verfolger vor einem Wendepunkt umkehrt, verlängert sich die Tour und ist damit nicht mehr optimal.
+
+\begin{description}
+\item[Definition 2.6] 
+Ein Zustand $A$ ist definiert durch die aktuelle Position des Ziels ($s_k$), an dem sich der Verfolger zur Zeit befindet und dem schnellsten Ziel auf der gegenüberliegenden Seite des Ursprungs ($s_f$). Es ist also wieder eine Tupeldarstellung
+\begin{align*}
+A = (s_k, s_f)
+\end{align*}
+möglich, wobei $s_k$ und $s_f$ wiederum Tupel sind (siehe Definition 2.1). 
+\end{description}
+Ein Zustand stellt eine Momentaufnahme der Tour dar. Dabei wird ein potentieller Wendepunkt repräsentiert. Um die optimale Tour zu bestimmen, muss an jedem dieser Punkte korrekt entschieden werden, ob sich der Verfolger weiter in die Richtung bewegt oder $s_f$ auf der anderen Seite des Ursprungs verfolgt. Im Gegensatz zu den anderen Zuständen besitzen $A_0$ und $A_{final}$ keine Tupel. Dabei handelt es sich um den Start und Endzustand, welche bei jeder Tour gleich sind. Der Verfolger befindet bei beiden dieser Zuständen im Ursprung. 
+Mit der Funktion $t$ wird einem Zustand die aktuell minimale Zeit zugewiesen, mit der der Zustand über andere Zustände bis dahin am schnellsten erreichbar ist (siehe Definition 2.3). Offensichtlich gilt demnach $t[A_0] = 0$. 
+
+Wie bereits erwähnt, gibt es in den meisten Fällen Ziele, welche keine potentiellen Wendepunkte darstellen und somit nicht zur optimalen Tour beitragen. Um die Laufzeit und Speicherkomplexität zu reduzieren, können diese zunächst eliminiert werden. Es handelt sich dabei um Ziele, die sowieso eingeholt werden. Zunächst wird jedes Ziel in die Liste \emph{Left} oder \emph{Right} eingefügt, abhängig davon, ob sich das Ziel bei $timestamp = 0$ auf der linken oder rechten Seite des Ursprungs befindet. Anschließend werden \emph{Left} und \emph{Right} in absteigender Reihenfolge nach den Geschwindigkeiten sortiert. Ziele, welche sich nun näher am Ursprung befinden
+und zugleich langsamer sind als ein anderes aus der jeweiligen Liste, werden eliminiert. Damit beinhalten \emph{Left} und \emph{Right} ausschließlich potentielle Wendepunkte. 
+
+Um nun alle Zustände zu bestimmen, wird jede Kombination aus den Listen \emph{Left} und \emph{Right} und umgekehrt für $s_k$ und $s_f$ eingesetzt und in die Zustandsliste $States$ eingefügt. Anschließend wird $States$ in absteigender Reihenfolge nach der Summe der Indizes der Ziele aus den Listen \emph{Left} und \emph{Right} sortiert (siehe Abbildung \textcolor{red}{TODO: Bsp mit den Zielen aus der Abbildung 2.1}). Somit befinden sich die Kombinationen bzw. Zustände aus den schnellsten Zielen am Listenanfang von $States$.
+
+\begin{description}
+\item[Definition 2.7]
+Ein Zustandsübergang von Zustand A in den Zustand B wird mit
+\begin{align*}
+\tau = A\rightarrow B
+\end{align*}
+definiert. Der Übergang $\tau$ gibt dabei die Zeit $\tau$ (siehe Definition 2.4), um von dem aktuellen Zustand $A$ in den nächsten Zustand $B$ zu gelangen (siehe Definition 2.4).
+\end{description}
+
+Ausgehend von einem Zustand, gibt es bis zu zwei Zustandsübergänge. Dabei handelt es sich von dem nächst-schnellsten auf der linken oder rechten Seite des Ursprungs. Die Übergänge werden dann als $\tau_{left}$ und $\tau_{right}$ bezeichnet. Sofern jedes Ziel auf einer Seite eingeholt wurde, wird der Übergang $\tau_{final}$ in $A_{final}$ gewählt. Für die Berechnung von $\tau_{final}$ wird die Zeit vom aktuellen Zustand bis zum Einholen der restlichen Ziele auf der anderen Seite des Ursprungs und zusätzlich die Rückkehr zum Ursprung berechnet. Offensichtlich existiert eingehend in $A_0$ und ausgehend von $A_{final}$. 
+
+Wie bereits erwähnt, ist die Zustandsliste $States$ nach der Summe der Indizes aus \emph{Left} und \emph{Right} in absteigender Reihenfolge sortiert. Mit zwei Möglichkeiten von $\tau_{Left}$ und $\tau_{right}$ führt jeder Zustand in einen anderen Zustand mit einem höheren Index. Dabei erhält der Startzustand $A_0$ die Summe $-1$, wodurch die Zustandsübergänge in die Zustände mit dem Summenwert von $0$ führen. Die Zustände mit der höchsten Summe führen in $A_{final}$ (Dies gilt sowieso mit der vorherigen Regelung). Mit diesen Bedingungen konnte nun aus $States$ ein Graph $G$ erzeugt werden. Anhand der Abbildung 2.3 (siehe Abbildung \textcolor{red}{TODO: Bsp mit der Abbildung 2.2}) ist diese Modellierung anhand des bisherigen Beispiels aus Abbildung 2.1 und 2.2 gut nachvollziehbar.
+
+\begin{description}
+\item[Definition 2.8]
+Ein Graph sei mit
+\begin{align*}
+G = (V,E)
+\end{align*}
+über definiert. Hierbei werden die Knoten $V$ durch die Zustände $A_i \in States$ und $E$ durch die jeweiligen Zustandsübergänge $\tau$ repräsentiert.
+\end{description}
+
+Mit der Bedingung, dass Übergänge nur in Zustände mit höheren Summenwerten führen, ist $G$ ungerichtet und azyklisch. Man gelangt also nach spätestens $n$ Zuständen (exklusive $A_0$) in $A_{final}$. 
+
+Mit der Modellierung des Problems als Graphen und den Eigenschaften, dass dieser azyklisch und in topologischer Reihenfolge sortiert ist, kann das Problem mit einem einfachen \emph{Kürzeste-Wege}-Algorithmus gelöst werden. Hierbei kann eine simple Heuristik, zum Beispiel \cite{brandstadt1994kurzeste}, verwendet werden, um den kürzesten Weg von $A_0$ nach $A_{final}$ zu bestimmen.
+
+Mit der Bestimmung des kürzesten Pfades muss am Ende noch bestimmt werden, welche Ziele zwischen den Zuständen eingeholt wurden. Damit werden die anfangs eliminierten Zustände wieder der Tour hinzugefügt und bestenfalls (richtige Implementierung) ist somit die optimale Tour bestimmt.
+
+\section{Algorithmus von Helvig, Robins and Zelikovsky}
+
+Mit diesen Voraussetzungen haben die Autoren von \cite{helvig} einen exakten $\mathcal{O}(n^2)$-Algorithmus für eindimensionale Fälle entwickelt, welcher auf dynamischer Programmierung basiert. Dieser bestimmt dabei die optimale Tour für die Eingabeinstanz. 
+
+Nach dem Schema aus dem vorherigen Abschnitts werden wieder die Listen \emph{Left}, \emph{Right} und $States$ generiert. Anschließend wird durch jeden der $n^2$ Zustände iteriert. Für das einfachere Verstehen des Algorithmus wurde der Graph $G$ zwar beschrieben, aber nicht generiert. Somit wird der Speicherplatz reduziert und damit die Effizienz des Algorithmus verbessert. Diese \emph{On-the-fly}-Methode, um den Graph $G$ zu generieren, ist durch die topologische Sortierung möglich. Damit ist ist für jeden Zustand sichergestellt, dass dieser mit minimaler Zeit erreicht wurde. Zudem ist nicht für jeden Zustand eine Berechnung der Übergänge in andere Zustände nötig. Einige werden ausgelassen oder führen direkt in $A_{final}$. Dies lässt sich auf das Vorgehen des Algorithmus zurückführen. Für einen Zustand $A_i$ wird dabei eines der folgenden Schritte ausgeführt:
+\begin{itemize}
+\item Wenn in $A_i$ keine eingehenden Übergänge besitzt, führe mit dem nächsten Zustand in der Liste fort. Dies tritt genau dann auf, wenn $t[i] = \infty$.
+\item Falls der Verfolger jedes Ziel auf einer Seite des Ursprungs eingeholt hat, erzeuge einen Übergang $\tau_{final}$ in $A_{final}$. Berechne die Zeit, um die verbleibenden Ziele auf der anderen Seite einzuholen und zusätzlich die Retour zum Ursprung. 
+\item Berechne ansonsten $\tau_{Left}$ und $\tau_{Right}$, welche den Verfolger entweder zum schnellsten Ziel auf der rechten oder linken Seite schickt. Falls die Zeit addiert mit dem aktuellen Zeitstempel $t[i]$ kleiner ist, als bisher von einem anderen Zustand, aktualisiere $t[A_{Left}]$ bzw. $t[A_{Right}]$ mit diesem Wert.
+\end{itemize}
+
+Schließlich werden alle (auch eliminierten) Ziele zwischen den Wendepunkten berechnet und in der richtigen Reihenfolge zusammengefügt. Somit wird eine optimale Tour durch die Kombination aus topologischer Reihenfolge und linearer Programmierung garantiert.
+
+
+\section{Zwei-orthogonale-Achsen-Fall}
+
+Zusätzlich zur Achse vom eindimensionalen Fall wird eine weitere Achse hinzugefügt, auf denen sich die Ziele und der Verfolger bewegen können. Die Achsen liegen dabei orthogonal zueinander. Den Ziele ist es dabei nicht erlaubt, an dem Schnittpunkt die Achse zu wechseln. Ein Ziel befindet sich also entweder auf der waagerechten oder senkrechten Achse. 
+Als naiven Ansatz ...
+
+Mit dem damit entstandenen Kreuz können nun die Ziele in die Listen
+
+%Problem, Modell, ...
+%Mit Rückkehr zum Ursprung
+
+
+
+\begin{description}
+\item[Definition 2.9]
+\textcolor{red}{TODO: Prioritätsdef.}
+%\begin{align*}
+
+%\end{align*}
+\end{description}
+
+\begin{description}
+\item[Lemma 2.10]
+\textcolor{red}{TODO: Lemma mit $v_{verfolger} == v_{max}$}
+%\begin{align*}
+
+%\end{align*}
+\end{description}
+
+\begin{description}
+\item[Proof]
+\textcolor{red}{TODO: Proof}
+%\begin{align*}
+
+%\end{align*}
 \end{description}
 
 
-\section{eindimensionaler Fall}
-
-
-\section{zwei-orthogonale-Achsen-Fall}
-
-
-%Probnlem, Modell, ...
-
-
-
+\section{Input and Output}
 
 
 %\chapter{Conclusion}
 \chapter{Zusammenfassung und Ausblick}
 \textcolor{red}{TODO}
-
 
 
 
@@ -150,6 +266,15 @@ p_{i,t} = p_{i,0} + v_i\cdot t.
   pages={392--401},
   year={1999},
   organization={Springer}
+}
+
+@incollection{brandstadt1994kurzeste,
+  title={K{\"u}rzeste Wege},
+  author={Brandst{\"a}dt, Andreas},
+  booktitle={Graphen und Algorithmen},
+  pages={106--123},
+  year={1994},
+  publisher={Springer}
 }
 \end{bibtex-entries}
 

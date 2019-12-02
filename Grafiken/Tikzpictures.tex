@@ -1,0 +1,36 @@
+\documentclass{scrartcl}
+\usepackage{enumitem}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[ngerman]{babel}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{lmodern}
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+\usepackage{listings}
+\usepackage{subfig}
+\usepackage{tikz}
+
+\usepackage{typearea}
+\areaset[5mm]{135mm}{237mm}
+
+\begin{document}
+
+\begin{figure}
+\centering
+\begin{tikzpicture}
+\draw[very thick] (-5,0) -- (5,0);
+\draw (0,0) -- (0,2); 
+\end{tikzpicture}
+\caption{einfaches Gegenspiel}
+\label{fig:BSP}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.09]{../Grafiken/Whiteboard/GegenBsp1Dim.jpg}
+\caption{einfaches Gegenspiel}
+\label{fig:GegenBsp1Dim}
+\end{figure}
+
+\end{document}
