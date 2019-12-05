@@ -217,10 +217,29 @@ Sobald allerdings eine ungültige Eingabe, z.B. wenn eine Zielgeschwindigkeit gr
 \begin{lemma}
 In jeder optimalen Tour beim 2OA-Fall beim bewegende Ziele in TSP bewegt sich der Verfolger immer mit maximaler Geschwindigkeit.
 \end{lemma}
-Fallunterscheidung:
-Mit dem Beweis für 1D-Fälle in \cite{Helvig} gilt dies 
+ 
 \begin{proof}
-blub.
+Fallunterscheidung:
+\begin{enumerate}
+\item Das nächste Ziel des Verfolgers liegt auf der selben Achse:
+
+Mit dem Beweis für 1D-Fälle in \cite{helvig} gilt dies für diesen Fall.
+
+\item Das nächste Ziel des Verfolgers bewegt sich auf der anderen Achse:
+
+Indirekter Beweis: Nehmen an, der Verfolger bewegt sich mit $v_{verfolger} < v_{max}$. Dies ist äquivalent dazu, dass der Verfolger an seiner aktuellen Position eine Zeit $\tau$ wartet und sich dann mit $v_{max}$ weiterbewegt, um dann das nächste Ziel $s$ einzuholen. Dabei befindet sich $s$ auf der anderen Achse. Nach der Wartezeit erreicht der Verfolger an Zeitpunkt $t_1$ den Schnittpunkt und holt das Ziel $s$ an der Position $p$ zum Zeitpunkt $t_2$ ein. 
+
+Nehmen nun an, dass der Verfolger sich direkt zum Mittelpunkt bewegt. Bis zum Eintreffen des Zeitpunktes $t_1$ wartet der Verfolger nun wieder die Zeit $\tau$. Das Ziel $s$ wird nun zum selben Zeitpunkt $t_2$ bei $p$ erreicht, wie im vorherigen Szenario. 
+
+Dies wird nun fortgeführt, indem der Verfolger nicht im Schnittpunkt wartet, sondern von diesem aus $p$ direkt erreicht. Bis zum Zeitpunkt $t_2$ wird nun wieder für die Dauer von $\tau$ gewartet. 
+
+Wird dies nur für alle restlichen Ziele der Tour fortgeführt, resultiert dies letztendlich in Wartezeit am Ende der Tour, was offensichtlich nicht optimal ist. Dieser Fall ist demnach nur eine Erweiterung des 1D-Fall-Beweises um den Schnittpunkt zwischen Zielen, die auf unterschiedlichen Achsen liegen.
+
+\item \textcolor{red}{Muss folgendes Szenario gezeigt werden? Zwei Ziele bewegen sich in Richtung Mitte, Warten? (würde ich wiederlegen, ist nur die frage, ob ich mit 2. Fall diesen bereits abgedeckt habe)}
+\end{enumerate}
+
+In jedem der Fälle wird eine Wartezeit erzeugt, welche an das Ende der Tour verschoben werden kann. Somit ist die Tour offensichtlich nicht mehr optimal. Der Verfolger bewegt sich also zu jeder Zeit mit $v_{verfolger} = v_{max}$.
+
 \end{proof}
 
 
@@ -232,6 +251,10 @@ blub.
 
 %\end{align*}
 \end{definition}
+
+
+\chapter{Experimente}
+
 
 %\chapter{Conclusion}
 \chapter{Zusammenfassung und Ausblick}
