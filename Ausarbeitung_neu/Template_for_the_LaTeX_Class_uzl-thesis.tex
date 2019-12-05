@@ -18,6 +18,7 @@
   Datum                 = {30. Dezember 2019},
   Abstract              = {
     \textcolor{red}{TODO}
+    
   },
   Zusammenfassung       = {
     \textcolor{red}{TODO}  
@@ -129,7 +130,7 @@ Um das Problem der kürzesten Route zu lösen, muss sich der Verfolger an einem 
 ist zwar simpel und einfach berechenbar, reicht aber nicht aus (siehe Abbildung \ref{fig:GegenBsp1Dim}).
 \begin{figure}[htbp]
 \centering
-\includegraphics[scale=0.09]{../Grafiken/Whiteboard/GegenBsp1Dim.jpg}
+\includegraphics[scale=0.68]{../Grafiken/Verwendete/1DGegenbsp.PNG}
 \caption{Offensichtlich würde der Verfolger mit der Geschwindigkeit $v_{verfolger}=11$ deutlich länger für eine Tour brauchen, sofern er zunächst alle Ziele auf der einen und dann auf der anderen Seite abarbeitet. Hierbei wäre es sinnvoll, zunächst die Ziele $(-1,-10)$ und $(1,10)$ einzuholen.}
 \label{fig:GegenBsp1Dim}
 \end{figure}
@@ -213,23 +214,14 @@ Sobald allerdings eine ungültige Eingabe, z.B. wenn eine Zielgeschwindigkeit gr
 
 \chapter{Theoretische Grundlagen für den zwei-orthogonale-Achsen-Fall}
 
-
-
-\begin{description}
-\item[Lemma 3.1]
-\textcolor{red}{TODO: Lemma mit $v_{verfolger} == v_{max}$}
-%\begin{align*}
-
-%\end{align*}
-\end{description}
-
-\begin{description}
-\item[Proof]
-\textcolor{red}{TODO: Proof}
-%\begin{align*}
-
-%\end{align*}
-\end{description}
+\begin{lemma}
+In jeder optimalen Tour beim 2OA-Fall beim bewegende Ziele in TSP bewegt sich der Verfolger immer mit maximaler Geschwindigkeit.
+\end{lemma}
+Fallunterscheidung:
+Mit dem Beweis für 1D-Fälle in \cite{Helvig} gilt dies 
+\begin{proof}
+blub.
+\end{proof}
 
 
 
