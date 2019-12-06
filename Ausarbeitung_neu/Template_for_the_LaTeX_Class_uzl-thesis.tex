@@ -74,14 +74,15 @@ Im folgenden Kapitel werden alle nötigen Grundlagen für bewegende Ziele im Tra
 Die Approximation für generelle Fälle gilt dabei schwierig, da viele verschiedene Faktoren die Komplexität des Problems bestimmen. Die Approximations-Forschung in \cite{hammar} zeigte, dass sich die Probleme nicht besser als mit einem Faktor von $2^{\pi(\sqrt{\pi})}$, es sei denn $P=NP$. Dies gilt bisher allerdings weiterhin als ungelöstes Problem in der Informatik.
 
 \section{Fallübergreifende Definitionen}
+\textcolor{red}{TODO: kleine Einleitung}
 \begin{definition} 
 \label{def:Ziel}
-Jede Instanz enthält eine Anzahl $n$ von Zielen $Z = \{z_0,...,z_n-1\}$. Jedes Ziel $z_i$ befindet sich zunächst an einem Startpunkt $p_i$ und bewegt sich dann mit einer konstanten Geschwindigkeit $v_i$ entlang einer Achse , $p_i, v_i \in\mathbb{Z}$. Die Positionen und Geschwindigkeiten können dabei als Vektoren $P$ und $V$ dargestellt werden.
+Jede Instanz enthält eine Anzahl $n$ von Zielen $Z = \{z_1,...,z_n\}$. Jedes Ziel $z_i$ befindet sich zunächst an einem Startpunkt $p_i$ und bewegt sich dann mit einer konstanten Geschwindigkeit $v_i$ entlang einer Achse , $p_i, v_i \in\mathbb{Z}$. Die Positionen und Geschwindigkeiten können dabei als Vektoren $P$ und $V$ dargestellt werden.
 \begin{align*}
-P = (p_0, \; ..., \; ,p_{n-1})^T \\
-V = (v_0, \; ..., \; ,v_{n-1})^T
+P = (p_1, \; ..., \; ,p_n)^T \\
+V = (v_1, \; ..., \; ,v_n)^T
 \end{align*}
-Demnach kann ein Ziel als ein Tupel $z_i = (p_i, v_i)$ dargestellt werden. Der Ursprung ist definiert durch einen Punkt ohne Geschwindigkeit. Das Tupel $(-1,0)$ würde also bedeuten, dass der Verfolger an der Koordinate $-1$ startet. Ein Ziel mit einer negativen Koordinate befindet sich auf der linken, positive Koordinaten auf der rechten Seite des Ursprungs. 
+Demnach kann ein Ziel als ein Tupel $z_i = (p_i, v_i)$ dargestellt werden. Der Ursprung ist definiert durch einen Punkt ohne Geschwindigkeit. Das Tupel $(-1,0)$ würde also bedeuten, dass der Verfolger an der Koordinate $-1$ startet. Einfachheitshalber wird in dieser Arbeit der Ursprung mit $(0,0)$ für 1D-Fälle fest definiert. Ein Ziel mit einer negativen Koordinate befindet sich auf der linken, positive Koordinaten auf der rechten Seite des Ursprungs. 
 \end{definition}
 
 \begin{definition}
@@ -166,11 +167,11 @@ Ausgehend von einem Zustand, gibt es bis zu zwei Zustandsübergänge. Dabei hand
 Wie bereits erwähnt, ist die Zustandsliste $States$ nach der Summe der Indizes aus \emph{Left} und \emph{Right} in absteigender Reihenfolge sortiert. Mit zwei Möglichkeiten von $\tau_{Left}$ und $\tau_{right}$ führt jeder Zustand in einen anderen Zustand mit einem höheren Index. Dabei erhält der Startzustand $A_0$ die Summe $-1$, wodurch die Zustandsübergänge in die Zustände mit dem Summenwert von $0$ führen. Die Zustände mit der höchsten Summe führen in $A_{final}$ (Dies gilt sowieso mit der vorherigen Regelung). Mit diesen Bedingungen konnte nun aus $States$ ein Graph $G$ erzeugt werden. Anhand der Abbildung 2.3 (siehe Abbildung \textcolor{red}{TODO: Bsp mit der Abbildung 2.2}) ist diese Modellierung anhand des bisherigen Beispiels aus Abbildung 2.1 und 2.2 gut nachvollziehbar.
 
 \begin{definition}
-Ein Graph sei mit
+Ein Graph sei durch
 \begin{align*}
 G = (V,E)
 \end{align*}
-über definiert. Hierbei werden die Knoten $V$ durch die Zustände $A_i \in States$ und $E$ durch die jeweiligen Zustandsübergänge $\tau$ repräsentiert.
+definiert. Hierbei werden die Knoten $V$ durch die Zustände $A_i \in States$ und $E$ durch die jeweiligen Zustandsübergänge $\tau$ repräsentiert.
 \end{definition}
 
 Mit der Bedingung, dass Übergänge nur in Zustände mit höheren Summenwerten führen, ist $G$ ungerichtet und azyklisch. Man gelangt also nach spätestens $n$ Zuständen (exklusive $A_0$) in $A_{final}$. 
@@ -195,7 +196,7 @@ Schließlich werden alle (auch eliminierten) Ziele zwischen den Wendepunkten ber
 
 \section{Zwei-orthogonale-Achsen-Fall}
 
-Zusätzlich zur Achse vom eindimensionalen Fall wird eine weitere Achse hinzugefügt, auf denen sich die Ziele und der Verfolger bewegen können. Die Achsen liegen dabei orthogonal zueinander. Den Ziele ist es dabei nicht erlaubt, an dem Schnittpunkt die Achse zu wechseln. Ein Ziel befindet sich also entweder auf der waagerechten oder senkrechten Achse. 
+Zusätzlich zur Achse vom eindimensionalen Fall wird eine weitere Achse hinzugefügt, auf denen sich die Ziele und der Verfolger bewegen können. Die Achsen liegen dabei orthogonal zueinander. Den Ziele ist es dabei nicht erlaubt, an dem Schnittpunkt die Achse zu wechseln. Ein Ziel befindet sich also entweder auf der waagerechten oder senkrechten Achse. Der Schnittpunkt ist dabei festgesetzt auf die Koordinate $0$, während der Ursprung, im Gegensatz zum 1D-Fall (fest definiert auf die Koordinate $0$), auf einer der Achsen liegen kann.
 
 Mit der neuen Achse könnte für die Positionsbestimmung eine zweidimensionale Koordinate verwendet werden. Allerdings wäre einer dieser Koordinaten immer gleich $0$, da jegliche Bewegungen der Ziele und des Verfolgers auf die Achsen beschränkt sind. Somit ist nur eine einfache Ergänzung der Definition \ref{def:Ziel} um einen booleschen Wert $a$ nötig. Die Position $p_i$ wird dabei mit 
 \begin{align*}
@@ -245,13 +246,88 @@ In jedem der Fälle wird eine Wartezeit erzeugt, welche an das Ende der Tour ver
 
 
 \chapter{Heuristiken für den zwei-orthogonale-Achsen-Fall}
-\begin{definition}
-\textcolor{red}{TODO: Prioritätsdef.}
-%\begin{align*}
 
-%\end{align*}
+In diesem Kapitel werden konkrete Heuristiken für den zwei-orthogonale-Achsen-Fall präsentiert. Zunächst wird der Prioritätsansatz erläutert. Anschließend wird eine Verbesserung dieses Ansatzes betrachtet. Zuletzt wird die Brute-Force Methode vorgeschlagen. In jedem der Fälle werden die Laufzeit und Güte analysiert und die Korrektheit gezeigt.
+
+\section{Problem der Modellierung des zwei-orthogonale-Achsen-Falls mit Zuständen als Graphen}
+Im 1D-Fall konnte über über die topologische Reihenfolge der Wendepunkte bzw. Zustände ein Graph erzeugt werden. Somit wurde mit der Bestimmung des kürzesten Pfads das Problem die optimale Tour bestimmt. 
+Es wäre also zunächst sinnvoll, diesen Ansatz für den 2OA-Fall zu übernehmen, da nur eine Achse hinzugekommen ist. Hierfür werden wieder die einzelnen Ziele in die Listen \emph{Left, Right, Top, Bottom} aufgeteilt. Bei dem Algorithmus von \cite{helvig} wurden nun die Ziele eliminiert, welche sowieso eingeholt werden und dementsprechend keine Wendepunkte darstellen. Mit der zusätzlichen Achse gilt dies nur noch für Ziele, welche sich wegführend vom Schnittpunkt bewegen. Das liegt daran, dass Ziele nun den Schnittpunkt überqueren können, während der Verfolger sich auf der anderen Achse befindet. Somit werden solche Ziele nicht automatisch eingeholt. 
+
+Der nächste Schritt ist nun die Generierung der Zustandsliste $States$, wobei eine Reihe von Problemen auftreten. Zunächst [...]
+\textcolor{red}{TODO: Finish section}
+
+\textcolor{red}{TODO: Abbildung}
+\newpage
+
+\section{Prioritätsansatz}
+
+Mit dem Prioritätsansatz wird für jedes Ziel die Dringlichkeit bestimmt, dieses als nächstes einzuholen. Hierfür fließen unterschiedliche Faktoren für die Berechnung der Priorität mit ein. 
+
+\begin{definition}
+Mit den Faktoren $\phi$ wird die Priorität eines Ziels berechnet und werden definiert durch
+\begin{align*}
+\kappa = \{\varphi_1,...,\varphi_5\}^T~|~k_i \in\mathbb{R}.
+\end{align*}
 \end{definition}
 
+\begin{definition}
+Die Gewichte $\omega$ beeinflussen die Faktoren $\phi$, um den jeweiligen Anteil an der Priorität zu erhöhen bzw. zu verringern und werden definiert durch
+\begin{align*}
+\omega = \{w_1,...,w_5\}^T~|~w_i \in\mathbb{R}.
+\end{align*}
+\end{definition}
+%-------------------------Faktoren------------------------------- 
+\begin{definition}
+Der Geschwindigkeitsfaktor $\phi_1$ erhöht Priorität eines schnellen Ziels $t_i$ und ist definiert durch
+\begin{align*}
+\phi_1(t_i, w_1) = \frac{|v_i|}{v_{verfolger}}\cdot w_1.
+\end{align*}
+\end{definition}
+\begin{definition}
+\label{def:FaktorPos}
+Der Positionsfaktor $\phi_2$ erhöht Priorität bei Zielen, die sich vom Ursprung wegbewegen, andernfalls verringert sich die Priorität. Dies wird mit den Faktor $a\in\{-1,1\}$ verrechnet. $\phi_2$ wird definiert durch 
+\begin{align*}
+\phi_2(t_i, w_2) = \frac{|p_i|}{v_{verfolger}}\cdot a \cdot w_2.
+\end{align*}
+\end{definition}
+\begin{definition}
+\textcolor{red}{TODO: Sicherstellen, dass diese Def. notwendig ist, ich vermute nein}\\
+Der Schnittpunktsfaktor $\phi_3$ verringert die Priorität bei Zielen in der Nähe des Schnittpunktes und ist definiert durch
+\begin{align*}
+\phi_3(t_i, w_3) = \bigg\vert\frac{\|0,p_i\|_1}{0-v_i}\bigg\vert \cdot w_3 \text{~~~~~~~~~~~~~~~~(siehe Definition \ref{def:WegZeit})}.
+\end{align*}
+Diese Definition scheint im Konflikt mit Definition \ref{def:FaktorPos} zu stehen. Allerdings fördert die Kombination aus den beiden Definitionen weit entfernte Ziele und solche, von denen man schnell die anderen Achsen erreichen kann.
+\end{definition}
+\begin{definition}
+\textcolor{red}{TODO: Sicherstellen, dass diese Def. notwendig ist, ich vermute nein}\\
+Der Ursprungsfaktor $\phi_4$ erhöht die Priorität bei Zielen Nahe des Ursprungs geringfügig und ist definiert durch
+\begin{align*}
+\phi_4(t_i, w_4) = \bigg\vert\frac{\|p_{ursprung},p_i\|_1}{0-v_i}\bigg\vert \cdot w_4 \text{~~~~~(siehe Definition \ref{def:WegZeit})}.
+\end{align*}
+\end{definition}
+\begin{definition}
+Der Distanzfaktor $\phi_5$ verringert die Priorität bei großen Abständen zur aktuellen Position und ist definiert durch
+\begin{align*}
+\phi_5(t_i, w_5) = \bigg\vert\frac{\|p_{verfolger},p_i\|_1}{v_{verfolger}-v_i}\bigg\vert \cdot w_5 \text{~~~~~(siehe Definition \ref{def:WegZeit})}.
+\end{align*}
+\end{definition}
+
+
+\begin{definition}
+Die Priorität $\alpha\in\mathbb{R}$ eines Ziels $t_i$ bestimmt die Wichtigkeit eines Ziels, als nächstes eingeholt zu werden
+\begin{align*}
+\alpha(t_i, \omega) = \varphi_1(t_i,w_1) + \varphi_2(t_i,w_2) - \varphi_3(t_i,w_3) - \varphi_4(t_i,w_4) - \varphi_5(t_i,w_5)
+\end{align*}
+weqhgurfwef
+\end{definition}
+
+\begin{definition}
+Die Prioriätätswarteschlange $\mathcal{Q}$ ist eine sortierte Liste an verbleibenden Zielen in absteigender Reihenfolge nach $\alpha$ und ist definiert durch
+\begin{align*}
+\mathcal{Q} = T\subseteq Z.
+\end{align*}
+Dabei wird das erste Element von $\mathcal{Q}$ als nächstes Ziel eingeholt.
+\end{definition}
 
 \chapter{Experimente}
 
