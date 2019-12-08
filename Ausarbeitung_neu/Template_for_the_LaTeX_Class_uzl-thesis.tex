@@ -43,7 +43,8 @@
 % Now, include the package you need here using \usepackage. 
 % \usepackage{graphicx,float,wrapfig}
 \usepackage{mathtools}
-
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 % begin of the document
 \begin{document}
 % \chapter{Introduction}
@@ -77,19 +78,20 @@ Die Approximation für generelle Fälle gilt dabei schwierig, da viele verschied
 \textcolor{red}{TODO: kleine Einleitung}
 \begin{definition} 
 \label{def:Ziel}
-Jede Instanz enthält eine Anzahl $n$ von Zielen $Z = \{z_1,...,z_n\}$. Jedes Ziel $z_i$ befindet sich zunächst an einem Startpunkt $p_i$ und bewegt sich dann mit einer konstanten Geschwindigkeit $v_i$ entlang einer Achse , $p_i, v_i \in\mathbb{Z}$. Die Positionen und Geschwindigkeiten können dabei als Vektoren $P$ und $V$ dargestellt werden.
+Jede Instanz enthält eine Anzahl $n$ von Zielen $Z = \{z_1,...,z_n\}$. Jedes Ziel $z_i$ befindet sich zunächst an einem Startpunkt $p_i$ und bewegt sich dann mit einer konstanten Geschwindigkeit $v_i$ entlang einer Achse , $p_i, v_i \in\mathbb{R}$. Die Positionen und Geschwindigkeiten können dabei als Vektoren $P$ und $V$ dargestellt werden.
 \begin{align*}
-P = (p_1, \; ..., \; ,p_n)^T \\
+P = (p_1, ..., ,p_n)^T \\
 V = (v_1, \; ..., \; ,v_n)^T
 \end{align*}
-Demnach kann ein Ziel als ein Tupel $z_i = (p_i, v_i)$ dargestellt werden. Der Ursprung ist definiert durch einen Punkt ohne Geschwindigkeit. Das Tupel $(-1,0)$ würde also bedeuten, dass der Verfolger an der Koordinate $-1$ startet. Einfachheitshalber wird in dieser Arbeit der Ursprung mit $(0,0)$ für 1D-Fälle fest definiert. Ein Ziel mit einer negativen Koordinate befindet sich auf der linken, positive Koordinaten auf der rechten Seite des Ursprungs. 
+Demnach kann ein Ziel als ein Tupel $z_i = (p_i, v_i)$ dargestellt werden. Der Ursprung ist definiert durch einen Punkt ohne Geschwindigkeit. Das Tupel $(-1,0)$ würde also bedeuten, dass der Verfolger an der Koordinate $-1$ startet und ist durch die Geschwindigkeit von $0$ stationär. Einfachheitshalber wird in dieser Arbeit der Ursprung mit $(0,0)$ für 1D-Fälle fest definiert. Ein Ziel mit einer negativen Koordinate befindet sich auf der linken, positive Koordinaten auf der rechten Seite des Ursprungs. 
 \end{definition}
 
 \begin{definition}
-Der Verfolger kann sich ebenfalls nur auf den Achsen bewegen. Sein Ziel ist die schnellst möglichste Tour zu finden, um alle Punkte zu besuchen. Dabei bewegt sich der Verfolger mit der Maximalgeschwindigkeit 
+Der Verfolger kann sich ebenfalls nur auf den Achsen bewegen. Sein Ziel ist die schnellst mögliche Tour zu finden, um alle Punkte abzufangen. Dabei bewegt sich der Verfolger mit der Maximalgeschwindigkeit 
 \begin{align*}
 v_{verfolger} > |v_i|, \forall v_i\in V.
 \end{align*}
+
 Dies stellt sicher, dass der Verfolger nach einer gewissen Zeit jedes Ziel auf jeden Fall eingeholt hat. Andernfalls würde eine unendlich große Tourzeit berechnet werden. Der Ursprung ist gleichzeitig auch der Ziel der Tour. Demnach startet und endet jede Tour an diesem stationären Punkt.
 \end{definition}
 
@@ -120,15 +122,15 @@ Eine optimale Tour ist die kürzeste Reihenfolge an Zielen, bei dem jedes $z_i\i
 \end{definition}
 
 \section{Eindimensionaler Fall}
-Der eindimensionale Fall wurde zuerst in \cite{helvig} präsentiert. Die Autoren modellieren das Problem als Graph-Problem, wobei der eigentliche Graph on-the-fly erstellt wird. Mit linearer Programmierung wird anschließend die optimale Tourzeit bestimmt.
+Der eindimensionale Fall wurde zuerst in \cite{helvig} präsentiert. Die Autoren modellieren das Problem als Graph-Problem, wobei der eigentliche Graph on-the-fly erstellt wird. Mit linearer Programmierung wird anschließend die schnellst mögliche Abfangzeit für jeden Zustand bestimmt. Somit kann die die optimale Tourzeit und -Reihenfolge bestimmt werden.
 Im eindimensionalen Fall befinden sich alle Ziele auf einer Achse und können sich nur in zwei verschiedene Richtungen bewegen. Dasselbe gilt auch für den Verfolger. Wichtig ist zunächst die Bedingung, dass der Verfolger sich immer mit seiner maximalen Geschwindigkeit $v_{verfolger}$ bewegt. Helvig et. al. bewiesen dies mit dem Aspekt, dass ein eine Reisegeschwindigkeit von $v<v_{verfolger}$ äquivalent zu einer Wartezeit an einem Punkt ist. Dies resultiert in eine längere Tourzeit, das heißt die Tour wäre nicht mehr optimal.
 
 Um das Problem der kürzesten Route zu lösen, muss sich der Verfolger an einem Ziel entscheiden, das nächste Ziel in derselben oder entgegengesetzte Richtung einzuholen. Die Kostenberechnung für eine schnellste Tour aus
 \begin{itemize}
-\item alle Ziele links vom Ursprung aus gesehen und danach alle rechten Ziele einholen
-\item alle Ziele rechts vom Ursprung aus gesehen und danach alle linken Ziele einholen
+\item alle Ziele links vom Ursprung aus gesehen und danach alle rechten Ziele abfangen
+\item alle Ziele rechts vom Ursprung aus gesehen und danach alle linken Ziele abfangen
 \end{itemize} 
-ist zwar simpel und einfach berechenbar, reicht aber nicht aus (siehe Abbildung \ref{fig:GegenBsp1Dim}).
+ist zwar simpel und einfach implementierbar, reicht aber nicht aus (siehe Abbildung \ref{fig:GegenBsp1Dim}).
 \begin{figure}[htbp]
 \centering
 \includegraphics[scale=0.68]{../Grafiken/Verwendete/1DGegenbsp.PNG}
@@ -162,7 +164,7 @@ Ein Zustandsübergang von Zustand A in den Zustand B wird mit
 definiert. Der Übergang $\tau$ gibt dabei die Zeit $\tau$ (siehe Definition \ref{def:WegZeit}), um von dem aktuellen Zustand $A$ in den nächsten Zustand $B$ zu gelangen).
 \end{definition}
 
-Ausgehend von einem Zustand, gibt es bis zu zwei Zustandsübergänge. Dabei handelt es sich von dem nächst-schnellsten auf der linken oder rechten Seite des Ursprungs. Die Übergänge werden dann als $\tau_{left}$ und $\tau_{right}$ bezeichnet. Sofern jedes Ziel auf einer Seite eingeholt wurde, wird der Übergang $\tau_{final}$ in $A_{final}$ gewählt. Für die Berechnung von $\tau_{final}$ wird die Zeit vom aktuellen Zustand bis zum Einholen der restlichen Ziele auf der anderen Seite des Ursprungs und zusätzlich die Rückkehr zum Ursprung berechnet. Offensichtlich existiert eingehend in $A_0$ und ausgehend von $A_{final}$. 
+Ausgehend von einem Zustand, gibt es bis zu zwei Zustandsübergänge. Dabei handelt es sich von dem nächst-schnellsten auf der linken oder rechten Seite des Ursprungs. Die Übergänge werden dann als $\tau_{left}$ und $\tau_{right}$ bezeichnet. Sofern jedes Ziel auf einer Seite eingeholt wurde, wird der Übergang $\tau_{final}$ in $A_{final}$ gewählt. Für die Berechnung von $\tau_{final}$ wird die Zeit vom aktuellen Zustand bis zum Abfangen der restlichen Ziele auf der anderen Seite des Ursprungs und zusätzlich die Rückkehr zum Ursprung berechnet. Offensichtlich existiert eingehend in $A_0$ und ausgehend von $A_{final}$. 
 
 Wie bereits erwähnt, ist die Zustandsliste $States$ nach der Summe der Indizes aus \emph{Left} und \emph{Right} in absteigender Reihenfolge sortiert. Mit zwei Möglichkeiten von $\tau_{Left}$ und $\tau_{right}$ führt jeder Zustand in einen anderen Zustand mit einem höheren Index. Dabei erhält der Startzustand $A_0$ die Summe $-1$, wodurch die Zustandsübergänge in die Zustände mit dem Summenwert von $0$ führen. Die Zustände mit der höchsten Summe führen in $A_{final}$ (Dies gilt sowieso mit der vorherigen Regelung). Mit diesen Bedingungen konnte nun aus $States$ ein Graph $G$ erzeugt werden. Anhand der Abbildung 2.3 (siehe Abbildung \textcolor{red}{TODO: Bsp mit der Abbildung 2.2}) ist diese Modellierung anhand des bisherigen Beispiels aus Abbildung 2.1 und 2.2 gut nachvollziehbar.
 
@@ -174,7 +176,7 @@ G = (V,E)
 definiert. Hierbei werden die Knoten $V$ durch die Zustände $A_i \in States$ und $E$ durch die jeweiligen Zustandsübergänge $\tau$ repräsentiert.
 \end{definition}
 
-Mit der Bedingung, dass Übergänge nur in Zustände mit höheren Summenwerten führen, ist $G$ ungerichtet und azyklisch. Man gelangt also nach spätestens $n$ Zuständen (exklusive $A_0$) in $A_{final}$. 
+Mit der Bedingung, dass Übergänge nur in Zustände mit höheren Summenwerten führen, ist $G$ gerichtet und azyklisch. Man gelangt also nach spätestens $n$ Zuständen (exklusive $A_0$) in $A_{final}$. 
 
 Mit der Modellierung des Problems als Graphen und den Eigenschaften, dass dieser azyklisch und in topologischer Reihenfolge sortiert ist, kann das Problem mit einem einfachen \emph{Kürzeste-Wege}-Algorithmus gelöst werden. Hierbei kann eine simple Heuristik, zum Beispiel \cite{brandstadt1994kurzeste}, verwendet werden, um den kürzesten Weg von $A_0$ nach $A_{final}$ zu bestimmen.
 
@@ -184,7 +186,7 @@ Mit der Bestimmung des kürzesten Pfades muss am Ende noch bestimmt werden, welc
 
 Mit diesen Voraussetzungen haben die Autoren von \cite{helvig} einen exakten $\mathcal{O}(n^2)$-Algorithmus für eindimensionale Fälle entwickelt, welcher auf dynamischer Programmierung basiert. Dieser bestimmt dabei die optimale Tour für die Eingabeinstanz. 
 
-Nach dem Schema aus dem vorherigen Abschnitts werden wieder die Listen \emph{Left}, \emph{Right} und $States$ generiert. Anschließend wird durch jeden der $n^2$ Zustände iteriert. Für das einfachere Verstehen des Algorithmus wurde der Graph $G$ zwar beschrieben, aber nicht generiert. Somit wird der Speicherplatz reduziert und damit die Effizienz des Algorithmus verbessert. Diese \emph{On-the-fly}-Methode, um den Graph $G$ zu generieren, ist durch die topologische Sortierung möglich. Damit ist ist für jeden Zustand sichergestellt, dass dieser mit minimaler Zeit erreicht wurde. Zudem ist nicht für jeden Zustand eine Berechnung der Übergänge in andere Zustände nötig. Einige werden ausgelassen oder führen direkt in $A_{final}$. Dies lässt sich auf das Vorgehen des Algorithmus zurückführen. Für einen Zustand $A_i$ wird dabei eines der folgenden Schritte ausgeführt:
+Nach dem Schema aus dem vorherigen Abschnitts werden wieder die Listen \emph{Left}, \emph{Right} und $States$ generiert. Anschließend wird durch jeden der $n^2$ Zustände iteriert. Für das einfachere Verstehen des Algorithmus wurde der Graph $G$ zwar beschrieben, aber nicht generiert. Somit wird der Speicherplatz reduziert und damit die Effizienz des Algorithmus verbessert. Diese \emph{On-the-fly}-Methode, um den Graph $G$ zu generieren, ist durch die topologische Sortierung möglich. Damit ist für jeden Zustand sichergestellt, dass dieser mit minimaler Zeit erreicht wurde. Zudem ist nicht für jeden Zustand eine Berechnung der Übergänge in andere Zustände nötig. Einige werden ausgelassen oder führen direkt in $A_{final}$. Dies lässt sich auf das Vorgehen des Algorithmus zurückführen. Für einen Zustand $A_i$ wird dabei eines der folgenden Schritte ausgeführt:
 \begin{itemize}
 \item Wenn in $A_i$ keine eingehenden Übergänge besitzt, führe mit dem nächsten Zustand in der Liste fort. Dies tritt genau dann auf, wenn $t[i] = \infty$.
 \item Falls der Verfolger jedes Ziel auf einer Seite des Ursprungs eingeholt hat, erzeuge einen Übergang $\tau_{final}$ in $A_{final}$. Berechne die Zeit, um die verbleibenden Ziele auf der anderen Seite einzuholen und zusätzlich die Retour zum Ursprung. 
@@ -196,11 +198,11 @@ Schließlich werden alle (auch eliminierten) Ziele zwischen den Wendepunkten ber
 
 \section{Zwei-orthogonale-Achsen-Fall}
 
-Zusätzlich zur Achse vom eindimensionalen Fall wird eine weitere Achse hinzugefügt, auf denen sich die Ziele und der Verfolger bewegen können. Die Achsen liegen dabei orthogonal zueinander. Den Ziele ist es dabei nicht erlaubt, an dem Schnittpunkt die Achse zu wechseln. Ein Ziel befindet sich also entweder auf der waagerechten oder senkrechten Achse. Der Schnittpunkt ist dabei festgesetzt auf die Koordinate $0$, während der Ursprung, im Gegensatz zum 1D-Fall (fest definiert auf die Koordinate $0$), auf einer der Achsen liegen kann.
+Als neue Modifikation des 1D-Falls wird nun der Achse eine weitere hinzugefügt. Alle Bewegungen und Positionierungen der Ziele und des Verfolgers sind ebenfalls auf die Achsen beschränkt. Die Achsen liegen dabei orthogonal zueinander. Den Ziele ist es dabei nicht erlaubt, an dem Schnittpunkt die Achse zu wechseln. Ein Ziel befindet sich also entweder auf der waagerechten oder senkrechten Achse. Der Schnittpunkt ist dabei festgesetzt auf die Koordinate $0$, während der Ursprung, im Gegensatz zum 1D-Fall (fest definiert auf die Koordinate $0$), auf einer der Achsen liegen kann.
 
 Mit der neuen Achse könnte für die Positionsbestimmung eine zweidimensionale Koordinate verwendet werden. Allerdings wäre einer dieser Koordinaten immer gleich $0$, da jegliche Bewegungen der Ziele und des Verfolgers auf die Achsen beschränkt sind. Somit ist nur eine einfache Ergänzung der Definition \ref{def:Ziel} um einen booleschen Wert $a$ nötig. Die Position $p_i$ wird dabei mit 
 \begin{align*}
-p_i = \mathbb{R} \times a | a\in \{true, false\}
+p_i = (\mathbb{R}, a) ~|~ a\in \{true, false\}
 \end{align*}
 neu definiert. Dabei gibt $a$ die Achse an, \emph{true} steht für die waagerechte, \emph{false} für die senkrechte Achse. Die Ziele werden nun neben den Listen \emph{Left} und \emph{Right} auch in die \emph{Top} und \emph{Bottom} einsortiert. Dabei deckt \emph{Top} den positiven und \emph{Bottom} den negativen Koordinatenbereich ab. Mit dieser Ergänzung gelten weiterhin alle anderen der vorherigen Definitionen.
 
@@ -214,6 +216,8 @@ Die Algorithmen dieser Arbeit werden dabei einfach nur die Ziele in der eingehol
 Sobald allerdings eine ungültige Eingabe, z.B. wenn eine Zielgeschwindigkeit größer als die Verfolgergeschwindigkeit ist, wird eine \glqq Nein\grqq-Instanz zurückgegeben. Dies wird allerdings in den Algorithmen vorausgesetzt und nicht extra behandelt. 
 
 \chapter{Theoretische Grundlagen für den zwei-orthogonale-Achsen-Fall}
+
+In diesem Kapitel soll mit der Vorarbeit aus \cite{helvig} gezeigt werden, dass einige Eigenschaften des 1D-Falls genauso auch im zwei-orthogonale-Achsen-Fall (2OA-Fall) gelten.
 
 \begin{lemma}
 In jeder optimalen Tour beim 2OA-Fall beim bewegende Ziele in TSP bewegt sich der Verfolger immer mit maximaler Geschwindigkeit.
@@ -232,11 +236,9 @@ Indirekter Beweis: Nehmen an, der Verfolger bewegt sich mit $v_{verfolger} < v_{
 
 Nehmen nun an, dass der Verfolger sich direkt zum Mittelpunkt bewegt. Bis zum Eintreffen des Zeitpunktes $t_1$ wartet der Verfolger nun wieder die Zeit $\tau$. Das Ziel $s$ wird nun zum selben Zeitpunkt $t_2$ bei $p$ erreicht, wie im vorherigen Szenario. 
 
-Dies wird nun fortgeführt, indem der Verfolger nicht im Schnittpunkt wartet, sondern von diesem aus $p$ direkt erreicht. Bis zum Zeitpunkt $t_2$ wird nun wieder für die Dauer von $\tau$ gewartet. 
+Dies wird nun fortgeführt, indem der Verfolger nicht im Schnittpunkt wartet, sondern von diesem aus $p$ direkt erreicht. Bis zum Zeitpunkt $t_2$ wird nun wieder für die Dauer von $\tau$ gewartet. Außerdem kann der Verfolger schon zu einem Zeitpunkt $t_1 \leq t_{s} \leq t_2$ abfangen, sofern sich $s$ vom Verfolger wegbewegt. 
 
-Wird dies nur für alle restlichen Ziele der Tour fortgeführt, resultiert dies letztendlich in Wartezeit am Ende der Tour, was offensichtlich nicht optimal ist. Dieser Fall ist demnach nur eine Erweiterung des 1D-Fall-Beweises um den Schnittpunkt zwischen Zielen, die auf unterschiedlichen Achsen liegen.
-
-\item \textcolor{red}{Muss folgendes Szenario gezeigt werden? Zwei Ziele bewegen sich in Richtung Mitte, Warten? (würde ich wiederlegen, ist nur die frage, ob ich mit 2. Fall diesen bereits abgedeckt habe)}
+Wird dies nur für alle restlichen Ziele der Tour fortgeführt, resultiert dies letztendlich in Wartezeit am Ende der Tour, was offensichtlich nicht optimal ist. Dieser Fall ist demnach nur eine Erweiterung des 1D-Fall-Beweises um den Schnittpunkt zwischen Zielen, die auf unterschiedlichen Achsen liegen. 
 \end{enumerate}
 
 In jedem der Fälle wird eine Wartezeit erzeugt, welche an das Ende der Tour verschoben werden kann. Somit ist die Tour offensichtlich nicht mehr optimal. Der Verfolger bewegt sich also zu jeder Zeit mit $v_{verfolger} = v_{max}$.
@@ -261,7 +263,7 @@ Der nächste Schritt ist nun die Generierung der Zustandsliste $States$, wobei e
 
 \section{Prioritätsansatz}
 
-Mit dem Prioritätsansatz wird für jedes Ziel die Dringlichkeit bestimmt, dieses als nächstes einzuholen. Hierfür fließen unterschiedliche Faktoren für die Berechnung der Priorität mit ein. 
+Mit dem Prioritätsansatz wird für ein Ziel $z_i$ die Dringlichkeit bestimmt, dieses als nächstes einzuholen. Hierfür fließen unterschiedliche Faktoren für die Berechnung der Priorität mit ein. Die Priorität wird nach jedem Abfangen eines Ziels neu berechnet.
 
 \begin{definition}
 Mit den Faktoren $\phi$ wird die Priorität eines Ziels berechnet und werden definiert durch
@@ -278,23 +280,23 @@ Die Gewichte $\omega$ beeinflussen die Faktoren $\phi$, um den jeweiligen Anteil
 \end{definition}
 %-------------------------Faktoren------------------------------- 
 \begin{definition}
-Der Geschwindigkeitsfaktor $\phi_1$ erhöht Priorität eines schnellen Ziels $t_i$ und ist definiert durch
+Der Geschwindigkeitsfaktor $\phi_1$ erhöht Priorität eines schnellen Ziels $z_i$ und ist definiert durch
 \begin{align*}
-\phi_1(t_i, w_1) = \frac{|v_i|}{v_{verfolger}}\cdot w_1.
+\phi_1(z_i, w_1) = \frac{|v_i|}{v_{verfolger}}\cdot w_1.
 \end{align*}
 \end{definition}
 \begin{definition}
 \label{def:FaktorPos}
 Der Positionsfaktor $\phi_2$ erhöht Priorität bei Zielen, die sich vom Ursprung wegbewegen, andernfalls verringert sich die Priorität. Dies wird mit den Faktor $a\in\{-1,1\}$ verrechnet. $\phi_2$ wird definiert durch 
 \begin{align*}
-\phi_2(t_i, w_2) = \frac{|p_i|}{v_{verfolger}}\cdot a \cdot w_2.
+\phi_2(z_i, w_2) = \frac{|p_i|}{v_{verfolger}}\cdot a \cdot w_2.
 \end{align*}
 \end{definition}
 \begin{definition}
 \textcolor{red}{TODO: Sicherstellen, dass diese Def. notwendig ist, ich vermute nein}\\
 Der Schnittpunktsfaktor $\phi_3$ verringert die Priorität bei Zielen in der Nähe des Schnittpunktes und ist definiert durch
 \begin{align*}
-\phi_3(t_i, w_3) = \bigg\vert\frac{\|0,p_i\|_1}{0-v_i}\bigg\vert \cdot w_3 \text{~~~~~~~~~~~~~~~~(siehe Definition \ref{def:WegZeit})}.
+\phi_3(z_i, w_3) = \bigg\vert\frac{\|0,p_i\|_1}{0-v_i}\bigg\vert \cdot w_3 \text{~~~~~~~~~~~~~~~~(siehe Definition \ref{def:WegZeit})}.
 \end{align*}
 Diese Definition scheint im Konflikt mit Definition \ref{def:FaktorPos} zu stehen. Allerdings fördert die Kombination aus den beiden Definitionen weit entfernte Ziele und solche, von denen man schnell die anderen Achsen erreichen kann.
 \end{definition}
@@ -302,21 +304,21 @@ Diese Definition scheint im Konflikt mit Definition \ref{def:FaktorPos} zu stehe
 \textcolor{red}{TODO: Sicherstellen, dass diese Def. notwendig ist, ich vermute nein}\\
 Der Ursprungsfaktor $\phi_4$ erhöht die Priorität bei Zielen Nahe des Ursprungs geringfügig und ist definiert durch
 \begin{align*}
-\phi_4(t_i, w_4) = \bigg\vert\frac{\|p_{ursprung},p_i\|_1}{0-v_i}\bigg\vert \cdot w_4 \text{~~~~~(siehe Definition \ref{def:WegZeit})}.
+\phi_4(z_i, w_4) = \bigg\vert\frac{\|p_{ursprung},p_i\|_1}{0-v_i}\bigg\vert \cdot w_4 \text{~~~~~(siehe Definition \ref{def:WegZeit})}.
 \end{align*}
 \end{definition}
 \begin{definition}
 Der Distanzfaktor $\phi_5$ verringert die Priorität bei großen Abständen zur aktuellen Position und ist definiert durch
 \begin{align*}
-\phi_5(t_i, w_5) = \bigg\vert\frac{\|p_{verfolger},p_i\|_1}{v_{verfolger}-v_i}\bigg\vert \cdot w_5 \text{~~~~~(siehe Definition \ref{def:WegZeit})}.
+\phi_5(z_i, w_5) = \bigg\vert\frac{\|p_{verfolger},p_i\|_1}{v_{verfolger}-v_i}\bigg\vert \cdot w_5 \text{~~~~~(siehe Definition \ref{def:WegZeit})}.
 \end{align*}
 \end{definition}
 
 
 \begin{definition}
-Die Priorität $\alpha\in\mathbb{R}$ eines Ziels $t_i$ bestimmt die Wichtigkeit eines Ziels, als nächstes eingeholt zu werden
+Die Priorität $\alpha\in\mathbb{R}$ eines Ziels $z_i$ bestimmt die Wichtigkeit eines Ziels, als nächstes eingeholt zu werden
 \begin{align*}
-\alpha(t_i, \omega) = \varphi_1(t_i,w_1) + \varphi_2(t_i,w_2) - \varphi_3(t_i,w_3) - \varphi_4(t_i,w_4) - \varphi_5(t_i,w_5)
+\alpha(z_i, \omega) = \varphi_1(z_i,w_1) + \varphi_2(z_i,w_2) - \varphi_3(z_i,w_3) - \varphi_4(z_i,w_4) - \varphi_5(z_i,w_5)
 \end{align*}
 weqhgurfwef
 \end{definition}
@@ -328,6 +330,61 @@ Die Prioriätätswarteschlange $\mathcal{Q}$ ist eine sortierte Liste an verblei
 \end{align*}
 Dabei wird das erste Element von $\mathcal{Q}$ als nächstes Ziel eingeholt.
 \end{definition}
+
+
+\section{Algorithmus mit dem Prioritätsansatz}
+
+\begin{minipage}{1\linewidth}
+\begin{algorithm}[H]
+\begin{algorithmic}
+\floatname{algorithm}{Algorithmus}
+\caption{Algorithmus für zwei-orthogonale Achsen beim bewegende Ziele in TSP}
+\label{alg:2OA.1}
+\State \textbf{Input:} Ziele $T$, Ursprung $z_{ursprung}$, Verfolgergeschwindigkeit $v_{max}$
+\State \textbf{Output:} Ziele $T$ in der Tour-Reihenfolge, inklusive Retour zum Ursprung\\
+
+\State Sei \emph{t} das Zeit-Array, welches für jedes $z_i\in Z$ die Abfangzeit angibt
+\State Sei \emph{current} das Ziel, welches der Verfolger soeben eingeholt hat
+\State Sei \emph{OUTPUT} die Liste an Zielen in der Abfangreihenfolge
+\State $current\rightarrow origin$
+\State $OUTPUT.add(current)$
+\State 
+
+\For {$z_i\in Z$}
+\State $t[z_i] \rightarrow \infty$
+\State $\mathcal{Q}.add(z_i)$
+\State Berechne $\alpha(z_i)$
+\EndFor\\
+
+\While {$\mathcal{Q}$ is not empty}
+\If {jedes verbleibende Ziel liegt auf einer der vier Seiten des Schnittpunktes}
+\For {$z_i\in \mathcal{Q}$}
+\State $t[z_i] \rightarrow$ Zeit von der aktuellen Position bis zum Abfangen von $z_i$
+\EndFor
+\State Sortiere $\mathcal{Q}$ in aufsteigender Reihenfolge nach $t[z_i]$
+\State Berechne Rückkehr zum Ursprung ausgehend vom letzten Ziel aus $\mathcal{Q}$
+\State $OUTPUT.addAll(\mathcal{Q})$
+\State break
+\EndIf \\
+
+\State Berechne $\alpha(z_i),~\forall z_i\in\mathcal{Q}$
+\State Update $\mathcal{Q}$
+\State $prev\rightarrow current$
+\State $current \rightarrow \mathcal{Q}.poll()$
+\State $t[current] \rightarrow time[prev] + \pi[prev\rightarrow current]$
+\State $OUTPUT.add(current)$
+\State Update die Position von jedem $z_i\in\mathcal{Q}$
+\State $EingeholteZiele \rightarrow$ Ziele zwischen $prev$ und $current$
+\State Sortiere $EingeholteZiele$ in aufsteigender Reihenfolge nach $t[z_i]$
+\State $OUTPUT.addAll(EingeholteZiele)$
+\EndWhile\\
+
+\State $OUTPUT.add(z_{ursprung})$
+
+\end{algorithmic}
+\end{algorithm}
+\end{minipage}
+
 
 \chapter{Experimente}
 

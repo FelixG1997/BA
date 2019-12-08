@@ -1,0 +1,162 @@
+\documentclass{scrartcl}
+
+
+% input encoding
+\usepackage[utf8]{inputenc}
+
+% new german spelling
+\usepackage[ngerman]{babel}
+
+% choose font
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+% KOMA-Script options
+\KOMAoptions{%
+  parskip=full,%
+  fontsize=12pt,%
+  DIV=calc}
+
+% page options
+\usepackage{geometry}
+\geometry{a4paper, portrait, left=2.5cm, right=2cm, top=2cm, bottom=2cm, includefoot}
+
+% color and images
+\usepackage{xcolor}
+\usepackage{graphicx}
+
+% draw with tikz
+\usepackage{tikz}
+\usetikzlibrary{positioning,automata}
+
+% quotes
+\usepackage[german=guillemets]{csquotes}
+
+% better enumerations
+\usepackage{enumitem}
+
+% title spacing fix
+%\usepackage{titlesec}
+%\titlespacing*{\subsection}{0pt}{2\baselineskip}{-0.5\baselineskip}
+\RedeclareSectionCommand[
+  beforeskip=-2\baselineskip,
+  afterskip=.5\baselineskip]{section}
+\RedeclareSectionCommand[
+  beforeskip=-1.5\baselineskip,
+  afterskip=.1\baselineskip]{subsection}
+\RedeclareSectionCommand[
+  beforeskip=-1\baselineskip,
+  afterskip=.05\baselineskip]{subsubsection}
+\RedeclareSectionCommand[
+  beforeskip=.5\baselineskip,
+  afterskip=-1em]{paragraph}
+\RedeclareSectionCommand[
+  beforeskip=-.5\baselineskip,
+  afterskip=-1em]{subparagraph}
+
+% math
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+% custom theorems
+\usepackage{thmtools}
+\declaretheorem[style=definition]{aufgabe}
+
+% set special behaviour for hyperlinks in pdfs
+\usepackage[breaklinks=true]{hyperref}
+
+% display program code
+\usepackage{listings}
+
+\lstset{ %
+  backgroundcolor=\color{white!98!black},  
+  basicstyle=\ttfamily\footnotesize,
+  breakatwhitespace=true,
+  breaklines=true,
+  commentstyle=\color{green!40!black},
+  frame=single,
+  keywordstyle=\color{blue!70!black},
+  language=ML,
+  numbers=left,
+  numbersep=8pt,
+  numberstyle=\scriptsize\color{black!80}, 
+  rulecolor=\color{black!70},
+  stepnumber=1,
+  stringstyle=\color{purple!80!black},
+  tabsize=2,
+  title=\lstname,
+  language=ML,
+  belowskip=-0.8\baselineskip,
+  aboveskip=-0.8 \baselineskip,
+}
+
+% Pseudocode
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+% positioning
+\usepackage{float}
+
+% document information
+\title{Moving-Target TSP in two-orthogonal-axes}
+\subtitle{Pseudocode}
+\author{Felix Greuling (666020)}
+\date{21. Oktober 2019}
+
+\begin{document}
+\maketitle
+
+% if, state, for, endif, endfor, else
+% \Procedure{CalculateFunSums}{$T, w, visited, V$}
+\begin{minipage}{1\linewidth}
+\begin{algorithm}[H]
+\begin{algorithmic}
+\floatname{algorithm}{Algorithmus}
+\caption{Algorithmus für zwei-orthogonale Achsen beim bewegende Ziele in TSP}
+\label{alg:2OA.1}
+\State \textbf{Input:} Ziele $T$, Ursprung $z_{ursprung}$, Verfolgergeschwindigkeit $v_{max}$
+\State \textbf{Output:} Ziele $T$ in der Tour-Reihenfolge, inklusive Retour zum Ursprung\\
+
+\State Sei \emph{t} das Zeit-Array, welches für jedes $z_i\in Z$ die Abfangzeit angibt
+\State Sei \emph{current} das Ziel, welches der Verfolger soeben eingeholt hat
+\State Sei \emph{OUTPUT} die Liste an Zielen in der Abfangreihenfolge
+\State $current\rightarrow origin$
+\State $OUTPUT.add(current)$
+\State 
+
+\For {$z_i\in Z$}
+\State $t[z_i] \rightarrow \infty$
+\State $\mathcal{Q}.add(z_i)$
+\State Berechne $\alpha(z_i)$
+\EndFor\\
+
+\While {$\mathcal{Q}$ is not empty}
+\If {jedes verbleibende Ziel liegt auf einer der vier Seiten des Schnittpunktes}
+\For {$z_i\in \mathcal{Q}$}
+\State $t[z_i] \rightarrow$ Zeit von der aktuellen Position bis zum Einholen von $z_i$
+\EndFor
+\State Sortiere $\mathcal{Q}$ in aufsteigender Reihenfolge nach $t[z_i]$
+\State Berechne Rückkehr zum Ursprung ausgehend vom letzten Ziel aus $\mathcal{Q}$
+\State $OUTPUT.addAll(\mathcal{Q})$
+\State break
+\EndIf \\
+
+\State Berechne $\alpha(z_i),~\forall z_i\in\mathcal{Q}$
+\State Update $\mathcal{Q}$
+\State $prev\rightarrow current$
+\State $current \rightarrow \mathcal{Q}.poll()$
+\State $t[current] \rightarrow time[prev] + \pi[prev\rightarrow current]$
+\State $OUTPUT.add(current)$
+\State Update die Position von jedem $z_i\in\mathcal{Q}$
+\State $EingeholteZiele \rightarrow$ Ziele zwischen $prev$ und $current$
+\State Sortiere $EingeholteZiele$ in aufsteigender Reihenfolge nach $t[z_i]$
+\State $OUTPUT.addAll(EingeholteZiele)$
+\EndWhile\\
+
+\State $OUTPUT.add(z_{ursprung})$
+
+\end{algorithmic}
+\end{algorithm}
+\end{minipage}
+\end{document}
