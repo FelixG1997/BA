@@ -11,10 +11,15 @@
 \usepackage{listings}
 \usepackage{subfig}
 \usepackage{tikz}
-\usetikzlibrary{positioning}
+\usetikzlibrary{positioning, shapes, snakes}
 
 \usepackage{typearea}
 \areaset[5mm]{135mm}{237mm}
+
+\tikzstyle{red} = [color=red, circle, draw]
+\tikzstyle{blue} = [color=blue, circle, draw]
+\tikzstyle{gray} = [color=gray, circle, draw]
+\tikzstyle{green} = [color=green, circle, draw]
 
 \begin{document}
 
@@ -68,6 +73,81 @@
 %\caption{einfaches Gegenspiel}
 \label{fig:GegenBsp1Dim}
 \end{figure}
+
+
+\begin{tikzpicture}[->,level/.style={sibling distance = 5cm/#1,
+  level distance = 1.5cm}]
+\node[rectangle, draw, rounded corners=5] (root) {root}
+	child { node[red]{$z_1$}
+		child { node[blue]{$z_2$}
+			child { node[green](1){$z_3$} }
+		}
+		child { node[green]{$z_3$}
+			child { node[blue](2){$z_2$} }
+		}
+	}
+	child { node[blue]{$z_2$}
+		child { node[red]{$z_1$}
+			child { node[green](3){$z_3$} }
+		}
+		child { node[green]{$z_3$}
+			child { node[red](4){$z_1$} }
+		}
+	}
+	child { node[green]{$z_3$}
+		child { node[red]{$z_1$}
+			child { node[blue](5){$z_2$} }
+		}
+		child { node[blue]{$z_2$}
+			child { node[red](6){$z_1$} }
+		}
+	};	
+\node[above of=root, yshift=-1cm, xshift=1.5cm] {$\tau_{min} = 6$};
+\node[below of=1, yshift=0.35cm] {$\tau_{z_1,z_2,z_3 = 8,5}$};
+\node[below of=2, yshift=0.35cm] {$\tau_{z_1,z_3,z_2 = 6}$};
+\node[below of=3, yshift=0.35cm] {$\tau_{z_2,z_1,z_3 = 9}$};
+\node[below of=4, yshift=0.35cm] {$\tau_{z_2,z_3,z_1 = 12}$};
+\node[below of=5, yshift=0.35cm] {$\tau_{z_3,z_1,z_2 = 18}$};
+\node[below of=6, yshift=0.35cm] {$\tau_{z_3,z_2,z_1 = 11}$};
+\end{tikzpicture}
+
+\begin{tikzpicture}[->,level/.style={sibling distance = 5cm/#1,
+  level distance = 1.5cm}]
+\node[rectangle, draw, rounded corners=5] (root) {root}
+	child { node[red]{$z_1$}
+		child { node[blue]{$z_2$}
+			child { node[green]{$z_3$} }
+		}
+		child { node[green]{$z_3$}
+			child { node[blue]{$z_2$} }
+		}
+	}
+	child { node[blue]{$z_2$}
+		child { node[red]{$z_1$}
+			child { node[green]{$z_3$} }
+		}
+		child { node[green]{$z_3$}
+			child { node[red]{$z_1$} }
+		}
+	}
+	child { node[green](z3){$z_3$}
+		child { node[gray]{$z_1$}
+			child { node[gray]{$z_2$} }
+		}
+		child { node[gray]{$z_2$}
+			child { node[gray]{$z_1$} }
+		}
+	};	
+\node[above of=root, yshift=-1cm, xshift=1.5cm] {$\tau_{min} = 6$};
+\node[below of=1, yshift=0.35cm] {$\tau_{z_1,z_2,z_3 = 8,5}$};
+\node[below of=2, yshift=0.35cm] {$\tau_{z_1,z_3,z_2 = 6}$};
+\node[below of=3, yshift=0.35cm] {$\tau_{z_2,z_1,z_3 = 9}$};
+\node[below of=4, yshift=0.35cm] {$\tau_{z_2,z_3,z_1 = 12}$};
+\node[right of=z3, xshift=0.2cm] {$\tau_{z_3} = 6.5$};
+\node[red, thick, cross out, below, xshift=4.3cm, yshift=-2.1cm, rotate=50] { };
+\node[red, thick, cross out, below, xshift=5.7cm, yshift=-2.1cm, rotate=-50] { };
+\end{tikzpicture}
+
 
 \end{document}
 

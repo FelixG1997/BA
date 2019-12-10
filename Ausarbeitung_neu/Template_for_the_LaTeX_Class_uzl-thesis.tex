@@ -45,6 +45,13 @@
 \usepackage{mathtools}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+
+%tikz
+\tikzstyle{gray}  = [thick, color=gray, circle, draw]
+\tikzstyle{red}   = [thick, color=red, circle, draw]
+\tikzstyle{blue}  = [thick, color=blue, circle, draw]
+\tikzstyle{green} = [thick, color=green, circle, draw]
+
 % begin of the document
 \begin{document}
 % \chapter{Introduction}
@@ -334,6 +341,13 @@ Dabei wird das erste Element von $\mathcal{Q}$ als nächstes Ziel eingeholt.
 
 \section{Algorithmus mit dem Prioritätsansatz}
 
+In diesem Abschnitt wird ein konkreter 20A-Fall-Algorithmus vorgestellt. Während der 1D-Algorithmus aus \cite{helvig} einmalig durch jeden Zustand iteriert, wird in diesem Algorithmus immer für das erste Element $current$ aus der Prioritätswarteschlange $\mathcal{Q}$ eine Abfolge von Operationen durchgeführt. Zunächst wird überprüft, ob sich inklusive $current$ alle verbleibenden Ziele auf einer Seite des Ursprungs befinden. Dabei muss gelten, dass die Ziele sich zu dem Zeitpunkt auf einer Seite befinden müssen, zu dem der Verfolger den Schnittpunkt erreicht hat. Das Abfangen der verbleibenden Ziele und die Rückkehr zum Ursprung ist dabei einfach zu berechnen. Dies stellt die Abbruchbedingung des Algorithmus dar und ist spätestens mit dem letzten Ziel erfüllt. Ist die Bedingung nicht erfüllt, wird für jedes verbleibende Ziel die Priorität $\alpha$ neu berechnet und in $\mathcal{Q}$ absteigend nach $\alpha$ neu sortiert. 
+Anschließend wird die Zeit $\pi[prev\rightarrow current]$ vom vorherigen Ziel $prev$ bis $current$ berechnet und auf den aktuellen Zeitstempel addiert. Anschließend wird mit der ermittelten Zeit die Position jedes Ziels in $\mathcal{Q}$ gemäß Definition \ref{def:UpdatedPos} aktualisiert. 
+Nun werden neben $current$ alle Ziele, welche zwischen $prev$ und $current$ abgefangen wurden, aus $\mathcal{Q}$ entfernt und ein Output-Array $OUTPUT$ eingefügt.
+
+Dies wird dann solange bis zum Abbruchkriterium fortgeführt. Am Ende wird dann $OUTPUT$ in der Reihenfolge des Abfangens sortiert und zurückgegeben. Der Algorithmus ist formal beschrieben in Algorithmus \ref{alg:2OA.1}.
+
+\newpage
 \begin{minipage}{1\linewidth}
 \begin{algorithm}[H]
 \begin{algorithmic}
@@ -346,9 +360,9 @@ Dabei wird das erste Element von $\mathcal{Q}$ als nächstes Ziel eingeholt.
 \State Sei \emph{t} das Zeit-Array, welches für jedes $z_i\in Z$ die Abfangzeit angibt
 \State Sei \emph{current} das Ziel, welches der Verfolger soeben eingeholt hat
 \State Sei \emph{OUTPUT} die Liste an Zielen in der Abfangreihenfolge
-\State $current\rightarrow origin$
+\State $current\rightarrow ursprung$
 \State $OUTPUT.add(current)$
-\State 
+\State $\mathcal{Q} \rightarrow$ Prioritätswarteschlange mit Zielen, welche diese in absteigender Reihenfolge nach ihrer Priorität sortiert. 
 
 \For {$z_i\in Z$}
 \State $t[z_i] \rightarrow \infty$
@@ -356,7 +370,7 @@ Dabei wird das erste Element von $\mathcal{Q}$ als nächstes Ziel eingeholt.
 \State Berechne $\alpha(z_i)$
 \EndFor\\
 
-\While {$\mathcal{Q}$ is not empty}
+\While {$\mathcal{Q}$ beinhaltet verbleibende Ziele}
 \If {jedes verbleibende Ziel liegt auf einer der vier Seiten des Schnittpunktes}
 \For {$z_i\in \mathcal{Q}$}
 \State $t[z_i] \rightarrow$ Zeit von der aktuellen Position bis zum Abfangen von $z_i$
@@ -367,24 +381,129 @@ Dabei wird das erste Element von $\mathcal{Q}$ als nächstes Ziel eingeholt.
 \State break
 \EndIf \\
 
-\State Berechne $\alpha(z_i),~\forall z_i\in\mathcal{Q}$
-\State Update $\mathcal{Q}$
+\State Berechne $\alpha(z_i),~\forall z_i\in\mathcal{Q}$ und update $\mathcal{Q}$
 \State $prev\rightarrow current$
 \State $current \rightarrow \mathcal{Q}.poll()$
 \State $t[current] \rightarrow time[prev] + \pi[prev\rightarrow current]$
 \State $OUTPUT.add(current)$
 \State Update die Position von jedem $z_i\in\mathcal{Q}$
 \State $EingeholteZiele \rightarrow$ Ziele zwischen $prev$ und $current$
+\State $\mathcal{Q}.removeAll(EingeholteZiele)$
 \State Sortiere $EingeholteZiele$ in aufsteigender Reihenfolge nach $t[z_i]$
 \State $OUTPUT.addAll(EingeholteZiele)$
 \EndWhile\\
 
-\State $OUTPUT.add(z_{ursprung})$
+\State return $OUTPUT$
 
 \end{algorithmic}
 \end{algorithm}
 \end{minipage}
 
+
+
+\section{Laufzeitanalyse}
+
+\section{Korrektheit}
+
+
+\section{Brute-Force im 2OA-Fall}
+
+Der Prioritätsansatz liefert zwar eine effiziente und schnelle Lösung, garantiert aber keine optimalen Ergebnisse. Um die genaue Güte zu bestimmen, ist ein optimaler Algorithmus nötig. Zwar ist dieser für große Eingaben nicht zu gebrauchen, dennoch empfiehlt sich in diesem Fall die Brute-Force-Methode, um den Algorithmus abschätzen zu können. 
+
+Mit einem Brute-Force werden alle Möglichkeiten durchprobiert, um eine Lösung zu bestimmen, in unserem Fall die optimale Tour. Dafür wird für die Zielliste des Inputs alle Permutationen erstellt. Anschließend kann für jede der Permutationen die Tour bestimmt werden. Nachdem durch alle der Permutationen iteriert wurde, ist die Permutation mit der kürzesten Tourzeit die optimale Tour. Dabei zu beachten ist, dass es mehrere optimale Touren geben kann, die Tourzeit hingegen bleibt jeweils gleich. Gerade bei wenigen Zielen ist die Anwendung zu empfehlen, da beispielweise der Input $Z=\{z_1, z_2, z_3\}$ nur 6 Kombinationen durchrechnen muss (siehe Abbildung \ref{fig:BF1}). Wie bereits erwähnt ist die Brute-Force bei Eingaben mit vielen Zielen nicht zu empfehlen. Bereits mit $n=10$ Zielen gibt es $10! = 3.628.800$ Permutationen, die alle ausprobiert werden müssen. Um dem Abhilfe zu verschaffen, kann der Permutationsbaum an vielen Stellen beschnitten werden, sodass große Teile gar nicht erst berechnet werden müssen. Betrachten dafür zwei Szenarien an einer Permutation bis zum Index $k$.
+\begin{enumerate}
+\item
+Sei $\tau_{min}$ die aktuell schnellste Tourzeit einer Permutation. Der Baum wird nun unterhalb von $k$ beschnitten, sofern das Ziel $z_k$ bereits eine größere Tourzeit benötigt, als $\tau_{min}$. 
+
+\item
+Überprüfe, ob zwischen dem vorherigen $z_{k-1}$ und dem jetzigen Ziel $z_{k}$ eines der verbleibenden Ziele abgefangen wird. Sofern ein Ziel $z_{i}, i>k$ dabei angefangen wird, ist dies äquivalent dazu, dass eine andere Permutation existiert, in der $z_i$ vor $z_k$ eingeholt wird. Diese wird ggf. später noch berechnet und somit wird der Baum ebenfalls bei $k$ beschnitten.
+
+\end{enumerate}
+Somit werden Permutationen mit der selben Reihenfolge an Zielen bis $k$ ausgelassen, da diese keine optimale Route erzeugen werden. Zusätzlich kann der Algorithmus in den meisten Fällen mit einer Sortierung nach der Geschwindigkeit in absteigender Reihenfolge verbessert. Oftmals wird damit schnell ein gutes $\tau_{min}$ gefunden und damit werden umso mehr Pfade abgeschnitten. Darüber hinaus könnte ebenfalls ein Prioritätsmaß genutzt werden, ist aber nicht notwendig.
+Mit diesen Bedingungen wird im Beipiel von Abbildung \ref{fig:BF1} $2$ Berechnungen eingespart (siehe Abbildung \ref{fig:BF2}). Bei jeder Permutation wird am Anfang und am Ende der Ursprung eingerechnet. Formal zusammengefasst wird der Brute-Force-Algorithmus in Algorithmus \textcolor{red}{TODO}.
+
+\begin{figure}[htbp]
+\centering
+\caption{Die Berechnung der jeweiligen (Teil-)Tourzeit $\tau_{i}, ~1\leq i\leq n!$ ist in diesem Fall bei nur $n!=3!=6$ Permutationen noch problemlos.}
+\label{fig:BF1}
+\begin{tikzpicture}[->,level/.style={sibling distance = 5cm/#1,
+  level distance = 1.5cm}]
+\node[rectangle, draw, rounded corners=5] (root) {Wurzel}
+	child { node[red]{$z_1$}
+		child { node[blue]{$z_2$}
+			child { node[green](1){$z_3$} }
+		}
+		child { node[green]{$z_3$}
+			child { node[blue](2){$z_2$} }
+		}
+	}
+	child { node[blue]{$z_2$}
+		child { node[red]{$z_1$}
+			child { node[green](3){$z_3$} }
+		}
+		child { node[green]{$z_3$}
+			child { node[red](4){$z_1$} }
+		}
+	}
+	child { node[green]{$z_3$}
+		child { node[red]{$z_1$}
+			child { node[blue](5){$z_2$} }
+		}
+		child { node[blue]{$z_2$}
+			child { node[red](6){$z_1$} }
+		}
+	};	
+\node[above of=root, yshift=-1cm, xshift=1.5cm] {$\tau_{min} = 6$};
+\node[below of=1, yshift=0.35cm] {$\tau_{z_1,z_2,z_3 = 8,5}$};
+\node[below of=2, yshift=0.35cm] {$\tau_{z_1,z_3,z_2 = 6}$};
+\node[below of=3, yshift=0.35cm] {$\tau_{z_2,z_1,z_3 = 9}$};
+\node[below of=4, yshift=0.35cm] {$\tau_{z_2,z_3,z_1 = 12}$};
+\node[below of=5, yshift=0.35cm] {$\tau_{z_3,z_1,z_2 = 18}$};
+\node[below of=6, yshift=0.35cm] {$\tau_{z_3,z_2,z_1 = 11}$};
+\end{tikzpicture}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\caption{Mit der Brute-Force-Optimierung wird direkt hinter $z_3$ abgeschnitten, da an diesem Knoten bereits der Zeitpunkt $\tau_{min}$ überschritten wird.}
+\label{fig:BF2}
+\begin{tikzpicture}[->,level/.style={sibling distance = 5cm/#1,
+  level distance = 1.5cm}]
+\node[rectangle, draw, rounded corners=5] (root) {Wurzel}
+	child { node[red]{$z_1$}
+		child { node[blue]{$z_2$}
+			child { node[green]{$z_3$} }
+		}
+		child { node[green]{$z_3$}
+			child { node[blue]{$z_2$} }
+		}
+	}
+	child { node[blue]{$z_2$}
+		child { node[red]{$z_1$}
+			child { node[green]{$z_3$} }
+		}
+		child { node[green]{$z_3$}
+			child { node[red]{$z_1$} }
+		}
+	}
+	child { node[green](z3){$z_3$}
+		child { node[gray]{$z_1$}
+			child { node[gray]{$z_2$} }
+		}
+		child { node[gray]{$z_2$}
+			child { node[gray]{$z_1$} }
+		}
+	};	
+\node[above of=root, yshift=-1cm, xshift=1.5cm] {$\tau_{min} = 6$};
+\node[below of=1, yshift=0.35cm] {$\tau_{z_1,z_2,z_3 = 8,5}$};
+\node[below of=2, yshift=0.35cm] {$\tau_{z_1,z_3,z_2 = 6}$};
+\node[below of=3, yshift=0.35cm] {$\tau_{z_2,z_1,z_3 = 9}$};
+\node[below of=4, yshift=0.35cm] {$\tau_{z_2,z_3,z_1 = 12}$};
+\node[right of=z3, xshift=0.2cm] {$\tau_{z_3} = 6.5$};
+\node[red, thick, cross out, below, xshift=4.3cm, yshift=-2.1cm, rotate=50] { };
+\node[red, thick, cross out, below, xshift=5.7cm, yshift=-2.1cm, rotate=-50] { };
+\end{tikzpicture}
+\end{figure}
 
 \chapter{Experimente}
 
