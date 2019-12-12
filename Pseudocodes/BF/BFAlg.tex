@@ -100,7 +100,7 @@
 
 % document information
 \title{Moving-Target TSP in two-orthogonal-axes}
-\subtitle{Pseudocode}
+\subtitle{Pseudocode-BF}
 \author{Felix Greuling (666020)}
 \date{21. Oktober 2019}
 
@@ -113,49 +113,42 @@
 \begin{algorithm}[H]
 \begin{algorithmic}
 \floatname{algorithm}{Algorithmus}
-\caption{Algorithmus für zwei-orthogonale Achsen beim bewegende Ziele in TSP}
-\label{alg:2OA.1}
-\State \textbf{Input:} Ziele $T$, Ursprung $z_{ursprung}$, Verfolgergeschwindigkeit $v_{max}$
-\State \textbf{Output:} Ziele $T$ in der Tour-Reihenfolge, inklusive Retour zum Ursprung\\
+\caption{Brute-Force-Algorithmus für zwei-orthogonale Achsen beim bewegende Ziele in TSP}
+\label{alg:BF}
+\State \textbf{Input:} Ziele $Z$, Ursprung $z_{ursprung}$, Verfolgergeschwindigkeit $v_{max}$
+\State \textbf{Output:} Ziele $Z$ in der Tour-Reihenfolge, inklusive Retour zum Ursprung\\
 
-\State Sei \emph{t} das Zeit-Array, welches für jedes $z_i\in Z$ die Abfangzeit angibt
-\State Sei \emph{current} das Ziel, welches der Verfolger soeben eingeholt hat
-\State Sei \emph{OUTPUT} die Liste an Zielen in der Abfangreihenfolge
-\State $current\rightarrow origin$
-\State $OUTPUT.add(current)$
-\State 
+\State $B\rightarrow$ Permutationsbaum, bei $n$ Zielen muss es $n$ Kinderknoten geben.
+\State $\tau_{min}\leftarrow \infty$
+\State Sei $aktuelleZiele$ das Array mit den aktuellen Indizes von $Z$, initialisiert mit einsen
+\State Sei $k$ die aktuelle Tiefe im Baum
+\State Sei $t$ das Zeit-Array welches für die aktuelle Ziel-Reihenfolge die Abfangzeit angibt
+\State $k\leftarrow 1$
 
-\For {$z_i\in Z$}
-\State $t[z_i] \rightarrow \infty$
-\State $\mathcal{Q}.add(z_i)$
-\State Berechne $\alpha(z_i)$
-\EndFor\\
-
-\While {$\mathcal{Q}$ is not empty}
-\If {jedes verbleibende Ziel liegt auf einer der vier Seiten des Schnittpunktes}
-\For {$z_i\in \mathcal{Q}$}
-\State $t[z_i] \rightarrow$ Zeit von der aktuellen Position bis zum Einholen von $z_i$
-\EndFor
-\State Sortiere $\mathcal{Q}$ in aufsteigender Reihenfolge nach $t[z_i]$
-\State Berechne Rückkehr zum Ursprung ausgehend vom letzten Ziel aus $\mathcal{Q}$
-\State $OUTPUT.addAll(\mathcal{Q})$
-\State break
-\EndIf \\
-
-\State Berechne $\alpha(z_i),~\forall z_i\in\mathcal{Q}$
-\State Update $\mathcal{Q}$
-\State $prev\rightarrow current$
-\State $current \rightarrow \mathcal{Q}.poll()$
-\State $t[current] \rightarrow time[prev] + \pi[prev\rightarrow current]$
-\State $OUTPUT.add(current)$
-\State Update die Position von jedem $z_i\in\mathcal{Q}$
-\State $EingeholteZiele \rightarrow$ Ziele zwischen $prev$ und $current$
-\State Sortiere $EingeholteZiele$ in aufsteigender Reihenfolge nach $t[z_i]$
-\State $OUTPUT.addAll(EingeholteZiele)$
-\EndWhile\\
-
-\State $OUTPUT.add(z_{ursprung})$
-
+\While {$aktuelleZiele[0]\leq n$ und $aktuelleZiele[n]\leq n$}
+\State $current\leftarrow Z[aktuelleZiele[k]]$
+\State $prev\leftarrow Z[aktuelleZiele[k-1]]$
+\State $t[current] \leftarrow t[prev] + \pi[prev\rightarrow current]$
+\If {$t[current]\geq \tau_{min}$ oder mindestens ein Ziel der verbliebenen Indizes wird zwischen\\~~~~~~~ $current$ und $prev$ abgefangen}
+\If {$aktuelleZiele[k]=n$}
+\State Dekrementiere $k$
+\State Inkrementiere $aktuelleZiele[k]$
+\Else
+\State Inkrementiere $aktuelleZiele[k]$ 
+\EndIf
+\Else
+\If {$k<n$}
+\State Inkrementiere $k$
+\Else
+\State $t[current]\leftarrow t[current] + \pi[current\rightarrow ursprung]$ 
+\If {$t[current] < \tau_{min}$}
+\State $\tau_{min}\leftarrow t[current]$
+\State Dekrementiere $k$
+\State Inkrementiere $aktuelleZiele[k]$
+\EndIf 
+\EndIf
+\EndIf
+\EndWhile
 \end{algorithmic}
 \end{algorithm}
 \end{minipage}
