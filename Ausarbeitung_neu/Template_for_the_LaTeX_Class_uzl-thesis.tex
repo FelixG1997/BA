@@ -23,9 +23,7 @@
   Zusammenfassung       = {
     \textcolor{red}{TODO}  
   },
-  Acknowledgements      = {
-
-  }, 
+  %Acknowledgements      = {}, 
   % Alphabetische Bibliographie
   % Alternatively:
   Numerische Bibliographie
@@ -59,22 +57,27 @@
 % \chapter{Introduction}
 \chapter{Einleitung}
 
+\textcolor{red}{TODO: Motivationseinleitung in das Thema}
 
 
 %\section{Contributions of this Thesis}
 \section{Beiträge dieser Arbeit}
 
-Die Approximation für generelle Fälle gilt dabei schwierig, da viele verschiedene Faktoren die Komplexität des Problems bestimmen. Die Approximations-Forschung in \cite{hammar} zeigte, dass sich die Probleme nicht besser als mit einem Faktor von $2^{\pi(\sqrt{\pi})}$, es sei denn $P=NP$. Dies gilt bisher allerdings weiterhin als ungelöstes Problem in der Informatik.
+In dieser Arbeit wird ein neuer auf dem eindimensionalen Moving-Target-Travelling-Salesman-Problem basierender Fall eingeführt. Dieser enthält zusätzlich eine weitere orthogonale Achse, auf welchem sich die Ziele und die Verfolger bewegen können. Die für den 1D-Fall bereits gezeigten Eigenschaften, dass der Verfolger in einer optimalen Tour sich jederzeit mit $v_{max}>v_i,~\forall v_i\in V$ bewegt und erst seine Richtung ändern kann, sofern er das schnellste Ziel in seiner Richtung eingeholt hat, gelten auch für diese neue Modifikation. Mit dem Prioritätsalgorithmus wurde ein effizienter aber nicht optimaler Algorithmus vorgestellt, während der Brute-Force-Ansatz für optimale Ergebnisse bei kleinen Instanzen genutzt werden kann. \\
+\textcolor{red}{TODO: Ergebnisse aus Experimente präsentieren}
 
 
 %\section{Related Work}
 \section{Verwandte Arbeiten}
 
+Im Jahre 1998 wurde diese spezielle Instanz des Travelling-Salesman-Problem vorgestellt\cite{helvig}. Dabei wurde dynamische Programmierung in Kombination mit der Modellierung eines Graphen in topologischer Reihenfolge als Strategie für eindimensionale Moving-Target-TSP vorgeschlagen. Diese besitzt eine Zeitkomplexität von $\mathcal{O}(n^2)$. Die Approximation für generelle Fälle gilt dabei schwierig, da viele verschiedene Faktoren die Komplexität des Problems bestimmen. Die Approximations-Forschung in \cite{hammar} zeigte, dass sich die Probleme nicht besser als mit einem Faktor von $2^{\pi(\sqrt{\pi})}$ in polynomieller Zeit lösen lassen, es sei denn es gilt $P=NP$. Dies gilt bisher allerdings weiterhin als ungelöstes Problem in der Informatik. In jedem Fall gelten Moving-Target-TSP als NP-hart, selbst wenn sich nur zwei Ziele bewegen\cite{hammar}.\\
 
 
 %\section{Structure of this Thesis}
 \section{Aufbau dieser Arbeit}
-Diese Arbeit beschreibt zunächst die vorangegangenen Forschungen im eindimenionalen Fall des Moving-Target-Travelling-Salesman. Dabei wird speziell die Modellierung erläutert und ein dazu entwickelter Algorithmus vorgestellt. Anschließend wird ein neuer Fall vorgestellt. Dafür wird der eindimensionale Fall um eine orthogonale Achse erweitert, auf der sich die Ziele sowie der Verfolger bewegen können. 
+Diese Arbeit beschreibt zunächst in Kapitel 2 die vorangegangenen Forschungen des eindimensionalen Moving-Target-TSP. Dabei wird speziell die Modellierung und der dazu entwickelter Algorithmus erläutert. Anschließend wird in Kapitel 3 ein neuer Fall vorgestellt. Dafür wird der 1D-Fall um eine orthogonale Achse erweitert, auf der sich die Ziele sowie der Verfolger bewegen können. Für den neuen Fall werden theoretische Eigenschaften gezeigt, die auch für den 1D-Fall gelten. So wird in Kapitel 4 ein Prioritäts- und Brute-Force-Algorithmus präsentiert. Zuletzt folgt in Kapitel 5 ein Experimentierteil für alle drei Algorithmen inklusive der Bestimmung der Güte.
+
+%--------------------------------------------------------------------------------------
 
 \chapter{Grundlagen}
 \label{chapter-use}
@@ -99,12 +102,13 @@ dargestellt werden.
 Das Tupel $(-1,0)$ würde also als Beispiel bedeuten, dass der Verfolger an der Koordinate $-1$ startet und ist durch die Geschwindigkeit von $0$ stationär. Einfachheitshalber wird in dieser Arbeit der Ursprung mit $(0,0)$ für 1D-Fälle fest definiert. Ein Ziel mit einer negativen Koordinate befindet sich auf der linken, positive Koordinaten auf der rechten Seite des Ursprungs. 
 
 \begin{definition}
-Der Verfolger kann sich ebenfalls nur auf den Achsen bewegen. Sein Ziel ist die schnellst mögliche Tour zu finden, um alle Punkte abzufangen. Dabei bewegt sich der Verfolger mit der Maximalgeschwindigkeit 
+Der Verfolger bewegt sich mit der Maximalgeschwindigkeit 
 \begin{align*}
-v_{verfolger} > |v_i|, \forall v_i\in V.
+v_{verfolger} > |v_i|, \forall v_i\in V,
 \end{align*}
-Dies stellt sicher, dass der Verfolger nach einer gewissen Zeit jedes Ziel auf jeden Fall eingeholt hat. Andernfalls würde eine unendlich große Tourzeit berechnet werden. Der Ursprung ist gleichzeitig auch der Ziel der Tour. Demnach startet und endet jede Tour an diesem stationären Punkt.
-\end{definition}
+somit wird sichergestellt, dass der Verfolger nach einer gewissen Zeit jedes Ziel auf jeden Fall eingeholt hat.
+\end{definition} \noindent
+Ohne diese Definition ist es möglich, dass eine unendlich große Tourzeit berechnet wird, da einige Ziele nicht abgefangen werden können.
 
 \begin{definition}
 \label{def:UpdatedPos}
@@ -177,6 +181,7 @@ Nach dem Schema aus dem vorherigen Abschnitts werden wieder die Listen \emph{Lef
 \item Berechne ansonsten $\tau_{Left}$ und $\tau_{Right}$, welche den Verfolger entweder zum schnellsten Ziel auf der rechten oder linken Seite schickt. Falls die Zeit addiert mit dem aktuellen Zeitstempel $t[i]$ kleiner ist, als bisher von einem anderen Zustand, aktualisiere $t[A_{Left}]$ bzw. $t[A_{Right}]$ mit diesem Wert.
 \end{itemize}
 Schließlich werden alle Ziele, einschließlich der zuvor eliminierten Ziele, zwischen den Wendepunkten berechnet und in der richtigen Reihenfolge zusammengefügt. Somit wird eine optimale Tour durch die Kombination aus topologischer Reihenfolge und linearer Programmierung garantiert.
+\textcolor{red}{TODO: Algorithmus von Helvig selber aufschreiben}
 
 \section{Input $\&$ Output}
 
@@ -187,7 +192,7 @@ Sobald allerdings eine ungültige Eingabe, z.B. wenn eine Zielgeschwindigkeit gr
 
 \chapter{Zwei-orthogonale-Achsen im MT-TSP}
 
-Als neue Modifikation des 1D-Falls wird nun der Achse eine weitere hinzugefügt. Alle Bewegungen und Positionierungen der Ziele und des Verfolgers sind ebenfalls auf die Achsen beschränkt. Die Achsen liegen dabei orthogonal zueinander. Den Ziele ist es dabei nicht erlaubt, an dem Schnittpunkt die Achse zu wechseln. Ein Ziel befindet sich also entweder auf der waagerechten oder senkrechten Achse. Der Schnittpunkt ist dabei festgesetzt auf die Koordinate $0$, während der Ursprung, im Gegensatz zum 1D-Fall (fest definiert auf die Koordinate $0$), auf einer der Achsen liegen kann.\\
+Als neue Modifikation des 1D-Falls wird nun der Achse eine weitere hinzugefügt. Alle Bewegungen und Positionierungen der Ziele und des Verfolgers sind ebenfalls auf die Achsen beschränkt. Die Achsen liegen dabei orthogonal zueinander. Den Ziele ist es dabei nicht erlaubt, an dem Schnittpunkt die Achse zu wechseln. Ein Ziel befindet sich also entweder auf der waagerechten oder senkrechten Achse. Der Schnittpunkt ist dabei festgesetzt auf die Koordinate $0$, während der Ursprung, im Gegensatz zum 1D-Fall\footnote{Im 1D-Fall ist der Ursprung fest definiert auf die Koordinate $0$}, auf einer der Achsen liegen kann.\\
 Mit der neuen Achse könnte für die Positionsbestimmung eine zweidimensionale Koordinate verwendet werden. Allerdings wäre einer dieser Koordinaten immer gleich $0$, da jegliche Bewegungen der Ziele und des Verfolgers auf die Achsen beschränkt sind. Somit ist nur eine einfache Ergänzung der Definition \ref{def:Instanz} um einen booleschen Wert $b$ nötig. Die Position $p_i$ wird dabei mit 
 \begin{align*}
 p_i = (a, b) ~|~a\in\mathbb{R}, b\in \{true, false\}
@@ -196,9 +201,10 @@ neu definiert. Dabei gibt $b$ die Achse an, \emph{true} steht für die waagerech
 
 \section{Theoretische Grundlagen}
 
-In diesem Abschnitt soll mit der Vorarbeit aus \cite{helvig} gezeigt werden, dass einige Eigenschaften des 1D-Falls genauso auch im 2OA-Fall des MT-TSP gelten.
+In diesem Abschnitt soll mit der Vorarbeit aus \cite{helvig} gezeigt werden, dass einige Eigenschaften des 1D-Falls genauso auch im zwei-orthogonale-Achsen-Fall des MT-TSP gelten.
 
 \begin{lem}
+\label{lem:1}
 In jeder optimalen Tour bei zwei orthogonale Achsen im MT-TSP bewegt sich der Verfolger immer mit maximaler Geschwindigkeit.
 \end{lem}
  
@@ -206,7 +212,7 @@ In jeder optimalen Tour bei zwei orthogonale Achsen im MT-TSP bewegt sich der Ve
 Der Beweis basiert darauf, dass in jedem Fall eine Reduzierung auf den Beweis von \cite{helvig} vorgenommen wird. Dafür nehmen wir eine Fallunterscheidung vor:
 \begin{enumerate}
 \item Das nächste Ziel des Verfolgers liegt auf der selben Achse: \\
-Mit dem Beweis für 1D-Fälle in \cite{helvig} gilt dies für diesen Fall.
+Mit dem Beweis für 1D-Fälle in \cite{helvig} gilt dies unmittelbar auch für diesen Fall.
 
 \item Das nächste Ziel des Verfolgers bewegt sich auf der anderen Achse: \\
 Indirekter Beweis: \\
@@ -224,7 +230,20 @@ In jeder optimalen Tour bei zwei orthogonale Achsen im MT-TSP kann der Verfolger
 \end{lem}
 
 \begin{proof}
-\textcolor{red}{TODO}
+Für den Beweis des Lemmas müssen drei Fälle betrachtet und bewiesen werden.\\
+Fallunterscheidung:\\
+\begin{enumerate}
+\item Der Verfolger bewegt sich vom Ursprung weg in Richtung des schnellsten Ziels $s$ auf der selben Achse: \\
+Mit dem Beweis für 1D-Fälle in \cite{helvig} gilt dies unmittelbar auch für diesen Fall. Dies gilt für jede Seite jeder Achse, auf der sich der Verfolger vom Ursprung wegbewegt.
+
+\item Der Verfolger hat soeben das schnellste Ziel auf einer Achse abgefangen und bewegt sich nun zum nächsten Ziel, welches zwischen dem so eben abgefangenen Ziel und dem Schnittpunkt liegt:\\
+Dies erweitert den 1. Fall nur um die Richtung des Verfolgers und ist damit ebenfalls mit dem Beweis aus \cite{helvig} gezeigt.
+
+\item Der Verfolger hat soeben das schnellste Ziel auf einer Achse abgefangen und bewegt sich nun zum Schnittpunkt:\\
+Nach \cite{helvig} kann sich nun der Verfolger nicht umdrehen und ein anderes Ziel auf der Achse einholen. Damit hätte er eine Zeit lang nicht das schnellste Ziel einer Richtung eingeholt und somit nach \cite{helvig} äquivalent zum Warten in einem Punkt ist. Dies resultiert nach Lemma \ref{lem:1} in eine nicht optimale Tour.\\
+Sei der Verfolger nun am Schnittpunkt angekommen. Dieser hat nun drei Richtungsmöglichkeiten. Dabei spielt es allerdings keine Rolle für welche der drei Richtungen sich der Verfolger entscheidet, denn ab dem Schnittpunkt gilt für jede der Richtungen wieder der 1. Fall.
+\end{enumerate} \noindent
+Es reicht also wieder aus, den 1D-Fall-Beweis für Wendepunkte aus \cite{helvig} als Grundlage für den zwei-orthogonale-Achsen-Fall-Beweis zu verwenden.
 \end{proof}
 
 
@@ -234,18 +253,17 @@ In diesem Kapitel werden konkrete Heuristiken für den zwei-orthogonale-Achsen-F
 
 \section{Problem der Modellierung bei zwei orthogonale Achsen im MT-TSP mit Zuständen als Graphen}
 Im 1D-Fall konnte über über die topologische Reihenfolge der Wendepunkte bzw. Zustände ein Graph erzeugt werden. Somit wurde mit der Bestimmung des kürzesten Pfads das Problem die optimale Tour bestimmt. \\
-Es wäre also zunächst sinnvoll, diesen Ansatz für den 2OA-Fall zu übernehmen, da nur eine Achse hinzugekommen ist. Hierfür werden wieder die einzelnen Ziele in die Listen \emph{Left, Right, Top, Bottom} aufgeteilt. Bei dem Algorithmus von \cite{helvig} wurden nun die Ziele eliminiert, welche sowieso eingeholt werden und dementsprechend keine Wendepunkte darstellen. Mit der zusätzlichen Achse gilt dies nur noch für Ziele, welche sich wegführend vom Schnittpunkt bewegen. Das liegt daran, dass Ziele nun den Schnittpunkt überqueren können, während der Verfolger sich auf der anderen Achse befindet. Somit werden solche Ziele nicht automatisch eingeholt. \\
-Der nächste Schritt ist nun die Generierung der Zustandsliste $States$, wobei eine Reihe von Problemen auftreten. Zunächst [...]
-\textcolor{red}{TODO: Finish section}
-
-\textcolor{red}{TODO: Abbildung}
-\newpage
+Es wäre also zunächst sinnvoll, diesen Ansatz für den zwei-orthogonale-Achsen-Fall zu übernehmen, da nur eine Achse hinzugekommen ist. Hierfür werden wieder die einzelnen Ziele in die Listen \emph{Left, Right, Top} und \emph{Bottom} aufgeteilt. Bei dem Algorithmus von \cite{helvig} wurden nun die Ziele eliminiert, welche sowieso eingeholt werden und dementsprechend keine Wendepunkte darstellen. Mit der zusätzlichen Achse gilt dies nur noch für Ziele, welche sich wegführend vom Schnittpunkt bewegen. Das liegt daran, dass Ziele nun den Schnittpunkt überqueren können, während der Verfolger sich auf der anderen Achse befindet. Somit werden solche Ziele nicht automatisch eingeholt. \\
+Der nächste Schritt ist nun die Generierung der Zustandsliste $States$, wobei eine Reihe von Problemen auftreten. Die Ziele befinden sich dabei im Laufe der Zeit nicht mehr unbedingt auf der Seite des Verfolgers, welche die jeweilige Liste aus \emph{Left, Right, Top} und \emph{Bottom} vorgibt. Sei der Verfolger zum Zeitpunkt $t$ auf der oberen Seite der senkrechten Achse. Das Ziel $z$ befindet sich in der Liste $Left$ und befindet zum Zeitpunkt $t$ auf der rechten Seite der waagerechten Achse. Damit befindet sich $z$ nun auch auf der rechten Seite des Verfolgers und ist nicht mehr repräsentativ für die Liste $Left$. \\
+Mit dieser Überlegung muss nun jedes solcher Ziele, die den Schnittpunkt überqueren, betrachtet werden. Dieses hat potentiell eine hohe Geschwindigkeit und muss somit ggf. möglichst schnell abgefangen werden. Problematisch ist dabei, dass ein Ziel vielleicht eine hohe Geschwindigkeit besitzt, aber noch sich sehr weit entfernt vom Schnittpunkt befindet. (siehe Abbildung \textcolor{red}{TODO}). Es müsste also für jegliche Ziele, die einen Schnittpunkt überqueren extra Zustände geben, da diese als die nächsten Wendepunkte in Betracht gezogen werden könnten. Demnach gäbe es von einem Zustand weitaus mehr Übergänge, als nur $\tau_{left}$, $\tau_{right}$, $\tau_{top}$ und $\tau_{bottom}$. \\
+Die nächste Überlegung wäre nun, die Listen nach jeder Iteration zu aktualisieren. Das Problem ist hierbei, dass damit die Modellierung des Graphen so nicht mehr funktioniert. Dabei entsteht mitten im Graphen ein komplett neuer Graph.  \\
+Letztendlich würde ein optimaler Algorithmus eine sehr große Laufzeit benötigen und gerade bei vielen Randbedingungen ist eine korrekte Implementierung schwer. Daher wird im nachfolgenden Abschnitt ein anderer Ansatz, bei dem die Ziele nach einer Priorität abgefangen werden, mit der Laufzeitkomplexität von $\mathcal{O}(n^2)$ vorgeschlagen.
 
 \section{Prioritätsansatz}
 
-Mit dem Prioritätsansatz wird für ein Ziel $z_i$ die Dringlichkeit bestimmt, dieses als nächstes einzuholen. Hierfür fließen unterschiedliche Faktoren für die Berechnung der Priorität mit ein. Die Priorität wird nach jedem Abfangen eines Ziels neu berechnet. Mit den Faktoren $\varphi_1$, $\varphi_2$ und $\varphi_3$, $\varphi_i\in\mathbb{R}$, wird die Priorität eines Ziels berechnet. In die jeweilige Berechnung fließen die Gewichte
+Mit dem Prioritätsansatz wird für ein Ziel $z_i$ die Dringlichkeit bestimmt, dieses als nächstes einzuholen. Hierfür fließen unterschiedliche Faktoren für die Berechnung der Priorität mit ein. Die Priorität wird nach jedem Abfangen eines Ziels neu berechnet. Mit den Faktoren $\varphi_1$, $\varphi_2$ und $\varphi_3$, wobei $\varphi_i\in\mathbb{R}$, wird die Priorität eines Ziels berechnet. In die jeweilige Berechnung fließen die Gewichte
 \begin{align*}
-\omega = \{w_1,...,w_5\}~|~w_i \in\mathbb{R}.
+\omega = (w_1, w_2 ,w_3)~|~w_i \in\mathbb{R}.
 \end{align*}
 mit ein, um den jeweiligen Anteil an der Priorität zu erhöhen bzw. zu verringern.\\
 %-------------------------Faktoren------------------------------- 
@@ -277,7 +295,7 @@ Der Positionsfaktor $\phi_2$ erhöht Priorität bei Zielen, die sich vom Ursprun
 %\end{definition}
 Der Distanzfaktor $\varphi_3$ verringert die Priorität bei großen Abständen zur aktuellen Position und wird auf Grundlage der Definition \ref{def:WegZeit} berechnet mit
 \begin{align}
-\varphi_5(z_i, w_3) = \bigg\vert\frac{\|p_{verfolger},p_i\|_1}{v_{verfolger}-v_i}\bigg\vert \cdot w_3.
+\varphi_3(z_i, w_3) = \bigg\vert\frac{\|p_{verfolger},p_i\|_1}{v_{verfolger}-v_i}\bigg\vert \cdot w_3.
 \end{align}
 %\alpha(z_i, \omega) = \varphi_1(z_i,w_1) + \varphi_2(z_i,w_2) - \varphi_3(z_i,w_3) - \varphi_4(z_i,w_4) - \varphi_5(z_i,w_5)
 \begin{definition}
@@ -352,13 +370,13 @@ Nun werden neben $current$ alle Ziele, welche zwischen $prev$ und $current$ abge
 
 
 
-\section{Laufzeitkomplexität Prioritätsansatz}
+\subsection{Laufzeitkomplexität Prioritätsansatz}
 
 Der Prioritätsansatz geht mit der Prioritätswarteschlange linear jedes Ziel maximal einmal durch. Wird ein Ziel zwischen dem vorherigem und dem aktuell betrachteten eingeholt, wird dieses direkt aus der Warteschlange entfernt. 
 Für die Überprüfung auf abgefangene Ziele ergibt sich eine Zeitkomplexität von $\mathcal{O(n)}$, da diese für alle verbleibenden Ziele aus der Warteschlange durchgeführt wird. Die selbe Komplexität ergibt sich für das Updaten der Prioritäten. Die Berechnung der Zeit zum Einholen eines Ziels erfolgt in $\mathcal{O(1)}$ (siehe Definition \ref{def:WegZeit}). Die Überprüfung auf die Abbruchbedingung beläuft sich auf eine Laufzeit von $\mathcal{O(n)}$, da dies für alle verbleibenden Ziele überprüft wird, ob sich diese auf der selben Seite befinden. Ist dem so, wird für jedes Ziel die finale Zeit und anschließend die Rückkehr zum Ursprung in konstanter Zeit berechnet. In Kombination mit dem Iterieren durch die Warteschlange werden die soeben genannten Laufzeiten um den Faktor $n$ erhöht. Jegliche Sortierungen befinden sich außerhalb der Warteschlange und haben mit einem gängigen Sortierverfahren \cite{kaaser2014algorithmen} eine Zeitkomplexität von $\mathcal{O(n\log(n))}$. \\
 Somit ergibt sich beim Prioritätsalgorithmus eine Gesamtzeitkomplexität von $\mathcal{O(n^2)}$.
 
-\section{Korrektheit Prioritätsansatz}
+\subsection{Korrektheit Prioritätsansatz}
 Bei der Korrektheit des Prioritätsansatzes ist die Bedingung wichtig, dass der Algorithmus nicht unbedingt ein optimales Ergebnis liefert. Dieser betrachtet nach jedem Abfangen eines Ziels jedes verbliebene Ziel und updatet deren neue Priorität. Die Gewichte für die Prioritätsberechnung können dabei willkürlich gewählt werden, allerdings empfiehlt sich ein geeignetes Set zu wählen, um eine schnelle Tour zu ermöglichen. In jeder Iteration wird dabei das Ziel mit der höchsten Priorität ausgewählt und abgefangen. Sofern ein Ziel bereits zwischen zwei anderen eingeholt wurde, wird dieses aus der Warteschlange entfernt. In der Abbruchbedingung befinden sich alle Ziele auf der selben Seite, dieser Teil ist einfach zu berechnen und garantiert die schnnellstmögliche Abfolge am Ende der Tour. In jedem Fall wird eine Tour zurückgegeben, dessen Reihenfolge von den gewählten Gewichten abhängig ist.
 
 \section{Brute-Force für zwei orthogonale Achsen im MT-TSP}
@@ -505,23 +523,87 @@ Mit diesen Bedingungen wird im Beipiel von Abbildung \ref{fig:BF1} $2$ Berechnun
 \end{algorithm}
 \end{minipage}
 
-\section{Laufzeitkomplexität Brute-Force-Ansatz}
+\subsection{Laufzeitkomplexität Brute-Force-Ansatz}
 %Im worst case wird nichts oder erst ganz am Ende der Baum beschnitten, wodurch bei einem großen $n$ die Laufzeit
 Zunächst wird die benötigte Laufzeit zur Erstellung des Baums betrachtet. Dafür werden $V_n = n + n\cdot (V_{n-1})$ Knoten eingefügt. Die Generierung des Baums kann demnach mit $\mathcal{O}(n!)$ abgeschätzt werden. \\
 Trotz der zuvor vorgeschlagenen Verbesserungen des Brute-Force-Algorithmus muss der worst-case betrachtet werden. Dabei wird der Baum an keiner Stelle wegen der Tourzeit-Bedingung  beschnitten, da $\tau_{min}$ nach jeder Permutation kleiner wird. Der Fall ist zwar sehr unwahrscheinlich, aber möglich. Dies würde in eine Laufzeitkomplexität von $\mathcal{O}(n!)$ resultieren. Allerdings werden mit der 2. Bedingung definitiv Teile des Baumes abgeschnitten, da immer Ziele zwischen den einzelnen Zielen eingeholt werden\footnote{Dies gilt für $n>2$}. An sich benötigt die Berechnung eine Laufzeit von $\mathcal{O}(n^2)$, schneidet dafür aber große Teile des Baums weg. Es hat sich gezeigt, dass bei den eigentlichen $n!$ Permutationen meistens weniger als $5\%$ der Permutationen letztendlich ausgerechnet werden\footnote{Später dazu mehr im Kapitel Experimente}. \\
 Nach verschiedenen worse-case-Analysen hat sich schlussendlich gezeigt, dass die Erstellung des Permutationsbaums mit Abstand die größte Laufzeit einbüst. Somit hat der Brute-Force-Algorithmus eine Zeitkomplexität von $\mathcal{O}(n!)$.
 
 
-\section{Korrektheit Brute-Force-Ansatz}
+\subsection{Korrektheit Brute-Force-Ansatz}
 Mit dem Brute-Force-Algorithmus wird jede mögliche Permutation an Zielen ausprobiert. Bei der Berechnung einer Permutation werden einfach alle Ziele nacheinander abgefangen und der Zeitstempel mit der Zeit erhöht, die zum Abfangen des jeweiligen Ziels benötigt wird. Sofern eine Permutation schneller als die aktuell schnellste, wird diese übernommen und $\tau_{min}$ mit der benötigten Tourzeit überschrieben. Mit den Verbesserungen wird der Permutationsbaum beschnitten und es werden Berechnungen eingespart. Somit wird garantiert, dass die optimale Tour zurückgegeben wird.
 
 
 \chapter{Experimente}
-\textcolor{red}{TODO}
+\textcolor{red}{TODO} 
+
+\chapter{Gegenbeispiel Algorithmus von Helvig et. al.}
+
+Dieses Kapitel dient temporär als Gegenbeispiel für den Algorithmus Helvig et. al. 
+Input: 
+\begin{itemize}
+\item
+Ziele $Z=\{(-933,13),(-883,-6),(-203,-12),(756,8)\}$\\
+\textcolor{red}{(Die Zahlen der Ziele sind zufällig generiert, also nicht wundern)}
+\item
+Verfolger $\kappa=(0,15)$
+\end{itemize}
+Damit befinden sich drei Ziele auf der linken und eines auf der rechten Seite des Ursprungs.
+\textcolor{red}{TODO: Wenn Gegenbsp korrekt, erstelle Grafik}\\
+Mit dem Algorithmus von Helvig et. al. würden nun folgende 6 Zustände erstellt werden:
+\begin{align*}
+&A_0 \\
+&A_1 = \{(-203, -12), (756, 8)\}\\
+&A_2 = \{(756, 8), (-203, -12)\}\\
+&A_3 = \{(-883, -6), (756, 8)\}\\
+&A_4 = \{(756, 8), (-883, -6)\}\\
+&A_5 = \{(-933, 13), (756, 8)\}\\
+&A_6 = \{(756, 8), (-933, 13)\}\\
+&A_{final} 
+\end{align*}
+Nun wird durch jeden dieser Zustände in chronologischer Reihenfolge iteriert. Dabei ergeben sich für die jeweiligen Zustände folgende Zeiten:
+\begin{align*}
+&\text{Iteration 0:}~t=[0.0, 67.67, 108.0, \infty, \infty, \infty, \infty, \infty] \\
+&\text{Iteration 1:}~t=[0.0, 67.67, 108.0, 98.11, 398.0, \infty, \infty, \infty] \\
+&\text{Iteration 2:}~t=[0.0, 67.67, 108.0, 98.11, 398.0, \infty, \infty, 2079.33] \\
+&\text{Iteration 3:}~t=[0.0, 67.67, 108.0, 98.11, 398.0, 1005.17, 528.48, 2079.33] \\
+&\text{Iteration 4:}~t=[0.0, 67.67, 108.0, 98.11, 398.0, 1005.17, 528.48, 1737.78] \\
+&\text{Iteration 5:}~t=[0.0, 67.67, 108.0, 98.11, 398.0, 1005.17, 528.485, 1737.78]
+\end{align*}
+Bemerke, dass keine Iteration $7$ nötig ist, da nach $A_{final}$ keine Ziele mehr abgefangen werden müssen. Mit der Iteration $6$ gab es keine weiteren Änderungen, kann also auch weggelassen werden. Somit hat die vermeintlich optimale Tour eine Dauer von $1737.78$-Zeiteinheiten. Dabei werden die Ziele in folgender Reihenfolge abgefangen:
+\begin{align*}
+(0,0),~ &\text{Abfangzeit}: 0.0 \\
+(-933, 13),~ &\text{Abfangzeit}: 33.32 \\
+(-203, -12),~ &\text{Abfangzeit}: 67.66 \\
+(756, 8),~ &\text{Abfangzeit}: 398.0 \\
+(-883, -6),~ &\text{Abfangzeit}: 1199,22 \\
+(0, 0),~ &\text{Abfangzeit}: 1727,78 
+\end{align*}
+
+Wendet man nun den Brute-Force-Algorithmus erhält man folgende Reihenfolge der Ziele:
+\begin{align*}
+(0, 0),~ &\text{Abfangzeit}: 0.0 \\
+(-933, 13),~ &\text{Abfangzeit}: 33.32 \\
+(-203, -12),~ &\text{Abfangzeit}: 67.66 \\
+(-883, -6),~ &\text{Abfangzeit}: 98.11 \\
+(756, 8),~ &\text{Abfangzeit}: 528.48 \\
+(0, 0),~ &\text{Abfangzeit}: 860.73 \\
+\end{align*}
+Zunächst würde man vermuten, dass der Algorithmus von Helvig et. al. nicht korrekt implementiert wurde. Dies kann man anhand dieses Beispiels wiederlegen. \\
+Nach dem Algorithmus wird der Graph $G$ in topologischer Reihenfolge erstellt. Dabei gibt es nur Übergänge in Zustände mit einem Summenwert der Indizes, der genau ein höher ist, als der Summenwert des jetzigen Zustandes. Betrachten nun das nicht so ganz offensichtliche Problemziel $Z_P=(-993, 13)$. Dieses liegt in den Zuständen $A_6$ und $A_7$, welche sich damit in $G$ an letzter Stelle vor $A_{final}$ befinden. In der optimalen Tour liegt der erste Wendepunkt bei dem Ziel $(-883, -6)$ und fängt dabei $(-993, 13)$ und $(-203,-12)$ ab. Der eindimensionalen Algorithmus überprüft hingegen nicht auf Zustände bzw. Ziele, welche auf dem Weg zum Wendepunkt liegen. Diese werden erst im \emph{Postprocessing}-Schritt hinzugefügt. Somit wird $Z_P$ im Graphen erst ganz am Ende berechnet. Dabei dauern alle Pfade zu lange, sodass sich $Z_P$ inzwischen sehr weit entfernt vom Ursprung befindet. \\\\
+Dies lässt sich relativ simpel lösen, indem eben genau diese Zustände berechnet werden, bei denen das jeweilige $s_k$ zwischen Wendepunkten eingeholt wird. Diese Zustände werden markiert und wenn eine Verbindung zu diesem Zustand berechnet wurde, werden die maximal 2 nachfolgenden Zustände berechnet. Befindet sich die Iteration bei einem markierten Zustand, wird dieser übersprungen. Zwar erhöhen sich die Berechnungen für einen Zustand ggf., die Gesamtberechnungen bleiben wiederum gleich. Dies lässt sich algorithmisch allerdings nur in $\mathcal{O}(n^3)$ lösen. Mit Sicherheit gibt es eine elegantere Lösung, bei der Laufzeitkomplexität von $\mathcal{O}(n^2)$ bleibt der Algorithmus damit vermutlich nicht mehr.
 
 %\chapter{Conclusion}
 \chapter{Zusammenfassung und Ausblick}
-\textcolor{red}{TODO}
+\textcolor{red}{TODO: Zusammenfassung der Ergebnisse, v.a. aus Experimente} 
+%-------------------Ergebnisse der Arbeit--------------------
+
+\noindent
+%----------------------Verbesserungen------------------------
+Zwar wurden die Probleme bei der Modellierung als Graphen aufgezeigt, ausgeschlossen sei diese allerdings nicht. Mit dem Ansatz über das Lemma \ref{lem:1} sollte eine optimale Strategie definitiv möglich sein und eine geringere Laufzeit aufweist, als der Brute-Force-Algorithmus mit $\mathcal{O}(n!)$. Der Brute-Force-Ansatz kann zudem um einiges verbessert werden, indem der Permutationsbaum bereits bei der Generierung die einzelnen Ziele berechnet. Somit werden viele Permutationen gar nicht erst erstellt. Zwar wird damit eine deutlich bessere Laufzeit erzielt, bei worst-case-Fällen mit Eingaben von $n>10$ ist Brute-Force allerdings weiterhin untauglich.\\
+%-------------------------Ausblick---------------------------
+Mit dem Prioritätsansatz wurde zum Einen ein effizienter und mit dem Brute-Force-Ansatz zum Anderen ein optimaler Algorithmus für wenig Ziele vorgestellt. Als nächstes Schritt wäre ein einigermaßen effizienter, aber optimaler Algorithmus vom großen Interesse. Dies wäre ein notwendiger Schritt, um theoretische Arbeit für $k$-Achsen in MT-TSP zu leisten. Darüber hinaus ist das nächste Ziel in dieser Thematik die Betrachtung von zweidimensionalen MT-TSP und das Aufstellen von Heuristiken.
+Diesen Jahres wurde für generelle Fälle eine Arbeit\cite{moraes} veröffentlicht, in der mit evolutionären Strategien versucht wird, auf eine optimale Tour in vielen Iterationen hinzuarbeiten. Dabei ist allerdings die optimale Tour von vielen verschiedenen Parametern abhängig und garantieren auch keine optimale Lösung. 
 
 
 
@@ -570,16 +652,16 @@ Mit dem Brute-Force-Algorithmus wird jede mögliche Permutation an Zielen auspro
 }
 \end{bibtex-entries}
 
-
-
 % If you need to have an appendix (I advise against it), insert it
 % here using, first, \appendix and then \chapter and then,
 % possibly, \section. 
 %
-% \appendix
-%
-% \chapter{Technical Appendix}
-%
+\appendix
+\chapter{Implementierungen}
+
+
+
+
 % \section{Experimental Parameters} % possibly
 %
 % Again, I advise against using an appendix.
