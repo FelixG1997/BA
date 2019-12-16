@@ -70,8 +70,10 @@ In dieser Arbeit wird ein neuer auf dem eindimensionalen Moving-Target-Travellin
 %\section{Related Work}
 \section{Verwandte Arbeiten}
 
-Im Jahre 1998 wurde diese spezielle Instanz des Travelling-Salesman-Problem vorgestellt\cite{helvig}. Dabei wurde dynamische Programmierung in Kombination mit der Modellierung eines Graphen in topologischer Reihenfolge als Strategie für eindimensionale Moving-Target-TSP vorgeschlagen. Diese besitzt eine Zeitkomplexität von $\mathcal{O}(n^2)$. Die Approximation für generelle Fälle gilt dabei schwierig, da viele verschiedene Faktoren die Komplexität des Problems bestimmen. Die Approximations-Forschung in \cite{hammar} zeigte, dass sich die Probleme nicht besser als mit einem Faktor von $2^{\pi(\sqrt{\pi})}$ in polynomieller Zeit lösen lassen, es sei denn es gilt $P=NP$. Dies gilt bisher allerdings weiterhin als ungelöstes Problem in der Informatik. In jedem Fall gelten Moving-Target-TSP als NP-hart, selbst wenn sich nur zwei Ziele bewegen\cite{hammar}.\\
-
+Im Jahre 1998 wurde diese spezielle Instanz des Travelling-Salesman-Problem \\
+vorgestellt\cite{helvig}. Dabei wurde dynamische Programmierung\cite{kunzi2013einfuhrungskursus} in Kombination mit der Modellierung eines Graphen in topologischer Reihenfolge als Strategie für eindimensionale Moving-Target-TSP vorgeschlagen. Diese besitzt eine Zeitkomplexität von $\mathcal{O}(n^2)$. Die Approximation für generelle Fälle gilt dabei schwierig, da viele verschiedene Faktoren die Komplexität des Problems bestimmen. Die Approximations-Forschung in \cite{hammar} zeigte, dass sich die Probleme nicht besser als mit einem Faktor von $2^{\pi(\sqrt{\pi})}$ in polynomieller Zeit lösen lassen, es sei denn es gilt $P=NP$. Dies gilt bisher allerdings weiterhin als ungelöstes Problem in der Informatik. In jedem Fall gelten Moving-Target-TSP als NP-hart, selbst wenn sich nur zwei Ziele bewegen\cite{hammar}.\\
+Über ein Jahrzehnt später, im Jahre 2013, wurde ein Genetischer Algorithmus vorgestellt
+\cite{choubey2013moving}. Der erzielten Ergebnisse erwiesen sich dabei effektiver, als mit einer ähnlich modifizierten Greedy-Methode. Diesen Jahres wurden die evolutionären Algorithmen\cite{weicker2015evolutionare} Ameisenkolonien, Simmulierte Abkühlung und Genetische Algorithmen experimentell getestet\cite{moraes}. Letztere haben dabei die beste Performance bei der Suche nach akzeptablen Lösungen mit eingeschränkter Zeit und Rechenleistung erbracht.
 
 %\section{Structure of this Thesis}
 \section{Aufbau dieser Arbeit}
@@ -650,6 +652,32 @@ Diesen Jahres wurde für generelle Fälle eine Arbeit\cite{moraes} veröffentlic
   author={Kaaser, Dominik S},
   year={2014}
 }
+
+@book{kunzi2013einfuhrungskursus,
+  title={Einf{\"u}hrungskursus in die dynamische Programmierung},
+  author={K{\"u}nzi, Hans Paul and Nievergelt, Erwin},
+  volume={6},
+  year={2013},
+  publisher={Springer-Verlag}
+}
+
+@article{choubey2013moving,
+  title={Moving target travelling salesman problem using genetic algorithm},
+  author={Choubey, Nitin S},
+  journal={International Journal of Computer Applications},
+  volume={70},
+  number={2},
+  year={2013},
+  publisher={Foundation of Computer Science}
+}
+
+@book{weicker2015evolutionare,
+  title={Evolution{\"a}re algorithmen},
+  author={Weicker, Karsten},
+  year={2015},
+  publisher={Springer-Verlag}
+}
+
 \end{bibtex-entries}
 
 % If you need to have an appendix (I advise against it), insert it
