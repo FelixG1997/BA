@@ -124,9 +124,9 @@ Die Zeit, die benötigt wird, um ein Ziel $B$ von der Position von Ziel $A$ einz
 \tau &= \bigg\vert\frac{\|pos_A,pos_B\|_1}{v_{verfolger}-v_B}\bigg\vert
 \end{align*} 
 definiert.
-Die Berechnung beruht auf der nach der Zeit (in diesem Fall $\tau$) gleichgesetzten und umgestellten physikalischen Formel \footnote{Gleichförmige Bewegung: $s=v\cdot t+s_0$}.
-Bemerke, $v_A$ wird durch $v_{verfolger}$ ersetzt, da sich der Verfolger immer mit maximaler Geschwindigkeit bewegt.
 \end{definition}\noindent
+Die Berechnung beruht auf der nach der Zeit (in diesem Fall $\tau$) gleichgesetzten und umgestellten physikalischen Formel \footnote{Gleichförmige Bewegung: $s=v\cdot t+s_0$}.
+Bemerke, $v_A$ wird durch $v_{verfolger}$ ersetzt, da sich der Verfolger immer mit maximaler Geschwindigkeit bewegt.\\
 Mit diesen Voraussetzungen kann da Problem nun modelliert und gelöst werden. Dafür wird im Folgenden die Vorarbeit aus \cite{helvig} detailliert beschrieben. Die Autoren modellieren das Problem als Graph-Problem, wobei der eigentliche Graph on-the-fly erstellt wird. Mit linearer Programmierung wird anschließend die schnellst mögliche Abfangzeit für jeden Zustand bestimmt. Somit kann die die optimale Tourzeit und -Reihenfolge bestimmt werden.
 Im eindimensionalen Fall befinden sich alle Ziele auf einer Achse und können sich nur in zwei verschiedene Richtungen bewegen. Dasselbe gilt auch für den Verfolger. Wichtig ist zunächst die Bedingung, dass der Verfolger sich immer mit seiner maximalen Geschwindigkeit $v_{verfolger}$ bewegt. Helvig et. al. bewiesen dies mit dem Aspekt, dass ein eine Reisegeschwindigkeit von $v<v_{verfolger}$ äquivalent zu einer Wartezeit an einem Punkt ist. Dies resultiert in eine längere Tourzeit, das heißt die Tour wäre nicht mehr optimal.\\
 Um das Problem der kürzesten Route zu lösen, muss sich der Verfolger an einem Ziel entscheiden, das nächste Ziel in derselben oder entgegengesetzte Richtung einzuholen. Die Kostenberechnung für eine schnellste Tour aus
@@ -141,14 +141,13 @@ ist zwar simpel und einfach implementierbar, reicht aber nicht aus (siehe Abbild
 \caption{Offensichtlich würde der Verfolger mit der Geschwindigkeit $v_{verfolger}=11$ deutlich länger für eine Tour brauchen, sofern er zunächst alle Ziele auf der einen und dann auf der anderen Seite abarbeitet. Hierbei wäre es sinnvoll, zunächst die Ziele $(-1,-10)$ und $(1,10)$ einzuholen.}
 \label{fig:GegenBsp1Dim}
 \end{figure}
-Im worst case geht $t\rightarrow\infty$, sobald die äußersten Ziele noch deutlich weiter entfernt vom Ursprung aus liegen. \\
-Die Autoren aus \cite{helvig} definierten anschließend Wendepunkte und bewiesen ihre Korrektheit. Nur an diesen ist es dem Verfolger möglich, die Richtung zu ändern. Wendepunkte sind dabei die schnellsten Ziele auf der rechten bzw. rechten Seite des Verfolgers. Sofern der Verfolger vor einem Wendepunkt umkehrt, verlängert sich die Tour und ist damit nicht mehr optimal.
+Im worst case geht $t\rightarrow\infty$, sobald die äußersten Ziele noch deutlich weiter entfernt vom Ursprung aus liegen. Die Autoren aus \cite{helvig} definierten daraufhin Wendepunkte und bewiesen ihre Korrektheit. Nur an diesen ist es dem Verfolger möglich, die Richtung zu ändern. Wendepunkte sind dabei die schnellsten Ziele auf der rechten bzw. rechten Seite des Verfolgers. Sofern der Verfolger vor einem Wendepunkt umkehrt, verlängert sich die Tour und ist damit nicht mehr optimal.
 \begin{definition}
 Ein Zustand $A$ ist definiert durch die aktuelle Position des Ziels ($s_k$), an dem sich der Verfolger zur Zeit befindet und dem schnellsten Ziel auf der gegenüberliegenden Seite des Ursprungs ($s_f$). Es ist also wieder eine Tupeldarstellung
 \begin{align*}
 A = (s_k, s_f)
 \end{align*}
-möglich, wobei $s_k$ und $s_f$ wiederum Tupel sind (siehe Definition \ref{def:Ziel}).
+möglich, wobei $s_k$ und $s_f$ wiederum Tupel sind (siehe Definition \ref{def:Instanz}).
 \end{definition}\noindent
 Ein Zustand stellt eine Momentaufnahme der Tour dar. Dabei wird ein potentieller Wendepunkt repräsentiert. Um die optimale Tour zu bestimmen, muss an jedem dieser Punkte korrekt entschieden werden, ob sich der Verfolger weiter in die Richtung bewegt oder $s_f$ auf der anderen Seite des Ursprungs verfolgt. Im Gegensatz zu den anderen Zuständen besitzen $A_0$ und $A_{final}$ keine Tupel. Dabei handelt es sich um den Start und Endzustand, welche bei jeder Tour gleich sind. Der Verfolger befindet bei beiden dieser Zuständen im Ursprung. 
 Mit der Funktion $t$ wird einem Zustand die aktuell minimale Zeit zugewiesen, mit der der Zustand über andere Zustände bis dahin am schnellsten erreichbar ist (siehe Definition \ref{def:UpdatedPos}). Offensichtlich gilt demnach $t[A_0] = 0$. \\
@@ -191,16 +190,16 @@ Sobald allerdings eine ungültige Eingabe, z.B. wenn eine Zielgeschwindigkeit gr
 Als neue Modifikation des 1D-Falls wird nun der Achse eine weitere hinzugefügt. Alle Bewegungen und Positionierungen der Ziele und des Verfolgers sind ebenfalls auf die Achsen beschränkt. Die Achsen liegen dabei orthogonal zueinander. Den Ziele ist es dabei nicht erlaubt, an dem Schnittpunkt die Achse zu wechseln. Ein Ziel befindet sich also entweder auf der waagerechten oder senkrechten Achse. Der Schnittpunkt ist dabei festgesetzt auf die Koordinate $0$, während der Ursprung, im Gegensatz zum 1D-Fall (fest definiert auf die Koordinate $0$), auf einer der Achsen liegen kann.\\
 Mit der neuen Achse könnte für die Positionsbestimmung eine zweidimensionale Koordinate verwendet werden. Allerdings wäre einer dieser Koordinaten immer gleich $0$, da jegliche Bewegungen der Ziele und des Verfolgers auf die Achsen beschränkt sind. Somit ist nur eine einfache Ergänzung der Definition \ref{def:Instanz} um einen booleschen Wert $b$ nötig. Die Position $p_i$ wird dabei mit 
 \begin{align*}
-p_i = (a, b) ~|~\mathbb{R}, b\in \{true, false\}
+p_i = (a, b) ~|~a\in\mathbb{R}, b\in \{true, false\}
 \end{align*}
 neu definiert. Dabei gibt $b$ die Achse an, \emph{true} steht für die waagerechte, \emph{false} für die senkrechte Achse. Die Ziele werden nun neben den Listen \emph{Left} und \emph{Right} auch in die \emph{Top} und \emph{Bottom} einsortiert. Dabei deckt \emph{Top} den positiven und \emph{Bottom} den negativen Koordinatenbereich ab. Mit dieser Ergänzung gelten weiterhin alle anderen der vorherigen Definitionen.
 
-\chapter{Theoretische Grundlagen}
+\section{Theoretische Grundlagen}
 
-In diesem Abschnitt soll mit der Vorarbeit aus \cite{helvig} gezeigt werden, dass einige Eigenschaften des 1D-Falls genauso auch im zwei-orthogonale-Achsen-Fall (2OA-Fall) des MT-TSP gelten.
+In diesem Abschnitt soll mit der Vorarbeit aus \cite{helvig} gezeigt werden, dass einige Eigenschaften des 1D-Falls genauso auch im 2OA-Fall des MT-TSP gelten.
 
 \begin{lem}
-In jeder optimalen Tour beim 2OA-Fall MT-TSP bewegt sich der Verfolger immer mit maximaler Geschwindigkeit.
+In jeder optimalen Tour bei zwei orthogonale Achsen im MT-TSP bewegt sich der Verfolger immer mit maximaler Geschwindigkeit.
 \end{lem}
  
 \begin{proof}
@@ -221,7 +220,7 @@ In jedem der Fälle wird eine Wartezeit erzeugt, welche an das Ende der Tour \\v
 \end{proof}
 
 \begin{lem}
-In jeder optimalen Tour beim 2OA-Fall im MT-TSP kann der Verfolger erst seine Richtung ändern, wenn er das schnellste Ziel in seiner Richtung abgefangen hat.
+In jeder optimalen Tour bei zwei orthogonale Achsen im MT-TSP kann der Verfolger erst seine Richtung ändern, wenn er das schnellste Ziel in seiner Richtung abgefangen hat.
 \end{lem}
 
 \begin{proof}
@@ -229,11 +228,11 @@ In jeder optimalen Tour beim 2OA-Fall im MT-TSP kann der Verfolger erst seine Ri
 \end{proof}
 
 
-\chapter{Heuristiken für den zwei-orthogonale-Achsen-Fall}
+\chapter{Heuristiken für zwei-orthogonale-Achsen im MT-TSP}
 
 In diesem Kapitel werden konkrete Heuristiken für den zwei-orthogonale-Achsen-Fall präsentiert. Zunächst wird der Prioritätsansatz erläutert. Anschließend wird eine Verbesserung dieses Ansatzes betrachtet. Zuletzt wird die Brute-Force Methode vorgeschlagen. In jedem der Fälle werden die Laufzeit und Güte analysiert und die Korrektheit gezeigt.
 
-\section{Problem der Modellierung des zwei-orthogonale-Achsen-Falls mit Zuständen als Graphen}
+\section{Problem der Modellierung bei zwei orthogonale Achsen im MT-TSP mit Zuständen als Graphen}
 Im 1D-Fall konnte über über die topologische Reihenfolge der Wendepunkte bzw. Zustände ein Graph erzeugt werden. Somit wurde mit der Bestimmung des kürzesten Pfads das Problem die optimale Tour bestimmt. \\
 Es wäre also zunächst sinnvoll, diesen Ansatz für den 2OA-Fall zu übernehmen, da nur eine Achse hinzugekommen ist. Hierfür werden wieder die einzelnen Ziele in die Listen \emph{Left, Right, Top, Bottom} aufgeteilt. Bei dem Algorithmus von \cite{helvig} wurden nun die Ziele eliminiert, welche sowieso eingeholt werden und dementsprechend keine Wendepunkte darstellen. Mit der zusätzlichen Achse gilt dies nur noch für Ziele, welche sich wegführend vom Schnittpunkt bewegen. Das liegt daran, dass Ziele nun den Schnittpunkt überqueren können, während der Verfolger sich auf der anderen Achse befindet. Somit werden solche Ziele nicht automatisch eingeholt. \\
 Der nächste Schritt ist nun die Generierung der Zustandsliste $States$, wobei eine Reihe von Problemen auftreten. Zunächst [...]
@@ -362,7 +361,7 @@ Somit ergibt sich beim Prioritätsalgorithmus eine Gesamtzeitkomplexität von $\
 \section{Korrektheit Prioritätsansatz}
 Bei der Korrektheit des Prioritätsansatzes ist die Bedingung wichtig, dass der Algorithmus nicht unbedingt ein optimales Ergebnis liefert. Dieser betrachtet nach jedem Abfangen eines Ziels jedes verbliebene Ziel und updatet deren neue Priorität. Die Gewichte für die Prioritätsberechnung können dabei willkürlich gewählt werden, allerdings empfiehlt sich ein geeignetes Set zu wählen, um eine schnelle Tour zu ermöglichen. In jeder Iteration wird dabei das Ziel mit der höchsten Priorität ausgewählt und abgefangen. Sofern ein Ziel bereits zwischen zwei anderen eingeholt wurde, wird dieses aus der Warteschlange entfernt. In der Abbruchbedingung befinden sich alle Ziele auf der selben Seite, dieser Teil ist einfach zu berechnen und garantiert die schnnellstmögliche Abfolge am Ende der Tour. In jedem Fall wird eine Tour zurückgegeben, dessen Reihenfolge von den gewählten Gewichten abhängig ist.
 
-\section{Brute-Force im 2OA-Fall}
+\section{Brute-Force für zwei orthogonale Achsen im MT-TSP}
 
 Der Prioritätsansatz liefert zwar eine effiziente und schnelle Lösung, garantiert aber keine optimalen Ergebnisse. Um die genaue Güte zu bestimmen, ist ein optimaler Algorithmus nötig. Zwar ist dieser für große Eingaben nicht zu gebrauchen, dennoch empfiehlt sich in diesem Fall die Brute-Force-Methode, um den Algorithmus abschätzen zu können. \\
 Mit einem Brute-Force werden alle Möglichkeiten durchprobiert, um eine Lösung zu bestimmen, in unserem Fall die optimale Tour. Dafür wird für die Zielliste des Inputs alle Permutationen erstellt. Um alle Permutationen zu bestimmen, wird ein Permutationsbaum generiert. Dieser beginnt bei der Wurzel, wobei für diese auch der Ursprung direkt eingesetzt werden kann. Anschließend wird jedes Ziel als Kind des Wurzelknotens eingesetzt. Die Kinder wiederum bekommen weitere $k-1$ Ziele als Kinderknoten, wobei $k$ die Tiefe des Baumes darstellt. Damit wird sichergestellt, dass keine Ziele in einer Tour doppelt vorkommen und damit, statt $10^{10}$, $n!$ Permutationen generiert werden. Mit dieser Variante wird bei $n$ Zielen insgesamt eine Anzahl von $V_n = n + n\cdot (V_{n-1})$ Knoten in den Baum eingefügt. Dies kann mittels Rekursion einfach berechnet werden. Für $10$ Ziele wären dies also $9.864.100$ Einträge.\\
@@ -513,9 +512,9 @@ Trotz der zuvor vorgeschlagenen Verbesserungen des Brute-Force-Algorithmus muss 
 Nach verschiedenen worse-case-Analysen hat sich schlussendlich gezeigt, dass die Erstellung des Permutationsbaums mit Abstand die größte Laufzeit einbüst. Somit hat der Brute-Force-Algorithmus eine Zeitkomplexität von $\mathcal{O}(n!)$.
 
 
-
 \section{Korrektheit Brute-Force-Ansatz}
 Mit dem Brute-Force-Algorithmus wird jede mögliche Permutation an Zielen ausprobiert. Bei der Berechnung einer Permutation werden einfach alle Ziele nacheinander abgefangen und der Zeitstempel mit der Zeit erhöht, die zum Abfangen des jeweiligen Ziels benötigt wird. Sofern eine Permutation schneller als die aktuell schnellste, wird diese übernommen und $\tau_{min}$ mit der benötigten Tourzeit überschrieben. Mit den Verbesserungen wird der Permutationsbaum beschnitten und es werden Berechnungen eingespart. Somit wird garantiert, dass die optimale Tour zurückgegeben wird.
+
 
 \chapter{Experimente}
 \textcolor{red}{TODO}

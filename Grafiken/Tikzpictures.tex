@@ -148,6 +148,46 @@
 \node[red, thick, cross out, below, xshift=5.7cm, yshift=-2.1cm, rotate=-50] { };
 \end{tikzpicture}
 
+\section{Gegenbeispiel Algorithmus von Helvig et. al.}
+
+Dieses Kapitel dient temporär als Gegenbeispiel für den Algorithmus aus \cite{helvig}.
+Input: Ziele $Z=\{(-933,13),(-203,-12),(756,8)\}$, Verfolger $\kappa=(0,15)$\\
+\textcolor{red}{TODO: Wenn Gegenbsp korrekt, erstelle Grafik}\\
+Mit dem Algorithmus von Helvig et. al. würden nun folgende 6 Zustände erstellt werden:
+\begin{align*}
+&A_0\\
+&\{(-203,-12), (756,8)\}\\
+&\{(756,8), (-203,-12)\}\\
+&\{(-933,13), (756,8)\}\\
+&\{(756, 8), (-933,13)\}\\
+&A_{final}
+\end{align*}
+Nun wird durch jeden dieser Zustände in chronologischer Reihenfolge iteriert. Dabei ergeben sich jeweils folgende Zeiten:
+\begin{align*}
+&\text{Iteration 1:}~t=[0.0, 67.67, 108.0, \infty, \infty, \infty] \\
+&\text{Iteration 2:}~t=[0.0, 67.67, 108.0, 548.5, 398.0, \infty] \\
+&\text{Iteration 3:}~t=[0.0, 67.67, 108.0, 548.5, 398.0, 2079.33] \\
+&\text{Iteration 4:}~t=[0.0, 67.67, 108.0, 548.5, 398.0, 961.67] \\
+&\text{Iteration 5:}~t=[0.0, 67.67, 108.0, 548.5, 398.0, 961.67] 
+\end{align*}
+Bemerke, dass keine Iteration $6$ nötig ist, da nach $A_{final}$ keine Ziele mehr abgefangen werden müssen. Somit hat die vermeintlich optimale Tour eine Dauer von $961,67$-Zeiteinheiten. Dabei werden die Ziele in folgender Reihenfolge abgefangen:
+\begin{align*}
+&(0,0), ~~~~~ Abfangzeit: 0.0 \\
+&(-933, 13), ~Abfangzeit: 33.32 \\
+&(-203, -12), Abfangzeit: 67.66 \\
+&(756, 8), ~~~Abfangzeit: 398.0 \\
+&(0, 0), ~~~~~Abfangzeit: 961.67 
+\end{align*}
+
+Wendet man nun den Brute-Force-Algorithmus erhält man folgende Reihenfolge der Ziele:
+\begin{align*}
+&(0, 0), ~~~~~Abfangzeit: 0.0 \\
+&(-933, 13), ~Abfangzeit: 33.32 \\
+&(-203, -12), Abfangzeit: 67.66 \\
+&(756, 8), ~~~Abfangzeit: 398.0 \\
+&(0, 0), ~~~~~Abfangzeit: 660.67 \\
+\end{align*}
+Zunächst würde man nun davon ausgehen, dass 
 
 \end{document}
 
