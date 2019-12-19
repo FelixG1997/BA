@@ -171,7 +171,7 @@ G = (V,E)
 \end{align*}
 werden die Knoten $V$ durch die Zustände $A_i \in States$ und $E$ durch die jeweiligen Zustandsübergänge $\tau$ repräsentiert. Mit der Bedingung, dass Übergänge nur in Zustände mit höheren Summenwerten führen, ist $G$ gerichtet und azyklisch. Man gelangt also nach spätestens $n$ Zuständen (exklusive $A_0$) in $A_{final}$. \\
 Mit der Modellierung des Problems als Graphen und den Eigenschaften, dass dieser azyklisch und in topologischer Reihenfolge sortiert ist, kann das Problem mit einem einfachen \emph{Kürzeste-Wege}-Algorithmus gelöst werden. Hierbei kann eine simple Heuristik, zum Beispiel \cite{brandstadt1994kurzeste}, verwendet werden, um den kürzesten Weg von $A_0$ nach $A_{final}$ zu bestimmen.\\
-Mit der Bestimmung des kürzesten Pfades muss am Ende noch bestimmt werden, welche Ziele zwischen den Zuständen eingeholt wurden. Damit werden die anfangs eliminierten Zustände wieder der Tour hinzugefügt und bestenfalls (richtige Implementierung) ist somit die optimale Tour bestimmt.
+Mit der Bestimmung des kürzesten Pfades muss am Ende noch bestimmt werden, welche Ziele zwischen den Zuständen eingeholt wurden. Damit werden die anfangs eliminierten Zustände wieder der Tour hinzugefügt und bestenfalls (richtige Implementierung) ist somit die optimale Tour bestimmt. 
 
 \subsection{Algorithmus von Helvig, Robins and Zelikovsky}
 
@@ -182,8 +182,74 @@ Nach dem Schema aus dem vorherigen Abschnitts werden wieder die Listen \emph{Lef
 \item Falls der Verfolger jedes Ziel auf einer Seite des Ursprungs eingeholt hat, erzeuge einen Übergang $\tau_{final}$ in $A_{final}$. Berechne die Zeit, um die verbleibenden Ziele auf der anderen Seite einzuholen und zusätzlich die Retour zum Ursprung. 
 \item Berechne ansonsten $\tau_{Left}$ und $\tau_{Right}$, welche den Verfolger entweder zum schnellsten Ziel auf der rechten oder linken Seite schickt. Falls die Zeit addiert mit dem aktuellen Zeitstempel $t[i]$ kleiner ist, als bisher von einem anderen Zustand, aktualisiere $t[A_{Left}]$ bzw. $t[A_{Right}]$ mit diesem Wert.
 \end{itemize}
-Schließlich werden alle Ziele, einschließlich der zuvor eliminierten Ziele, zwischen den Wendepunkten berechnet und in der richtigen Reihenfolge zusammengefügt. Somit wird eine optimale Tour durch die Kombination aus topologischer Reihenfolge und linearer Programmierung garantiert.
-\textcolor{red}{TODO: Algorithmus von Helvig selber aufschreiben}
+Schließlich werden alle Ziele, einschließlich der zuvor eliminierten Ziele, zwischen den Wendepunkten berechnet und in der richtigen Reihenfolge zusammengefügt. Somit wird eine optimale Tour durch die Kombination aus topologischer Reihenfolge und linearer Programmierung garantiert. Der dazu entwickelte Pseudocode ist in Algorithmus \ref{alg:1D} abgebildet\cite{helvig}. 
+
+\scalebox{0.84}{
+\begin{minipage}{1\linewidth}
+\begin{algorithm}[H]
+\begin{algorithmic}
+\floatname{algorithm}{Algorithmus}
+\caption{Exact Algorithm for One-Dimensional Moving-Target TSP\cite{helvig}}
+\label{alg:1D}
+\State \textbf{Input:} The initial positions and velocities of n targets, and the maximum pursuer speed
+\State \textbf{Output:} A time-optimal tour intercepting all targets, and returning back to the origin
+~ \\
+\State \textbf{Preprocessing}
+\State Partition the list of targets into the targets on the left side, the right side  of the origin \\
+Sort the targets on the left into list \emph{Left} in order of nonincreasing speeds \\
+Sort the targets on the right into list \emph{Right} in order of nonincreasing speeds \\
+Delete targets from \emph{Left} which are closer to the origin than faster targets in this list\\
+Delete targets from \emph{Right} which are closer to the origin than faster targets in this list
+\\
+%\If {\emph{Left} or \emph{Right} is empty} 
+\If{\emph{Left} or \emph{Right} is empty}
+\State Calculate the time required to intercept all remaining targets; and 
+\State Go to the postprocessing step
+\EndIf
+
+\State \textbf{Main Algorithm}
+\State Let $A_0$ be the start state \\
+Let $A_{final}$ be the final state \\
+\emph{STATE} is the sorted list of states in order of nondecreasing sum of the indices \\
+~~~~~~~of each state's targets in lists \emph{Left} and \emph{Right}\\
+Place $A_0$ first in the list \emph{STATE} \\
+Place $A_{final}$ last in the list \emph{STATE} \\
+$t(A) \leftarrow \infty$ for any state $A\neq A_0$  \\
+$t(A_0)\leftarrow0 $\\
+$current \leftarrow 0$
+~\\
+\While{current $\leq$ the number of states in \emph{STATE}}
+\State $A=STATE[current]$
+\If {there are no transitions into $A$}
+\State Increment \emph{current} and jump back to the beginning of the while loop
+\EndIf
+\If {for state $A$, all remaining targets are on one side of the origin}
+\State $t(\tau_{final})\leftarrow$ time required to intercept the remaining targets and
+\State ~~~~~~~~~~~~~~ return to the origin
+\Else
+\State Calculate the two transitions $\tau_{left}$ and $\tau_{right}$ from state $A$ using lists \emph{Left} and \emph{Right}
+\If {$t(A) + t(\tau_{left}) < t(A_{left})$}
+\State $t(A_{left}) \leftarrow t(A) + t(\tau_{left})$
+\EndIf
+\If {$t(A) + t(\tau_{right}) < t(A_{right})$}
+\State $t(A_{right}) \leftarrow t(A) + t(\tau_{right})$
+\EndIf
+
+\EndIf
+\State Increment \emph{current}
+\EndWhile
+\State $OUTPUT \leftarrow$ the reverse list of states from $A_{final}$ back to $A_0$
+
+\State \textbf{Postprocessing}
+\For {pair of consecutive states in $OUTPUT$}
+\State Calculate which targets are intercepted between the state pair 
+\State Sort the intercepted targets by the interception order
+\EndFor
+\State Output the concatenated sorted lists of targets
+\end{algorithmic}
+\end{algorithm}
+\end{minipage}
+}
 
 \section{Input $\&$ Output}
 
@@ -279,22 +345,6 @@ Der Positionsfaktor $\phi_2$ erhöht Priorität bei Zielen, die sich vom Ursprun
 \begin{align}
 \varphi_2(z_i, w_2) = \frac{|p_i|}{v_{verfolger}}\cdot a \cdot w_2.
 \end{align}\\
-%\begin{definition}
-%\textcolor{red}{TODO: Sicherstellen, dass diese Def. notwendig ist, ich vermute nein}\\
-%Der Schnittpunktsfaktor $\phi_3$ verringert die Priorität bei Zielen in der Nähe des %Schnittpunktes und ist definiert durch
-%\begin{align*}
-%\phi_3(z_i, w_3) = \bigg\vert\frac{\|0,p_i\|_1}{0-v_i}\bigg\vert \cdot w_3 \text{~~~~~~~~~~~~~~~~(siehe Definition \ref{def:WegZeit})}.
-%\end{align*}
-%Diese Definition scheint im Konflikt mit Definition \ref{def:FaktorPos} zu stehen. Allerdings %fördert die Kombination aus den beiden Definitionen weit entfernte Ziele und solche, von denen %man schnell die anderen Achsen erreichen kann.
-%\end{definition}
-%\begin{definition}
-%\textcolor{red}{TODO: Sicherstellen, dass diese Def. notwendig ist, ich vermute nein}\\
-%Der Ursprungsfaktor $\phi_4$ erhöht die Priorität bei Zielen Nahe des Ursprungs geringfügig und %ist definiert durch
-%\begin{align*}
-%\phi_4(z_i, w_4) = \bigg\vert\frac{\|p_{ursprung},p_i\|_1}{0-v_i}\bigg\vert \cdot w_4 
-%\text{~~~~~(siehe Definition \ref{def:WegZeit})}.
-%\end{align*}
-%\end{definition}
 Der Distanzfaktor $\varphi_3$ verringert die Priorität bei großen Abständen zur aktuellen Position und wird auf Grundlage der Definition \ref{def:WegZeit} berechnet mit
 \begin{align}
 \varphi_3(z_i, w_3) = \bigg\vert\frac{\|p_{verfolger},p_i\|_1}{v_{verfolger}-v_i}\bigg\vert \cdot w_3.
@@ -324,47 +374,47 @@ Nun werden neben $current$ alle Ziele, welche zwischen $prev$ und $current$ abge
 \begin{algorithm}[H]
 \begin{algorithmic}
 \floatname{algorithm}{Algorithmus}
-\caption{Prioritäts-Algorithmus für zwei-orthogonale Achsen beim bewegende Ziele in TSP}
+\caption{Prioritäts-Algorithmus für zwei-orthogonale Achsen beim MT-TSP}
 \label{alg:2OA.1}
-\State \textbf{Input:} Ziele $Z$, Ursprung $z_{ursprung}$, Verfolgergeschwindigkeit $v_{max}$
-\State \textbf{Output:} Ziele $Z$ in der Tour-Reihenfolge, inklusive Retour zum Ursprung\\
+\State \textbf{Input:} Targets $Z$, pursuer
+\State \textbf{Output:} Targets $Z$ in order of nondecreasing intercepting time
 
-\State Sei \emph{t} das Zeit-Array, welches für jedes $z_i\in Z$ die Abfangzeit angibt
-\State Sei \emph{current} das Ziel, welches der Verfolger soeben eingeholt hat
-\State Sei \emph{OUTPUT} die Liste an Zielen in der Abfangreihenfolge
-\State $current\leftarrow ursprung$
+\State Let \emph{t} be the time-array, which represents the intercepting time for each target
+\State Let \emph{current} be the target, that was just intercepted by the pursuer
+\State Let \emph{OUTPUT} be the target-array in order of nondecreasing intercepting time
 \State $OUTPUT.add(current)$
-\State $\mathcal{Q} \leftarrow$ Prioritätswarteschlange mit Zielen, welche diese in absteigender Reihenfolge nach ihrer Priorität sortiert. 
+\State $current\leftarrow origin$, which is determined by the start position of the pursuer
+\State $\mathcal{Q} \leftarrow$ priorityqueue with targets, which are sorted in order of nonincreasing priorities
 
 \For {$z_i\in Z$}
 \State $t[z_i] \leftarrow \infty$
 \State $\mathcal{Q}.add(z_i)$
-\State Berechne $\alpha(z_i)$
+\State Calculate $\alpha(z_i)$
 \EndFor\\
 
-\While {$\mathcal{Q}$ beinhaltet verbleibende Ziele}
-\If {jedes verbleibende Ziel liegt auf einer der vier Seiten des Schnittpunktes}
+\While {$\mathcal{Q}$ is not empty}
+\If {each remmaining target is located on one of the four sides of the intersection}
 \For {$z_i\in \mathcal{Q}$}
-\State $t[z_i] \leftarrow$ Zeit von der aktuellen Position bis zum Abfangen von $z_i$
+\State $t[z_i] \leftarrow$ Time to intercept $z_i$ 
 \EndFor
-\State Berechne Rückkehr zum Ursprung von dem Ziel, welches als letztes aus $\mathcal{Q}$
-\State erreicht wird
+\State Calculate return to the origin of the target, that will be reached last
 \State $OUTPUT.addAll(\mathcal{Q})$
 \State break
 \EndIf \\
 
-\State Berechne $\alpha(z_i),~\forall z_i\in\mathcal{Q}$ und update $\mathcal{Q}$
+\State Calculate $\alpha(z_i),~\forall z_i\in\mathcal{Q}$ und update $\mathcal{Q}$
 \State $prev\leftarrow current$
-\State $current \leftarrow \mathcal{Q}.poll()$
+\State $current \leftarrow$ retrieve the first target of $mathcal{Q}$
 \State $t[current] \leftarrow time[prev] + \pi[prev\rightarrow current]$
 \State $OUTPUT.add(current)$
-\State Update die Position von jedem $z_i\in\mathcal{Q}$
-\State $eingeholteZiele \leftarrow$ Ziele zwischen $prev$ und $current$
-\State $\mathcal{Q}.removeAll(eingeholteZiele)$
-\State $OUTPUT.addAll(eingeholteZiele)$
+\State Update the position of each $z_i\in\mathcal{Q}$
+\State $interceptedTargets \leftarrow$ intercepted targets between $prev$ und $current$
+\State $\mathcal{Q}.removeAll(interceptedTargets)$
+\State $OUTPUT.addAll(interceptedTargets)$
 \EndWhile\\
 
-\State Sortiere $eingeholteZiele$ in aufsteigender Reihenfolge nach $t[z_i]$
+\State Assign the respective $t[z_i]$ to each target
+\State Sort $interceptedTargets$ in order of nondecreasing intercepting time 
 \State return $OUTPUT$
 \end{algorithmic}
 \end{algorithm}
@@ -481,11 +531,12 @@ Mit diesen Bedingungen wird im Beipiel von Abbildung \ref{fig:BF1} $2$ Berechnun
 \label{fig:BF2}
 \end{figure}
 
+\textcolor{red}{TODO: Vielleicht hier doch den anderen Ansatz?}\\
 \begin{minipage}{1\linewidth}
 \begin{algorithm}[H]
 \begin{algorithmic}
 \floatname{algorithm}{Algorithmus}
-\caption{Brute-Force-Algorithmus für zwei-orthogonale Achsen beim bewegende Ziele in TSP}
+\caption{Brute-Force-Algorithmus für zwei-orthogonale Achsen beim MT-TSP}
 \label{alg:BF}
 \State \textbf{Input:} Ziele $Z$, Ursprung $z_{ursprung}$, Verfolgergeschwindigkeit $v_{max}$
 \State \textbf{Output:} Ziele $Z$ in der Tour-Reihenfolge, inklusive Retour zum Ursprung\\
