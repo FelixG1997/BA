@@ -6,10 +6,10 @@
   % The titles:
   %
   Titel auf Deutsch     = {
-    Algorithmen für bewegende Ziele im Travelling Salesman Problem
+    Algorithmen für Moving-Target-Travelling Salesman Problem
   }, 
   Titel auf Englisch    = {
-    Algorithms for Moving-Target Travelling Salesman Problem
+    Algorithms for Moving-Target-Travelling Salesman Problem
   },
   Autor                 = {Felix Greuling},
   Betreuerin            = {Prof. Dr. Maciej Liskiewicz},
@@ -57,21 +57,20 @@
 % \chapter{Introduction}
 \chapter{Einleitung}
 
-\textcolor{red}{TODO: Motivationseinleitung in das Thema}
-
+Das Travelling-Salesman-Problem (TSP) ist ein in der Informatik weit verbreitetes und seit der Formulierung im Jahre 1930 als mathematisches Problem ein langjährig erforschtes Optimierungsproblem aus der Kombinatorik. Dies hast eine besonders hohe Relevanz für Probleme aus der echten Welt, da diese auf das TSP reduziert werden können. Gesucht ist dabei die kürzeste Reihenfolge an Wegen, welche die Ziele miteinander verbinden, sodass man jedes Ziel besucht und am Ende der Tour wieder zum Startpunkt zurückkehrt. Dafür betrachten wir eine Menge an Städten. Diese sollen allesamt von einem FlixBus als Zwischenstop genutzt werden, da an diesem Reisende aus- und einsteigen wollen. Am Ende der Tour soll der FlixBus zum Auftanken wieder zu seinem Ausgangspukt zurückgelangen. Um die Benzinkosten gering zu halten, wird also die kürzeste Abfolge an Städten gesucht. Dabei sollte man beachten, dass mehrere optimale Touren möglich sind. Für TSP gibt es gerade im heutzutage diverse Anwendungsgebiete. Wir leben in einem Zeitalter, in welchem autonome Systeme zunehmend eine große Rolle spielen. Früher oder später übernehmen autonome Fahrzeuge die Verantwortung auf unseren Straßen \cite{minx2015autonomes}. Der Vorreiter für diesen Markt ist die Firma Tesla. Die Fahrzeuge besitzen bereits die Software zum selbstständigen Fahren, erlaubt ist der Einsatz ganz ohne den Menschen aber noch nicht. Auch hierbei werden auf den Straßen die kürzesten Routen gesucht. Die künstliche Intelligenz kann dies unter Anderem mit der Reduzierung auf das TSP berechnen. \\
+Darüber hinaus ist nun ein Spezialfall des TSP von großem Interesse. Dabei sind solche Ziele nicht mehr stationär, diese bewegen sich nun mit einer konstanten Geschwindigkeit. Diese spezielle Instanz wird hierbei als Moving-Target-TSP bezeichnet. Die Problematik besteht dabei, dass sich nach dem Erreichen eines Ziels die Position der anderen Ziele über die Zeit geändert haben. Somit ist eine Berechnung der optimalen Tour mindestens genauso schwer, wie TSP-Instanzen mit stationären Zielen. Das Moving-Target-TSP ist auch in ebenfalls für Probleme der realen Welt interessant. Für autonome Fahrzeuge könnten Drohnen zur Überwachung eingesetzt werden, welche ein Fahrzeug identifizieren können. Somit könnten Daten des Fahrverhaltens für einen Moment eines der zu Testfahrzeuge gesammelt werden. Als bereits integriertes System ist der Nahverkehr auf Google Maps zu erwähnen. Für eine Route wird die schnellstmögliche Route berechnet, wobei aktuelle Positionen von Bussen und Zügen betrachtet werden. Innerhalb dieser beiden Anwendungen bewegen sich die Ziele zwar nicht unbedingt mit einer konstanten Geschwindigkeit, mittels eines Abwägungsmaß, z.B. einer Durchschnittsgeschwindigkeit, lassen sich diese auf Moving-Target-TSP übertragen. 
 
 %\section{Contributions of this Thesis}
 \section{Beiträge dieser Arbeit}
 
-In dieser Arbeit wird ein neuer auf dem eindimensionalen Moving-Target-Travelling-Salesman-Problem basierender Fall eingeführt. Dieser enthält zusätzlich eine weitere orthogonale Achse, auf welchem sich die Ziele und die Verfolger bewegen können. Die für den 1D-Fall bereits gezeigten Eigenschaften, dass der Verfolger in einer optimalen Tour sich jederzeit mit $v_{max}>v_i,~\forall v_i\in V$ bewegt und erst seine Richtung ändern kann, sofern er das schnellste Ziel in seiner Richtung eingeholt hat, gelten auch für diese neue Modifikation. Mit dem Prioritätsalgorithmus wurde ein effizienter aber nicht optimaler Algorithmus vorgestellt, während der Brute-Force-Ansatz für optimale Ergebnisse bei kleinen Instanzen genutzt werden kann. \\
+In dieser Arbeit wird ein neuer, auf dem eindimensionalen Moving-Target-TSP basierender Fall, eingeführt. Dieser enthält zusätzlich eine weitere orthogonale Achse, auf welcher sich die Ziele und die Verfolger bewegen können. Die für den eindimensionalen-Fall bereits gezeigten Eigenschaften, dass der Verfolger in einer optimalen Tour sich jederzeit mit $v_{max}>v_i,~\forall v_i\in V$ bewegt und erst seine Richtung ändern kann, sofern er das schnellste Ziel in seiner Richtung eingeholt hat, gelten auch für diese neue Modifikation. Mit dem Prioritätsalgorithmus wurde ein effizienter aber nicht optimaler Algorithmus vorgestellt, während der Brute-Force-Ansatz für optimale Ergebnisse bei kleinen Instanzen genutzt werden kann. \\
 \textcolor{red}{TODO: Ergebnisse aus Experimente präsentieren}
 
 
 %\section{Related Work}
 \section{Verwandte Arbeiten}
 
-Im Jahre 1998 wurde diese spezielle Instanz des Travelling-Salesman-Problem \\
-vorgestellt\cite{helvig}. Dabei wurde dynamische Programmierung\cite{kunzi2013einfuhrungskursus} in Kombination mit der Modellierung eines Graphen in topologischer Reihenfolge als Strategie für eindimensionale Moving-Target-TSP vorgeschlagen. Diese besitzt eine Zeitkomplexität von $\mathcal{O}(n^2)$. Die Approximation für generelle Fälle gilt dabei schwierig, da viele verschiedene Faktoren die Komplexität des Problems bestimmen. Die Approximations-Forschung in \cite{hammar} zeigte, dass sich die Probleme nicht besser als mit einem Faktor von $2^{\pi(\sqrt{\pi})}$ in polynomieller Zeit lösen lassen, es sei denn es gilt $P=NP$. Dies gilt bisher allerdings weiterhin als ungelöstes Problem in der Informatik. In jedem Fall gelten Moving-Target-TSP als NP-hart, selbst wenn sich nur zwei Ziele bewegen\cite{hammar}.\\
+Im Jahre 1998 wurde diese spezielle Instanz des TSP vorgestellt\cite{helvig}. Dabei wurde dynamische Programmierung\cite{kunzi2013einfuhrungskursus} in Kombination mit der Modellierung eines Graphen in topologischer Reihenfolge als Strategie für eindimensionale Moving-Target-TSP vorgeschlagen. Diese besitzt eine Zeitkomplexität von $\mathcal{O}(n^2)$. Die Approximation für generelle Fälle gilt dabei schwierig, da viele verschiedene Faktoren die Komplexität des Problems bestimmen. Die Approximations-Forschung in \cite{hammar} zeigte, dass sich die Probleme nicht besser als mit einem Faktor von $2^{\pi(\sqrt{\pi})}$ in polynomieller Zeit lösen lassen, es sei denn es gilt $P=NP$. Dies gilt bisher allerdings weiterhin als ungelöstes Problem in der Informatik. In jedem Fall gelten Moving-Target-TSP als NP-hart, selbst wenn sich nur zwei Ziele bewegen\cite{hammar}.\\
 Über ein Jahrzehnt später, im Jahre 2013, wurde ein Genetischer Algorithmus vorgestellt
 \cite{choubey2013moving}. Der erzielten Ergebnisse erwiesen sich dabei effektiver, als mit einer ähnlich modifizierten Greedy-Methode. Diesen Jahres wurden die evolutionären Algorithmen\cite{weicker2015evolutionare} Ameisenkolonien, Simmulierte Abkühlung und Genetische Algorithmen experimentell getestet\cite{moraes}. Letztere haben dabei die beste Performance bei der Suche nach akzeptablen Lösungen mit eingeschränkter Zeit und Rechenleistung erbracht.
 
@@ -83,7 +82,7 @@ Diese Arbeit beschreibt zunächst in Kapitel 2 die vorangegangenen Forschungen d
 
 \chapter{Grundlagen}
 \label{chapter-use}
-Im folgenden Kapitel werden alle nötigen Grundlagen für das Moving-target Traveling Salesman Problem (MT-TSP)\footnote{zu Deutsch: bewegende Ziele im Travelling Salesman Problem} erläutert. Beim herkömmlichen Travelling Salesman Problem wird eine optimale Tour durch alle Ziele und Rückkehr zum Startpunkt gesucht. Diese ist die kürzeste Reihenfolge an Zielen, bei dem jedes $z_i\in Z$ abgefangen wurde. Dabei startet und beendet der Verfolger jede Tour im Ursprung. Das MT-TSP ist eine spezielle Instanz des TSP mit der Erweiterung, dass die Ziele nicht mehr stationär sind, sondern eine konstante Bewegung haben.
+Im folgenden Kapitel werden alle nötigen Grundlagen für das Moving-target TSP (MT-TSP)\footnote{zu Deutsch: bewegende Ziele im TSP} erläutert. Beim herkömmlichen TSP wird eine optimale Tour durch alle Ziele und Rückkehr zum Startpunkt gesucht. Diese ist die kürzeste Reihenfolge an Zielen, bei dem jedes $z_i\in Z$ abgefangen wurde. Dabei startet und beendet der Verfolger jede Tour im Ursprung. Das MT-TSP ist eine spezielle Instanz des TSP mit der Erweiterung, dass die Ziele nicht mehr stationär sind, sondern eine konstante Bewegung haben.
 
 
 \section{Eindimensionaler Fall im MT-TSP}
@@ -133,8 +132,8 @@ definiert.
 \end{definition}\noindent
 Die Berechnung beruht auf der nach der Zeit (in diesem Fall $\tau$) gleichgesetzten und umgestellten physikalischen Formel \footnote{Gleichförmige Bewegung: $s=v\cdot t+s_0$}.
 Bemerke, $v_A$ wird durch $v_{verfolger}$ ersetzt, da sich der Verfolger immer mit maximaler Geschwindigkeit bewegt.\\
-Mit diesen Voraussetzungen kann da Problem nun modelliert und gelöst werden. Dafür wird im Folgenden die Vorarbeit aus \cite{helvig} detailliert beschrieben. Die Autoren modellieren das Problem als Graph-Problem, wobei der eigentliche Graph on-the-fly erstellt wird. Mit linearer Programmierung wird anschließend die schnellst mögliche Abfangzeit für jeden Zustand bestimmt. Somit kann die die optimale Tourzeit und -Reihenfolge bestimmt werden.
-Im eindimensionalen Fall befinden sich alle Ziele auf einer Achse und können sich nur in zwei verschiedene Richtungen bewegen. Dasselbe gilt auch für den Verfolger. Wichtig ist zunächst die Bedingung, dass der Verfolger sich immer mit seiner maximalen Geschwindigkeit $v_{verfolger}$ bewegt. Helvig et. al. bewiesen dies mit dem Aspekt, dass ein eine Reisegeschwindigkeit von $v<v_{verfolger}$ äquivalent zu einer Wartezeit an einem Punkt ist. Dies resultiert in eine längere Tourzeit, das heißt die Tour wäre nicht mehr optimal.\\
+Mit diesen Voraussetzungen kann da Problem nun modelliert und gelöst werden. Dafür wird im Folgenden die Vorarbeit aus \cite{helvig} detailliert beschrieben. Die Autoren modellieren das Problem als Graph-Problem, wobei der eigentliche Graph on-the-fly erstellt wird. Mit linearer Programmierung wird anschließend die schnellstmögliche Abfangzeit für jeden Zustand bestimmt. Somit kann die die optimale Tourzeit und -Reihenfolge bestimmt werden.
+Im eindimensionalen-Fall befinden sich alle Ziele auf einer Achse und können sich nur in zwei verschiedene Richtungen bewegen. Dasselbe gilt auch für den Verfolger. Wichtig ist zunächst die Bedingung, dass der Verfolger sich immer mit seiner maximalen Geschwindigkeit $v_{verfolger}$ bewegt. Helvig et. al. bewiesen dies mit dem Aspekt, dass ein eine Reisegeschwindigkeit von $v<v_{verfolger}$ äquivalent zu einer Wartezeit an einem Punkt ist. Dies resultiert in eine längere Tourzeit, das heißt die Tour wäre nicht mehr optimal.\\
 Um das Problem der kürzesten Route zu lösen, muss sich der Verfolger an einem Ziel entscheiden, das nächste Ziel in derselben oder entgegengesetzte Richtung einzuholen. Die Kostenberechnung für eine schnellste Tour aus
 \begin{itemize}
 \item alle Ziele links vom Ursprung aus gesehen und danach alle rechten Ziele abfangen
@@ -444,9 +443,9 @@ Sei $\tau_{min}$ die aktuell schnellste Tourzeit einer Permutation. Der Baum wir
 Überprüfe, ob zwischen dem vorherigen $z_{k-1}$ und dem jetzigen Ziel $z_{k}$ eines der verbleibenden Ziele abgefangen wird. Sofern ein Ziel $z_{i}, i>k$ dabei angefangen wird, ist dies äquivalent dazu, dass eine andere Permutation existiert, in der $z_i$ vor $z_k$ eingeholt wird. Diese wird ggf. später noch berechnet und somit wird der Baum ebenfalls bei $k$ beschnitten.
 \end{enumerate} 
 Somit werden Permutationen mit der selben Reihenfolge an Zielen bis $k$ ausgelassen, da diese keine optimale Route erzeugen werden. Zusätzlich kann der Algorithmus in den meisten Fällen mit einer Sortierung nach der Geschwindigkeit in absteigender Reihenfolge verbessert. Oftmals wird damit schnell ein gutes $\tau_{min}$ gefunden und damit werden umso mehr Pfade abgeschnitten. Darüber hinaus könnte ebenfalls ein Prioritätsmaß genutzt werden, ist aber nicht notwendig.
-Mit diesen Bedingungen wird im Beipiel von Abbildung \ref{fig:BF1} $2$ Berechnungen eingespart (siehe Abbildung \ref{fig:BF2}). Bei jeder Permutation wird am Anfang und am Ende der Ursprung eingerechnet. Formal zusammengefasst wird der Brute-Force-Algorithmus in Algorithmus \ref{alg:BF}.
-
-\newpage
+Mit diesen Bedingungen wird im Beipiel von Abbildung \ref{fig:BF1} $2$ Berechnungen eingespart (siehe Abbildung \ref{fig:BF2}). Bei jeder Permutation wird am Anfang und am Ende der Ursprung eingerechnet. Formal zusammengefasst wird der Brute-Force-Algorithmus in Algorithmus \ref{alg:BF}. \\
+Als weitere Verbesserung kann direkt beim Erstellen des Permutationsbaum bei eines der Abbruchbedingungen der Baum an der Stelle abgeschnitten werden. Somit werden viele Permutationen gar nicht erst erstellt und die Gesamtlaufzeit verbessert sich erheblich. Allerdings wird hierbei der Brute-Force-Ansatz nur zur Bestimmung der Güte verwendet und muss keine guten Laufzeiten erzielen.\\
+\textcolor{red}{TODO: Bei sehr viel Zeit den genauen Algorithmus aufschreiben und Laufzeit abschätzen, ggf. könnte dieser Ansatz sogar für $n\approx 15$ im worst-case keine gravierenden Laufzeiten erzeugen.}\\
 
 \begin{figure}[htbp]
 \centering
@@ -531,7 +530,6 @@ Mit diesen Bedingungen wird im Beipiel von Abbildung \ref{fig:BF1} $2$ Berechnun
 \label{fig:BF2}
 \end{figure}
 
-\textcolor{red}{TODO: Vielleicht hier doch den anderen Ansatz?}\\
 \begin{minipage}{1\linewidth}
 \begin{algorithm}[H]
 \begin{algorithmic}
@@ -580,7 +578,7 @@ Mit diesen Bedingungen wird im Beipiel von Abbildung \ref{fig:BF1} $2$ Berechnun
 %Im worst case wird nichts oder erst ganz am Ende der Baum beschnitten, wodurch bei einem großen $n$ die Laufzeit
 Zunächst wird die benötigte Laufzeit zur Erstellung des Baums betrachtet. Dafür werden $V_n = n + n\cdot (V_{n-1})$ Knoten eingefügt. Die Generierung des Baums kann demnach mit $\mathcal{O}(n!)$ abgeschätzt werden. \\
 Trotz der zuvor vorgeschlagenen Verbesserungen des Brute-Force-Algorithmus muss der worst-case betrachtet werden. Dabei wird der Baum an keiner Stelle wegen der Tourzeit-Bedingung  beschnitten, da $\tau_{min}$ nach jeder Permutation kleiner wird. Der Fall ist zwar sehr unwahrscheinlich, aber möglich. Dies würde in eine Laufzeitkomplexität von $\mathcal{O}(n!)$ resultieren. Allerdings werden mit der 2. Bedingung definitiv Teile des Baumes abgeschnitten, da immer Ziele zwischen den einzelnen Zielen eingeholt werden\footnote{Dies gilt für $n>2$}. An sich benötigt die Berechnung eine Laufzeit von $\mathcal{O}(n^2)$, schneidet dafür aber große Teile des Baums weg. Es hat sich gezeigt, dass bei den eigentlichen $n!$ Permutationen meistens weniger als $5\%$ der Permutationen letztendlich ausgerechnet werden\footnote{Später dazu mehr im Kapitel Experimente}. \\
-Nach verschiedenen worse-case-Analysen hat sich schlussendlich gezeigt, dass die Erstellung des Permutationsbaums mit Abstand die größte Laufzeit einbüst. Somit hat der Brute-Force-Algorithmus eine Zeitkomplexität von $\mathcal{O}(n!)$.
+Nach verschiedenen worse-case-Analysen hat sich schlussendlich gezeigt, dass die Erstellung des Permutationsbaums mit Abstand die größte Laufzeit einbüßt. Somit hat der Brute-Force-Algorithmus eine Zeitkomplexität von $\mathcal{O}(n!)$. 
 
 
 \subsection{Korrektheit Brute-Force-Ansatz}
@@ -588,7 +586,22 @@ Mit dem Brute-Force-Algorithmus wird jede mögliche Permutation an Zielen auspro
 
 
 \chapter{Experimente}
-\textcolor{red}{TODO} 
+\textcolor{red}{TODO}
+Meine Vorschläge für dieses Kapitel:
+\begin{itemize}
+\item
+1D für $n=10,100,1000,10000$ testen, dabei eine Laufzeitkurve erstellen und analysieren
+\item
+$1.000.000$ mal den 2OA- gegen den Brute-Force-Algorithmus laufen lassen. Mit den Tourzeiten die Güte des 2OA-Algorithmus bestimmen.
+\item
+2OA-Algorithmus in allen Kombinationen der folgenden Parametern testen:
+\begin{align*}
+n&=5,25,50,75,100\\
+(v_{verfolger},v_i)&=(20,200),(40,100),(60,59)\\
+Startpositionen&=[10.000]
+\end{align*}
+Die zweite Notation Bedeutet dabei, dass die Verfolgergeschwindigkeit für $20,40,60$ und die Zielgeschwindigkeit (fest gesetzt für alle Ziele) für $200,100,59$ getestet wird(Parameterwahl nach \cite{stieber2015multiple} orientiert).
+\end{itemize} 
 
 \chapter{Gegenbeispiel Algorithmus von Helvig et. al.}
 
@@ -643,7 +656,7 @@ Wendet man nun den Brute-Force-Algorithmus erhält man folgende Reihenfolge der 
 (0, 0),~ &\text{Abfangzeit}: 860.73 \\
 \end{align*}
 Zunächst würde man vermuten, dass der Algorithmus von Helvig et. al. nicht korrekt implementiert wurde. Dies kann man anhand dieses Beispiels wiederlegen. \\
-Nach dem Algorithmus wird der Graph $G$ in topologischer Reihenfolge erstellt. Dabei gibt es nur Übergänge in Zustände mit einem Summenwert der Indizes, der genau ein höher ist, als der Summenwert des jetzigen Zustandes. Betrachten nun das nicht so ganz offensichtliche Problemziel $Z_P=(-993, 13)$. Dieses liegt in den Zuständen $A_6$ und $A_7$, welche sich damit in $G$ an letzter Stelle vor $A_{final}$ befinden. In der optimalen Tour liegt der erste Wendepunkt bei dem Ziel $(-883, -6)$ und fängt dabei $(-993, 13)$ und $(-203,-12)$ ab. Der eindimensionalen Algorithmus überprüft hingegen nicht auf Zustände bzw. Ziele, welche auf dem Weg zum Wendepunkt liegen. Diese werden erst im \emph{Postprocessing}-Schritt hinzugefügt. Somit wird $Z_P$ im Graphen erst ganz am Ende berechnet. Dabei dauern alle Pfade zu lange, sodass sich $Z_P$ inzwischen sehr weit entfernt vom Ursprung befindet. \\\\
+Nach dem Algorithmus wird der Graph $G$ in topologischer Reihenfolge erstellt. Dabei gibt es nur Übergänge in Zustände mit einem Summenwert der Indizes, der genau ein höher ist, als der Summenwert des jetzigen Zustandes. Betrachten nun das nicht so ganz offensichtliche Problemziel $Z_P=(-993, 13)$. Dieses liegt in den Zuständen $A_6$ und $A_7$, welche sich damit in $G$ an letzter Stelle vor $A_{final}$ befinden. In der optimalen Tour liegt der erste Wendepunkt bei dem Ziel $(-883, -6)$ und fängt dabei $(-993, 13)$ und $(-203,-12)$ ab. Der eindimensionale Algorithmus überprüft hingegen nicht auf Zustände bzw. Ziele, welche auf dem Weg zum Wendepunkt liegen. Diese werden erst im \emph{Postprocessing}-Schritt hinzugefügt. Somit wird $Z_P$ im Graphen erst ganz am Ende berechnet. Dabei dauern alle Pfade zu lange, sodass sich $Z_P$ inzwischen sehr weit entfernt vom Ursprung befindet. \\\\
 Dies lässt sich relativ simpel lösen, indem eben genau diese Zustände berechnet werden, bei denen das jeweilige $s_k$ zwischen Wendepunkten eingeholt wird. Diese Zustände werden markiert und wenn eine Verbindung zu diesem Zustand berechnet wurde, werden die maximal 2 nachfolgenden Zustände berechnet. Befindet sich die Iteration bei einem markierten Zustand, wird dieser übersprungen. Zwar erhöhen sich die Berechnungen für einen Zustand ggf., die Gesamtberechnungen bleiben wiederum gleich. Dies lässt sich algorithmisch allerdings nur in $\mathcal{O}(n^3)$ lösen. Mit Sicherheit gibt es eine elegantere Lösung, bei der Laufzeitkomplexität von $\mathcal{O}(n^2)$ bleibt der Algorithmus damit vermutlich nicht mehr.
 
 %\chapter{Conclusion}
@@ -727,6 +740,24 @@ Diesen Jahres wurde für generelle Fälle eine Arbeit\cite{moraes} veröffentlic
   author={Weicker, Karsten},
   year={2015},
   publisher={Springer-Verlag}
+}
+  
+@book{minx2015autonomes,
+  title={Autonomes Fahren},
+  author={Minx, Eckard and Dietrich, Rainer},
+  year={2015},
+  publisher={Piper ebooks}
+}
+
+@article{stieber2015multiple,
+  title={The multiple traveling salesmen problem with moving targets},
+  author={Stieber, Anke and F{\"u}genschuh, Armin and Epp, Maria and Knapp, Matthias and Rothe, Hendrik},
+  journal={Optimization Letters},
+  volume={9},
+  number={8},
+  pages={1569--1583},
+  year={2015},
+  publisher={Springer}
 }
 
 \end{bibtex-entries}
