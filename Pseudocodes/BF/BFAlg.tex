@@ -113,38 +113,33 @@
 \begin{algorithm}[H]
 \begin{algorithmic}
 \floatname{algorithm}{Algorithmus}
-\caption{Brute-Force-Algorithmus für zwei-orthogonale Achsen beim bewegende Ziele in TSP}
+\caption{Brute-Force-Algorithmus für zwei-orthogonale Achsen beim MT-TSP}
 \label{alg:BF}
-\State \textbf{Input:} Ziele $Z$, Ursprung $z_{ursprung}$, Verfolgergeschwindigkeit $v_{max}$
-\State \textbf{Output:} Ziele $Z$ in der Tour-Reihenfolge, inklusive Retour zum Ursprung\\
+\State \textbf{Input:} Targets $Z$, pursuer
+\State \textbf{Output:} Targets $Z$ Targets Z in order of nondecreasing intercepting time\\
 
-\State $B\rightarrow$ Permutationsbaum, bei $n$ Zielen muss es $n$ Kinderknoten geben.
+\State Sort $Z$ in order of nonincreasing absolute values of the respective velocities
+\State Let $currentTargets$ be the current target order (partial permutation)
+\State Let $t$ be the time-array, which represents the intercepting time for each \\
+~~~~~target $z_i\in currentTargets$ 
 \State $\tau_{min}\leftarrow \infty$
-\State Sei $aktuelleZiele$ das Array mit den aktuellen Indizes von $Z$, initialisiert mit einsen
-\State Sei $k$ die aktuelle Tiefe im Baum
-\State Sei $t$ das Zeit-Array welches für die aktuelle Ziel-Reihenfolge die Abfangzeit angibt
-\State $k\leftarrow 1$
+\State $current\leftarrow z_0$
+\State $prev\leftarrow origin$, which is determined by the start position of the pursuer\\
 
-\While {$aktuelleZiele[0]\leq n$ und $aktuelleZiele[n]\leq n$}
-\State $current\leftarrow Z[aktuelleZiele[k]]$
-\State $prev\leftarrow Z[aktuelleZiele[k-1]]$
+\While {there are possible permutations remaining}
+\State $current\leftarrow$ the target just intercepted
+\State $prev\leftarrow$ the target previously intercepted 
 \State $t[current] \leftarrow t[prev] + \pi[prev\rightarrow current]$
-\If {$t[current]\geq \tau_{min}$ oder mindestens ein Ziel der verbliebenen Indizes wird zwischen\\~~~~~~~ $current$ und $prev$ abgefangen}
-\If {$aktuelleZiele[k]=n$}
-\State Dekrementiere $k$
-\State Inkrementiere $aktuelleZiele[k]$
+\If {$t[current]\geq \tau_{min}$ or at least one target of $Z\backslash currentTargets$ is located\\ ~~~~~between $current$ and $prev$}
+\State Step back and follow the next possible permutation-path
 \Else
-\State Inkrementiere $aktuelleZiele[k]$ 
-\EndIf
-\Else
-\If {$k<n$}
-\State Inkrementiere $k$
+\If {$currentTargets$.length $\neq Z$.length}
+\State Choose the next target $z_i$, $z_i\notin currentTargets$
 \Else
 \State $t[current]\leftarrow t[current] + \pi[current\rightarrow ursprung]$ 
 \If {$t[current] < \tau_{min}$}
 \State $\tau_{min}\leftarrow t[current]$
-\State Dekrementiere $k$
-\State Inkrementiere $aktuelleZiele[k]$
+\State Step back and follow the next possible permutation-path
 \EndIf 
 \EndIf
 \EndIf

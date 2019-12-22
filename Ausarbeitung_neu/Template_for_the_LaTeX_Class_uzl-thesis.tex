@@ -57,32 +57,33 @@
 % \chapter{Introduction}
 \chapter{Einleitung}
 
-Das Travelling-Salesman-Problem (TSP) ist ein in der Informatik weit verbreitetes und seit der Formulierung im Jahre 1930 als mathematisches Problem ein langjährig erforschtes Optimierungsproblem aus der Kombinatorik. Dies hast eine besonders hohe Relevanz für Probleme aus der echten Welt, da diese auf das TSP reduziert werden können. Gesucht ist dabei die kürzeste Reihenfolge an Wegen, welche die Ziele miteinander verbinden, sodass man jedes Ziel besucht und am Ende der Tour wieder zum Startpunkt zurückkehrt. Dafür betrachten wir eine Menge an Städten. Diese sollen allesamt von einem FlixBus als Zwischenstop genutzt werden, da an diesem Reisende aus- und einsteigen wollen. Am Ende der Tour soll der FlixBus zum Auftanken wieder zu seinem Ausgangspukt zurückgelangen. Um die Benzinkosten gering zu halten, wird also die kürzeste Abfolge an Städten gesucht. Dabei sollte man beachten, dass mehrere optimale Touren möglich sind. Für TSP gibt es gerade im heutzutage diverse Anwendungsgebiete. Wir leben in einem Zeitalter, in welchem autonome Systeme zunehmend eine große Rolle spielen. Früher oder später übernehmen autonome Fahrzeuge die Verantwortung auf unseren Straßen \cite{minx2015autonomes}. Der Vorreiter für diesen Markt ist die Firma Tesla. Die Fahrzeuge besitzen bereits die Software zum selbstständigen Fahren, erlaubt ist der Einsatz ganz ohne den Menschen aber noch nicht. Auch hierbei werden auf den Straßen die kürzesten Routen gesucht. Die künstliche Intelligenz kann dies unter Anderem mit der Reduzierung auf das TSP berechnen. \\
-Darüber hinaus ist nun ein Spezialfall des TSP von großem Interesse. Dabei sind solche Ziele nicht mehr stationär, diese bewegen sich nun mit einer konstanten Geschwindigkeit. Diese spezielle Instanz wird hierbei als Moving-Target-TSP bezeichnet. Die Problematik besteht dabei, dass sich nach dem Erreichen eines Ziels die Position der anderen Ziele über die Zeit geändert haben. Somit ist eine Berechnung der optimalen Tour mindestens genauso schwer, wie TSP-Instanzen mit stationären Zielen. Das Moving-Target-TSP ist auch in ebenfalls für Probleme der realen Welt interessant. Für autonome Fahrzeuge könnten Drohnen zur Überwachung eingesetzt werden, welche ein Fahrzeug identifizieren können. Somit könnten Daten des Fahrverhaltens für einen Moment eines der zu Testfahrzeuge gesammelt werden. Als bereits integriertes System ist der Nahverkehr auf Google Maps zu erwähnen. Für eine Route wird die schnellstmögliche Route berechnet, wobei aktuelle Positionen von Bussen und Zügen betrachtet werden. Innerhalb dieser beiden Anwendungen bewegen sich die Ziele zwar nicht unbedingt mit einer konstanten Geschwindigkeit, mittels eines Abwägungsmaß, z.B. einer Durchschnittsgeschwindigkeit, lassen sich diese auf Moving-Target-TSP übertragen. 
+Das Travelling-Salesman-Problem (TSP) ist ein in der Informatik weit verbreitetes und seit der Formulierung im Jahre 1930 als mathematisches Problem ein langjährig erforschtes Optimierungsproblem aus der Kombinatorik. Dies hat eine besonders hohe Relevanz für Probleme aus der echten Welt, da diese auf das TSP reduziert werden können. Gesucht ist dabei die kürzeste Reihenfolge an Wegen, welche die Ziele miteinander verbinden, sodass man jedes Ziel besucht und am Ende der Tour wieder zum Startpunkt zurückkehrt. Dafür betrachten wir eine Menge an Städten. Diese sollen allesamt von einem FlixBus als Zwischenstop genutzt werden, da an diesem Reisende aus- und einsteigen wollen. Am Ende der Tour soll der FlixBus zum Auftanken wieder zu seinem Ausgangspukt zurückgelangen. Um die Benzinkosten gering zu halten, wird also die kürzeste Abfolge an Städten gesucht. Dabei sollte man beachten, dass mehrere optimale Touren möglich sind. Für TSP gibt es gerade im heutzutage diverse Anwendungsgebiete. Wir leben in einem Zeitalter, in welchem autonome Systeme zunehmend eine große Rolle spielen. Früher oder später übernehmen autonome Fahrzeuge die Verantwortung auf unseren Straßen \cite{minx2015autonomes}. Der Vorreiter für diesen Markt ist die Firma Tesla. Die Fahrzeuge besitzen bereits die Software zum selbstständigen Fahren, erlaubt ist der Einsatz ganz ohne den Menschen aber noch nicht. Auch hierbei werden auf den Straßen die kürzesten Routen gesucht. Die künstliche Intelligenz kann dies unter Anderem mit der Reduzierung auf das TSP berechnen. \\
+Darüber hinaus ist nun ein Spezialfall des TSP von großem Interesse. Dabei sind solche Ziele nicht mehr stationär, diese bewegen sich nun mit einer konstanten Geschwindigkeit. Diese spezielle Instanz wird hierbei als Moving-Target-TSP bezeichnet. Die Problematik besteht dabei, dass sich nach dem Erreichen eines Ziels die Position der anderen Ziele über die Zeit geändert haben. Somit ist eine Berechnung der optimalen Tour mindestens genauso schwer, wie TSP-Instanzen mit stationären Zielen. Das Moving-Target-TSP ist auch in ebenfalls für Probleme der realen Welt interessant. Für autonome Fahrzeuge könnten Drohnen zur Überwachung eingesetzt werden, welche ein Fahrzeug identifizieren können. Somit könnten Daten des Fahrverhaltens für einen Moment eines der zu Testfahrzeuge gesammelt werden. Als bereits integriertes System ist der Nahverkehr auf Google Maps zu erwähnen. Für eine Route wird die schnellstmögliche Route berechnet, wobei aktuelle Positionen von Bussen und Zügen betrachtet werden. Innerhalb dieser beiden Anwendungen bewegen sich die Ziele zwar nicht unbedingt mit einer konstanten Geschwindigkeit, mittels eines Abwägungsmaß, z.B. einer Durchschnittsgeschwindigkeit, lassen sich diese auf Moving-Target-TSP übertragen. \\
+Im Jahre 1998 wurde diese spezielle Instanz des TSP vorgestellt\cite{helvig}. Dabei wurde dynamische Programmierung\cite{kunzi2013einfuhrungskursus} in Kombination mit der Modellierung eines Graphen in topologischer Reihenfolge als Strategie für eindimensionale Moving-Target-TSP vorgeschlagen. Diese besitzt eine Zeitkomplexität von $\mathcal{O}(n^2)$.
 
 %\section{Contributions of this Thesis}
 \section{Beiträge dieser Arbeit}
 
-In dieser Arbeit wird ein neuer, auf dem eindimensionalen Moving-Target-TSP basierender Fall, eingeführt. Dieser enthält zusätzlich eine weitere orthogonale Achse, auf welcher sich die Ziele und die Verfolger bewegen können. Die für den eindimensionalen-Fall bereits gezeigten Eigenschaften, dass der Verfolger in einer optimalen Tour sich jederzeit mit $v_{max}>v_i,~\forall v_i\in V$ bewegt und erst seine Richtung ändern kann, sofern er das schnellste Ziel in seiner Richtung eingeholt hat, gelten auch für diese neue Modifikation. Mit dem Prioritätsalgorithmus wurde ein effizienter aber nicht optimaler Algorithmus vorgestellt, während der Brute-Force-Ansatz für optimale Ergebnisse bei kleinen Instanzen genutzt werden kann. \\
+In dieser Arbeit wird ein neuer, auf dem eindimensionalen Moving-Target-TSP basierender Fall, eingeführt. Dieser enthält zusätzlich eine weitere orthogonale Achse, auf welcher sich die Ziele und die Verfolger bewegen können. Die für den eindimensionalen-Fall bereits gezeigten Eigenschaften, dass der Verfolger in einer optimalen Tour sich jederzeit mit $v_{max}>v_i,~\forall v_i\in V$ bewegt und erst seine Richtung ändern kann, sofern er das schnellste Ziel in seiner Richtung eingeholt hat, gelten auch für diese neue Modifikation. Mit dem Prioritätsalgorithmus wurde ein effizienter aber nicht optimaler Algorithmus vorgestellt, während der Brute-Force-Ansatz für optimale Ergebnisse bei kleinen Instanzen $n<15$ genutzt werden kann. \\
 \textcolor{red}{TODO: Ergebnisse aus Experimente präsentieren}
 
 
 %\section{Related Work}
 \section{Verwandte Arbeiten}
 
-Im Jahre 1998 wurde diese spezielle Instanz des TSP vorgestellt\cite{helvig}. Dabei wurde dynamische Programmierung\cite{kunzi2013einfuhrungskursus} in Kombination mit der Modellierung eines Graphen in topologischer Reihenfolge als Strategie für eindimensionale Moving-Target-TSP vorgeschlagen. Diese besitzt eine Zeitkomplexität von $\mathcal{O}(n^2)$. Die Approximation für generelle Fälle gilt dabei schwierig, da viele verschiedene Faktoren die Komplexität des Problems bestimmen. Die Approximations-Forschung in \cite{hammar} zeigte, dass sich die Probleme nicht besser als mit einem Faktor von $2^{\pi(\sqrt{\pi})}$ in polynomieller Zeit lösen lassen, es sei denn es gilt $P=NP$. Dies gilt bisher allerdings weiterhin als ungelöstes Problem in der Informatik. In jedem Fall gelten Moving-Target-TSP als NP-hart, selbst wenn sich nur zwei Ziele bewegen\cite{hammar}.\\
+Seit der ersten Erwähnung aus dem Jahre 1998 wurden unterschiedliche Strategien zur Lösung des MT-TSP ausprobiert und Approximationen durchgeführt. Die Approximation für generelle Fälle gilt dabei schwierig, da viele verschiedene Faktoren die Komplexität des Problems bestimmen. Die Approximations-Forschung in \cite{hammar} zeigte, dass sich die Probleme nicht besser als mit einem Faktor von $2^{\pi(\sqrt{\pi})}$ in polynomieller Zeit lösen lassen, es sei denn es gilt $P=NP$. Dies gilt bisher allerdings weiterhin als ungelöstes Problem in der Informatik. In jedem Fall gelten Moving-Target-TSP als NP-hart, selbst wenn sich nur zwei Ziele bewegen\cite{hammar}.\\
 Über ein Jahrzehnt später, im Jahre 2013, wurde ein Genetischer Algorithmus vorgestellt
 \cite{choubey2013moving}. Der erzielten Ergebnisse erwiesen sich dabei effektiver, als mit einer ähnlich modifizierten Greedy-Methode. Diesen Jahres wurden die evolutionären Algorithmen\cite{weicker2015evolutionare} Ameisenkolonien, Simmulierte Abkühlung und Genetische Algorithmen experimentell getestet\cite{moraes}. Letztere haben dabei die beste Performance bei der Suche nach akzeptablen Lösungen mit eingeschränkter Zeit und Rechenleistung erbracht.
 
 %\section{Structure of this Thesis}
 \section{Aufbau dieser Arbeit}
-Diese Arbeit beschreibt zunächst in Kapitel 2 die vorangegangenen Forschungen des eindimensionalen Moving-Target-TSP. Dabei wird speziell die Modellierung und der dazu entwickelter Algorithmus erläutert. Anschließend wird in Kapitel 3 ein neuer Fall vorgestellt. Dafür wird der 1D-Fall um eine orthogonale Achse erweitert, auf der sich die Ziele sowie der Verfolger bewegen können. Für den neuen Fall werden theoretische Eigenschaften gezeigt, die auch für den 1D-Fall gelten. So wird in Kapitel 4 ein Prioritäts- und Brute-Force-Algorithmus präsentiert. Zuletzt folgt in Kapitel 5 ein Experimentierteil für alle drei Algorithmen inklusive der Bestimmung der Güte.
+Diese Arbeit beschreibt zunächst in Kapitel 2 die vorangegangenen Forschungen des eindimensionalen Moving-Target-TSP. Dabei wird speziell die Modellierung und der dazu entwickelter Algorithmus erläutert. Anschließend wird in Kapitel 3 ein neuer Fall vorgestellt. Dafür wird der 1D-Fall um eine orthogonale Achse erweitert, auf der sich die Ziele sowie der Verfolger bewegen können. Für diesen neuen zwei-orthogonale-Achsen-Fall werden theoretische Eigenschaften gezeigt, die auch für den 1D-Fall gelten. So wird in Kapitel 4 ein Prioritäts- und Brute-Force-Algorithmus präsentiert. Zuletzt folgt in Kapitel 5 ein Experimentierteil für alle drei Algorithmen inklusive der Bestimmung der Güte.
 
 %--------------------------------------------------------------------------------------
 
 \chapter{Grundlagen}
 \label{chapter-use}
-Im folgenden Kapitel werden alle nötigen Grundlagen für das Moving-target TSP (MT-TSP)\footnote{zu Deutsch: bewegende Ziele im TSP} erläutert. Beim herkömmlichen TSP wird eine optimale Tour durch alle Ziele und Rückkehr zum Startpunkt gesucht. Diese ist die kürzeste Reihenfolge an Zielen, bei dem jedes $z_i\in Z$ abgefangen wurde. Dabei startet und beendet der Verfolger jede Tour im Ursprung. Das MT-TSP ist eine spezielle Instanz des TSP mit der Erweiterung, dass die Ziele nicht mehr stationär sind, sondern eine konstante Bewegung haben.
+Im folgenden Kapitel werden alle nötigen Grundlagen für das Moving-target TSP (MT-TSP) erläutert. Beim herkömmlichen TSP wird eine optimale Tour durch alle Ziele und Rückkehr zum Startpunkt gesucht. Diese ist die kürzeste Reihenfolge an Zielen, bei dem jedes $z_i\in Z$ abgefangen wurde. Dabei startet und beendet der Verfolger jede Tour im Ursprung. Das MT-TSP ist eine spezielle Instanz des TSP mit der Erweiterung, dass die Ziele nicht mehr stationär sind, sondern eine konstante Bewegung haben.
 
 
 \section{Eindimensionaler Fall im MT-TSP}
@@ -142,7 +143,49 @@ Um das Problem der kürzesten Route zu lösen, muss sich der Verfolger an einem 
 ist zwar simpel und einfach implementierbar, reicht aber nicht aus (siehe Abbildung \ref{fig:GegenBsp1Dim}).
 \begin{figure}[htbp]
 \centering
-\includegraphics[scale=0.68]{../Grafiken/Verwendete/1DGegenbsp.PNG}
+\begin{tikzpicture}
+\coordinate (a) at (-5,0) node[below=0.1cm of a]{-1000};
+\coordinate (b) at (-1,0) node[below=0.1cm of b]{-1};
+\coordinate (c) at (0,0) node[below=0.1cm of c]{0};
+\coordinate (d) at (1,0) node[below=0.1cm of d]{1};
+\coordinate (e) at (5,0) node[below=0.1cm of e]{1000};
+\coordinate (f) at (-6,0) node[below=0.1cm of f, xshift=3.0cm]{[...]};
+\coordinate (g) at (6,0) node[below=0.1cm of g, xshift=-3.0cm]{[...]};
+% Geschwindigkeiten
+\node[above of=a, xshift=-0.1cm, yshift=0.1cm] {$-1$};
+\node[above of=b, xshift=-0.3cm, yshift=0.1cm] {$-8$};
+\node[above of=d, xshift=0.3cm, yshift=0.1cm] {$8$};
+\node[above of=e, xshift=0.1cm, yshift=0.1cm] {$1$};
+\fill (a) circle (2.5pt);
+\fill (b) circle (2.5pt);
+\fill (d) circle (2.5pt);
+\fill (e) circle (2.5pt);
+\draw (f)--(a)--(b)--(c)--(d)--(e)--(g);
+% links 1.
+\coordinate (aa) at (-5,0.8);
+\draw (a) -- (aa);
+\draw (-5,0.8) -- (-5.2,0.8);
+\draw (-5.2,0.9) -- (-5.4,0.8) -- (-5.2,0.7) -- cycle;
+% links 2.
+\coordinate (bb) at (-1,0.8);
+\draw (b) -- (bb);
+\draw (-1,0.8) -- (-1.7,0.8);
+\draw (-1.7,0.9) -- (-1.9,0.8) -- (-1.7,0.7) -- cycle;
+% mitte
+\draw (0,2) -- (0,1.5) -- (0.4,1.75) -- cycle;
+\coordinate (cc) at (0,2);
+\draw (c) -- (cc);
+% rechts 2.
+\coordinate (dd) at (1,0.8);
+\draw (d) -- (dd);
+\draw (1,0.8) -- (1.7,0.8);
+\draw (1.7,0.9) -- (1.9,0.8) -- (1.7,0.7) -- cycle;
+% rechts 1.
+\coordinate (ee) at (5,0.8);
+\draw (e) -- (ee);
+\draw (5,0.8) -- (5.2,0.8);
+\draw (5.2,0.9) -- (5.4,0.8) -- (5.2,0.7) -- cycle;
+\end{tikzpicture}
 \caption{Offensichtlich würde der Verfolger mit der Geschwindigkeit $v_{verfolger}=11$ deutlich länger für eine Tour brauchen, sofern er zunächst alle Ziele auf der einen und dann auf der anderen Seite abarbeitet. Hierbei wäre es sinnvoll, zunächst die Ziele $(-1,-10)$ und $(1,10)$ einzuholen.}
 \label{fig:GegenBsp1Dim}
 \end{figure}
@@ -158,13 +201,13 @@ Ein Zustand stellt eine Momentaufnahme der Tour dar. Dabei wird ein potentieller
 Mit der Funktion $t$ wird einem Zustand die aktuell minimale Zeit zugewiesen, mit der der Zustand über andere Zustände bis dahin am schnellsten erreichbar ist (siehe Definition \ref{def:UpdatedPos}). Offensichtlich gilt demnach $t[A_0] = 0$. \\
 Wie bereits erwähnt, gibt es in den meisten Fällen Ziele, welche keine potentiellen Wendepunkte darstellen und somit nicht zur optimalen Tour beitragen. Um die Laufzeit und Speicherkomplexität zu reduzieren, können diese zunächst eliminiert werden. Es handelt sich dabei um Ziele, die sowieso eingeholt werden. Zunächst wird jedes Ziel in die Liste \emph{Left} oder \emph{Right} eingefügt, abhängig davon, ob sich das Ziel bei $timestamp = 0$ auf der linken oder rechten Seite des Ursprungs befindet. Anschließend werden \emph{Left} und \emph{Right} in absteigender Reihenfolge nach den Geschwindigkeiten sortiert. Ziele, welche sich nun näher am Ursprung befinden
 und zugleich langsamer sind als ein anderes aus der jeweiligen Liste, werden eliminiert. Damit beinhalten \emph{Left} und \emph{Right} ausschließlich potentielle Wendepunkte. \\
-Um nun alle Zustände zu bestimmen, wird jede Kombination aus den Listen \emph{Left} und \emph{Right} und umgekehrt für $s_k$ und $s_f$ eingesetzt und in die Zustandsliste $States$ eingefügt. Anschließend wird $States$ in absteigender Reihenfolge nach der Summe der Indizes der Ziele aus den Listen \emph{Left} und \emph{Right} sortiert (siehe Abbildung \textcolor{red}{TODO: Bsp mit den Zielen aus der Abbildung 2.1}). Somit befinden sich die Kombinationen bzw. Zustände aus den schnellsten Zielen am Listenanfang von $States$.\\
+Um nun alle Zustände zu bestimmen, wird jede Kombination aus den Listen \emph{Left} und \emph{Right} und umgekehrt für $s_k$ und $s_f$ eingesetzt und in die Zustandsliste $States$ eingefügt. Anschließend wird $States$ in absteigender Reihenfolge nach der Summe der Indizes der Ziele aus den Listen \emph{Left} und \emph{Right} sortiert. Somit befinden sich die Kombinationen bzw. Zustände aus den schnellsten Zielen am Listenanfang von $States$.\\
 Ein Zustandsübergang von Zustand A in den Zustand B wird mit
 \begin{align*}
 \tau = A\rightarrow B
 \end{align*}
 beschrieben. Der Übergang $\tau$ gibt dabei die Zeit $\tau$ (siehe Definition \ref{def:WegZeit}), um von dem aktuellen Zustand $A$ in den nächsten Zustand $B$ zu gelangen). Ausgehend von einem Zustand, gibt es bis zu zwei Zustandsübergänge. Dabei handelt es sich von dem nächst-schnellsten auf der linken oder rechten Seite des Ursprungs. Die Übergänge werden dann als $\tau_{left}$ und $\tau_{right}$ bezeichnet. Sofern jedes Ziel auf einer Seite eingeholt wurde, wird der Übergang $\tau_{final}$ in $A_{final}$ gewählt. Für die Berechnung von $\tau_{final}$ wird die Zeit vom aktuellen Zustand bis zum Abfangen der restlichen Ziele auf der anderen Seite des Ursprungs und zusätzlich die Rückkehr zum Ursprung berechnet. Offensichtlich existiert eingehend in $A_0$ und ausgehend von $A_{final}$. \\
-Wie bereits erwähnt, ist die Zustandsliste $States$ nach der Summe der Indizes aus \emph{Left} und \emph{Right} in absteigender Reihenfolge sortiert. Mit zwei Möglichkeiten von $\tau_{Left}$ und $\tau_{right}$ führt jeder Zustand in einen anderen Zustand mit einem höheren Index. Dabei erhält der Startzustand $A_0$ die Summe $-1$, wodurch die Zustandsübergänge in die Zustände mit dem Summenwert von $0$ führen. Die Zustände mit der höchsten Summe führen in $A_{final}$ (Dies gilt sowieso mit der vorherigen Regelung). Mit diesen Bedingungen konnte nun aus $States$ ein Graph $G$ erzeugt werden. Anhand der Abbildung 2.3 (siehe Abbildung \textcolor{red}{TODO: Bsp mit der Abbildung 2.2}) ist diese Modellierung anhand des bisherigen Beispiels aus Abbildung 2.1 und 2.2 gut nachvollziehbar. Im Graph
+Wie bereits erwähnt, ist die Zustandsliste $States$ nach der Summe der Indizes aus \emph{Left} und \emph{Right} in absteigender Reihenfolge sortiert. Mit zwei Möglichkeiten von $\tau_{Left}$ und $\tau_{right}$ führt jeder Zustand in einen anderen Zustand mit einem höheren Index. Dabei erhält der Startzustand $A_0$ die Summe $-1$, wodurch die Zustandsübergänge in die Zustände mit dem Summenwert von $0$ führen. Die Zustände mit der höchsten Summe führen in $A_{final}$ (Dies gilt sowieso mit der vorherigen Regelung). Mit diesen Bedingungen konnte nun aus $States$ ein Graph $G$ erzeugt werden. Im Graph
 \begin{align*}
 G = (V,E)
 \end{align*}
@@ -172,7 +215,7 @@ werden die Knoten $V$ durch die Zustände $A_i \in States$ und $E$ durch die jew
 Mit der Modellierung des Problems als Graphen und den Eigenschaften, dass dieser azyklisch und in topologischer Reihenfolge sortiert ist, kann das Problem mit einem einfachen \emph{Kürzeste-Wege}-Algorithmus gelöst werden. Hierbei kann eine simple Heuristik, zum Beispiel \cite{brandstadt1994kurzeste}, verwendet werden, um den kürzesten Weg von $A_0$ nach $A_{final}$ zu bestimmen.\\
 Mit der Bestimmung des kürzesten Pfades muss am Ende noch bestimmt werden, welche Ziele zwischen den Zuständen eingeholt wurden. Damit werden die anfangs eliminierten Zustände wieder der Tour hinzugefügt und bestenfalls (richtige Implementierung) ist somit die optimale Tour bestimmt. 
 
-\subsection{Algorithmus von Helvig, Robins and Zelikovsky}
+\subsection{Algorithmus von Helvig, Robins und Zelikovsky}
 
 Mit diesen Voraussetzungen haben die Autoren von \cite{helvig} einen exakten $\mathcal{O}(n^2)$-Algorithmus für eindimensionale Fälle entwickelt, welcher auf dynamischer Programmierung basiert. Dieser bestimmt dabei die optimale Tour für die Eingabeinstanz. \\
 Nach dem Schema aus dem vorherigen Abschnitts werden wieder die Listen \emph{Left}, \emph{Right} und $States$ generiert. Anschließend wird durch jeden der $n^2$ Zustände iteriert. Für das einfachere Verstehen des Algorithmus wurde der Graph $G$ zwar beschrieben, aber nicht generiert. Somit wird der Speicherplatz reduziert und damit die Effizienz des Algorithmus verbessert. Diese \emph{On-the-fly}-Methode, um den Graph $G$ zu generieren, ist durch die topologische Sortierung möglich. Damit ist für jeden Zustand sichergestellt, dass dieser mit minimaler Zeit erreicht wurde. Zudem ist nicht für jeden Zustand eine Berechnung der Übergänge in andere Zustände nötig. Einige werden ausgelassen oder führen direkt in $A_{final}$. Dies lässt sich auf das Vorgehen des Algorithmus zurückführen. Für einen Zustand $A_i$ wird dabei eines der folgenden Schritte ausgeführt:
@@ -250,6 +293,78 @@ $current \leftarrow 0$
 \end{minipage}
 }
 
+\subsection{Beispiel für die Funktionsweise des Algorithmus}
+
+Oftmals ist es schwierig, dynamische Programmierung nachzuvollziehen. Dafür werden im Folgenden anhand eines Beispiels die einzelnen Schritte und insbesondere die Iterationen durch jeden Zustand erläutert.
+\begin{example}
+Für den Input sei folgendes gegeben:
+\begin{itemize}
+\item Ziele $Z=\{(-1000,-1),(-500,-1),(-1,8),(1,8),(500,1),(1000,1)\}$
+\item Verfolger $\kappa=(0,10)$
+\end{itemize}
+Demnach startet und beendet der Verfolger die Tour an der Koordinate $0$. Bemerke, dass einfachheitshalber trotz voranschreitender Zeit die Koordinaten der Ziele gleich bleiben. 
+Die Ziele werden nun in \emph{Left} und \emph{Right} eingeteilt:
+\begin{itemize}
+\item $Left=\{(-1000,-1),(-500,-1),(-1,8)\}$ 
+\item $Right=\{(1,8),(500,1),(1000,1)\}$
+\end{itemize}
+Nach der Sortierung in absteigender Reihenfolge nach den Geschwindigkeiten und der Eliminierung von Zielen, welche sowieso eingeholt werden, sehen die Listen wie folgt aus:
+\begin{itemize}
+\item $Left=\{(-1,8),(-1000,-1)\}$ 
+\item $Right=\{(1,8),(1000,1)\}$
+\end{itemize}
+Dies ist äquivalent zu der Startkonfiguration aus Abbildung \ref{fig:GegenBsp1Dim}. Als nächstes wird die $States$ in absteigender Reihenfolge der Indizes aus den Listen $Left$ und $Right$ erstellt:
+\begin{align*}
+A_0&\\
+A_1&=\{(-1, -8), (1, 8)\}\\
+A_2&=\{(1, 8), (-1, -8)\}\\ 
+A_3&=\{(-1, -8), (1000, 2)\}\\
+A_4&=\{(1000, 2), (-1, -8))\}\\
+A_5&=\{(-1000, -1), (1, 8))\}\\
+A_6&=\{(1, 8), (-1000, -1)\}\\
+A_7&=\{(-1000, -1), (1000, 2))\}\\
+A_8&=\{(1000, 2), (-1000, -1))\}\\
+A_{final}&
+\end{align*}
+Nun beginnt die dynamische Programmierung. Dafür wird durch jeden Zustand aus $States$ in chronologischer Reihenfolge iteriert. Dabei ergeben sich für jede Iteration folgende benötigte Zeiten bis zum Erreichen eines jeden Zustands:
+\begin{align*}
+\text{Iteration 0:}~t=&[0.0, 0.5, 0.5, \infty, \infty, \infty, \infty, \infty, \infty, \infty] \\
+\text{Iteration 1:}~t=&[0.0, 0.5, 0.5, \infty, \infty, 111.11, 5.5, \infty, \infty, \infty] \\
+\text{Iteration 2:}~t=&[0.0, 0.5, 0.5, 5.5, 125.0, 111.111, 5.5, \infty, \infty, \infty] \\
+\text{Iteration 3:}~t=&[0.0, 0.5, 0.5, 5.5, 125.0, 111.11, 5.5, 112.23, 137.5, \infty] \\
+\text{Iteration 4:}~t=&[0.0, 0.5, 0.5, 5.5, 125.0, 111.11, 5.5, 112.23, 137.5, 2251.0] \\
+\text{Iteration 5:}~t=&[0.0, 0.5, 0.5, 5.5, 125.0, 111.11, 5.5, 112.23, 137.5, 2001.0] \\
+\text{Iteration 6:}~t=&[0.0, 0.5, 0.5, 5.5, 125.0, 111.11, 5.5, 112.23, 126.25, 2001.0] \\
+\text{Iteration 7:}~t=&[0.0, 0.5, 0.5, 5.5, 125.0, 111.11, 5.5, 112.23, 126.25, 585.17] \\
+\text{Iteration 8:}~t=&[0.0, 0.5, 0.5, 5.5, 125.0, 111.11, 5.5, 112.23, 126.25, 529.61]
+\end{align*}
+Somit benötigt die optimale Tour durch alle Ziele eine Reisezeit von $t[9]=529,61$. Bemerke, dass keine Iteration $9$ nötig ist, da mit $A_{8}$ das letzte mal $\tau_{final}$ berechnet wird. Nun wurde im Algorithmus nicht explizit beschrieben, in welcher Reihenfolge der Zustände die optimale Tour erfolgt. Dafür kann einfach eine Liste $parent$ verwendet werden, um bei einer schnelleren Zeit {$t(A) + t(\tau_{left/right}) < t(A_{left/right})$} den Elternzustand abzuspeichern. Diese Liste sieht nach den Iteration wie folgt aus:
+\begin{align*}
+parents = [-1, 0, 0, 2, 2, 1, 1, 3, 6, 8]
+\end{align*}
+Beim Backtracking ergibt sich nun die Zustandsreihenfolge
+\begin{align*}
+A_0&\\
+A_1&=\{(-1, -8), (1, 8)\}\\
+A_2&=\{(1, 8), (-1, -8)\}\\ 
+A_4&=\{(1000, 2), (-1000, -1))\}\\
+A_{final}&.
+\end{align*}
+Damit erhalten wir $4$ Wendepunkte\footnote{Exklusive $A_0$ und $A_{final}$, dies ist nur der Start und das Ziel der Tour.}, da vor $A_{final}$ alle verbleibenden Ziele auf der anderen Seite  eingeholt werden. Damit wäre theoretisch beim Ziel $(-1000,-1)$ der letzte Wendepunkt der Tour. Zum Schluss wird nun überprüft, zu welchem Zeitpunkt die Ziele aus $Z$ zwischen den einzelnen Wendepunkten eingeholt werden.
+\begin{align*}
+(0, 0),~ &\text{Abfangzeit}: 0.0 \\
+(-1, -8),~ &\text{Abfangzeit}: 0.5 \\
+(1, 8),~ &\text{Abfangzeit}: 5.5 \\
+(500, 1),~ &\text{Abfangzeit}: 56.67 \\
+(1000, 2),~ &\text{Abfangzeit}: 126.25 \\
+(-500, -1),~ &\text{Abfangzeit}: 335.0 \\
+(-1000, -1),~ &\text{Abfangzeit}: 390.55 \\
+(0, 0),~ &\text{Abfangzeit}: 529.61
+\end{align*}
+Dies ist nun die optimale Tour, in der alle Ziele aus $Z$ abgefangen wurden.
+
+\end{example}
+
 \section{Input $\&$ Output}
 
 Um Heuristiken aufzustellen und zu bewerten ist ein sinnvoller und einheitlicher Input und Output notwendig. Für den Input wird eine Menge $T$ von Zielen sowie die initiale Position und Geschwindigkeit des Verfolgers erwartet. Dies reicht aus, um eine Tour zu bestimmen. \\
@@ -259,10 +374,10 @@ Sobald allerdings eine ungültige Eingabe, z.B. wenn eine Zielgeschwindigkeit gr
 
 \chapter{Zwei-orthogonale-Achsen im MT-TSP}
 
-Als neue Modifikation des 1D-Falls wird nun der Achse eine weitere hinzugefügt. Alle Bewegungen und Positionierungen der Ziele und des Verfolgers sind ebenfalls auf die Achsen beschränkt. Die Achsen liegen dabei orthogonal zueinander. Den Ziele ist es dabei nicht erlaubt, an dem Schnittpunkt die Achse zu wechseln. Ein Ziel befindet sich also entweder auf der waagerechten oder senkrechten Achse. Der Schnittpunkt ist dabei festgesetzt auf die Koordinate $0$, während der Ursprung, im Gegensatz zum 1D-Fall\footnote{Im 1D-Fall ist der Ursprung fest definiert auf die Koordinate $0$}, auf einer der Achsen liegen kann.\\
+Als neue Modifikation des 1D-Falls wird nun der Achse eine weitere hinzugefügt. Alle Bewegungen und Positionierungen der Ziele und des Verfolgers sind ebenfalls auf die Achsen beschränkt. Die Achsen liegen dabei orthogonal zueinander. Den Ziele ist es dabei nicht erlaubt, an dem Schnittpunkt die Achse zu wechseln. Ein Ziel befindet sich also entweder auf der waagerechten oder senkrechten Achse. Der Schnittpunkt ist dabei festgesetzt auf die Koordinate $0$. Dies gilt einfachheitshalber ebenfalls für den Ursprung. Im Folgenden wird der Ursprung als Begriff für diesen Punkt verwendet. \\
 Mit der neuen Achse könnte für die Positionsbestimmung eine zweidimensionale Koordinate verwendet werden. Allerdings wäre einer dieser Koordinaten immer gleich $0$, da jegliche Bewegungen der Ziele und des Verfolgers auf die Achsen beschränkt sind. Somit ist nur eine einfache Ergänzung der Definition \ref{def:Instanz} um einen booleschen Wert $b$ nötig. Die Position $p_i$ wird dabei mit 
 \begin{align*}
-p_i = (a, b) ~|~a\in\mathbb{R}, b\in \{true, false\}
+p_i = (a, b) \text{mit} a\in\mathbb{R}, b\in \{true, false\}
 \end{align*}
 neu definiert. Dabei gibt $b$ die Achse an, \emph{true} steht für die waagerechte, \emph{false} für die senkrechte Achse. Die Ziele werden nun neben den Listen \emph{Left} und \emph{Right} auch in die \emph{Top} und \emph{Bottom} einsortiert. Dabei deckt \emph{Top} den positiven und \emph{Bottom} den negativen Koordinatenbereich ab. Mit dieser Ergänzung gelten weiterhin alle anderen der vorherigen Definitionen.
 
@@ -283,32 +398,37 @@ Mit dem Beweis für 1D-Fälle in \cite{helvig} gilt dies unmittelbar auch für d
 
 \item Das nächste Ziel des Verfolgers bewegt sich auf der anderen Achse: \\
 Indirekter Beweis: \\
-Nehmen an, der Verfolger bewegt sich mit $v_{verfolger} < v_{max}$. Dies ist äquivalent dazu, dass der Verfolger an seiner aktuellen Position eine Zeit $\tau$ wartet und sich dann mit $v_{max}$ weiterbewegt, um dann das nächste Ziel $s$ einzuholen. Dabei befindet sich $s$ auf der anderen Achse. Nach der Wartezeit erreicht der Verfolger an Zeitpunkt $t_1$ den Schnittpunkt und holt das Ziel $s$ an der Position $p$ zum Zeitpunkt $t_2$ ein. \\
+Nehmen an, der Verfolger bewegt sich mit $v_{verfolger} < v_{max}$. Dies ist äquivalent dazu, dass der Verfolger an seiner aktuellen Position eine Zeit $\tau$ wartet und sich dann mit $v_{max}$ weiterbewegt, um dann das nächste Ziel $s$ einzuholen. Dabei befindet sich $s$ auf der anderen Achse. Nach der Wartezeit erreicht der Verfolger an Zeitpunkt $t_1$ den Ursprung und holt das Ziel $s$ an der Position $p$ zum Zeitpunkt $t_2$ ein. \\
 Nehmen nun an, dass der Verfolger sich direkt zum Mittelpunkt bewegt. Bis zum Eintreffen des Zeitpunktes $t_1$ wartet der Verfolger nun wieder die Zeit $\tau$. Das Ziel $s$ wird nun zum selben Zeitpunkt $t_2$ bei $p$ erreicht, wie im vorherigen Szenario. \\
-Dies wird nun fortgeführt, indem der Verfolger nicht im Schnittpunkt wartet, sondern von diesem aus $p$ direkt erreicht. Bis zum Zeitpunkt $t_2$ wird nun wieder für die Dauer von $\tau$ gewartet. Außerdem kann der Verfolger schon zu einem Zeitpunkt $t_1 \leq t_{s} \leq t_2$ abfangen, sofern sich $s$ vom Verfolger wegbewegt. \\
-Wird dies nur für alle restlichen Ziele der Tour fortgeführt, resultiert dies letztendlich in Wartezeit am Ende der Tour, was offensichtlich nicht optimal ist. Dieser Fall ist demnach nur eine Erweiterung des 1D-Fall-Beweises um den Schnittpunkt zwischen Zielen, die auf unterschiedlichen Achsen liegen. 
+Dies wird nun fortgeführt, indem der Verfolger nicht im Ursprung wartet, sondern von diesem aus $p$ direkt erreicht. Bis zum Zeitpunkt $t_2$ wird nun wieder für die Dauer von $\tau$ gewartet. Außerdem kann der Verfolger schon zu einem Zeitpunkt $t_1 \leq t_{s} \leq t_2$ abfangen, sofern sich $s$ vom Verfolger wegbewegt. \\
+Wird dies nur für alle restlichen Ziele der Tour fortgeführt, resultiert dies letztendlich in Wartezeit am Ende der Tour, was offensichtlich nicht optimal ist. Dieser Fall ist demnach nur eine Erweiterung des 1D-Fall-Beweises um den Ursprung zwischen Zielen, die auf unterschiedlichen Achsen liegen. 
 \end{enumerate}
 
 In jedem der Fälle wird eine Wartezeit erzeugt, welche an das Ende der Tour \\verschoben werden kann. Somit ist die Tour offensichtlich nicht mehr optimal. Der Verfolger bewegt sich also zu jeder Zeit mit $v_{verfolger} = v_{max}$.
 \end{proof}
 
 \begin{lem}
-In jeder optimalen Tour bei zwei orthogonale Achsen im MT-TSP kann der Verfolger erst seine Richtung ändern, wenn er das schnellste Ziel in seiner Richtung abgefangen hat.
+\label{lem:2}
+In jeder optimalen Tour bei zwei orthogonale Achsen im MT-TSP gelten für den Verfolger folgende Eigenschaften:
+\begin{itemize}
+\item
+Bewegt sich der Verfolger wegführend vom Ursprung, kann dieser erst seine Richtung ändern, sofern er das schnellste Ziel in seiner Richtung abgefangen hat.
+\item
+Bewegt sich der Verfolger in Richtung des Ursprungs, kann dieser solange nicht seine Richtung ändern, bis er das den Ursprungs erreicht hat.
+\end{itemize}
 \end{lem}
 
 \begin{proof}
-Für den Beweis des Lemmas müssen drei Fälle betrachtet und bewiesen werden.\\
+Für den Beweis des Lemmas müssen beide Eigenschaften bewiesen werden.\\
 Fallunterscheidung:\\
+\textcolor{red}{TODO: Beweis überarbeiten!}
 \begin{enumerate}
 \item Der Verfolger bewegt sich vom Ursprung weg in Richtung des schnellsten Ziels $s$ auf der selben Achse: \\
 Mit dem Beweis für 1D-Fälle in \cite{helvig} gilt dies unmittelbar auch für diesen Fall. Dies gilt für jede Seite jeder Achse, auf der sich der Verfolger vom Ursprung wegbewegt.
 
-\item Der Verfolger hat soeben das schnellste Ziel auf einer Achse abgefangen und bewegt sich nun zum nächsten Ziel, welches zwischen dem so eben abgefangenen Ziel und dem Schnittpunkt liegt:\\
-Dies erweitert den 1. Fall nur um die Richtung des Verfolgers und ist damit ebenfalls mit dem Beweis aus \cite{helvig} gezeigt.
-
-\item Der Verfolger hat soeben das schnellste Ziel auf einer Achse abgefangen und bewegt sich nun zum Schnittpunkt:\\
+\item Der Verfolger hat soeben das schnellste Ziel auf einer Achse abgefangen und bewegt sich nun zum Ursprung:\\
 Nach \cite{helvig} kann sich nun der Verfolger nicht umdrehen und ein anderes Ziel auf der Achse einholen. Damit hätte er eine Zeit lang nicht das schnellste Ziel einer Richtung eingeholt und somit nach \cite{helvig} äquivalent zum Warten in einem Punkt ist. Dies resultiert nach Lemma \ref{lem:1} in eine nicht optimale Tour.\\
-Sei der Verfolger nun am Schnittpunkt angekommen. Dieser hat nun drei Richtungsmöglichkeiten. Dabei spielt es allerdings keine Rolle für welche der drei Richtungen sich der Verfolger entscheidet, denn ab dem Schnittpunkt gilt für jede der Richtungen wieder der 1. Fall.
+Sei der Verfolger nun am Ursprung angekommen. Dieser hat nun drei Richtungsmöglichkeiten. Dabei spielt es allerdings keine Rolle für welche der drei Richtungen sich der Verfolger entscheidet, denn ab dem Ursprung gilt für jede der Richtungen wieder der 1. Fall.
 \end{enumerate} \noindent
 Es reicht also wieder aus, den 1D-Fall-Beweis für Wendepunkte aus \cite{helvig} als Grundlage für den zwei-orthogonale-Achsen-Fall-Beweis zu verwenden.
 \end{proof}
@@ -320,9 +440,9 @@ In diesem Kapitel werden konkrete Heuristiken für den zwei-orthogonale-Achsen-F
 
 \section{Problem der Modellierung bei zwei orthogonale Achsen im MT-TSP mit Zuständen als Graphen}
 Im 1D-Fall konnte über über die topologische Reihenfolge der Wendepunkte bzw. Zustände ein Graph erzeugt werden. Somit wurde mit der Bestimmung des kürzesten Pfads das Problem die optimale Tour bestimmt. \\
-Es wäre also zunächst sinnvoll, diesen Ansatz für den zwei-orthogonale-Achsen-Fall zu übernehmen, da nur eine Achse hinzugekommen ist. Hierfür werden wieder die einzelnen Ziele in die Listen \emph{Left, Right, Top} und \emph{Bottom} aufgeteilt. Bei dem Algorithmus von \cite{helvig} wurden nun die Ziele eliminiert, welche sowieso eingeholt werden und dementsprechend keine Wendepunkte darstellen. Mit der zusätzlichen Achse gilt dies nur noch für Ziele, welche sich wegführend vom Schnittpunkt bewegen. Das liegt daran, dass Ziele nun den Schnittpunkt überqueren können, während der Verfolger sich auf der anderen Achse befindet. Somit werden solche Ziele nicht automatisch eingeholt. \\
+Es wäre also zunächst sinnvoll, diesen Ansatz für den zwei-orthogonale-Achsen-Fall zu übernehmen, da nur eine Achse hinzugekommen ist. Hierfür werden wieder die einzelnen Ziele in die Listen \emph{Left, Right, Top} und \emph{Bottom} aufgeteilt. Bei dem Algorithmus von \cite{helvig} wurden nun die Ziele eliminiert, welche sowieso eingeholt werden und dementsprechend keine Wendepunkte darstellen. Mit der zusätzlichen Achse gilt dies nur noch für Ziele, welche sich wegführend vom Ursprung bewegen. Das liegt daran, dass Ziele nun den Ursprung überqueren können, während der Verfolger sich auf der anderen Achse befindet. Somit werden solche Ziele nicht automatisch eingeholt. \\
 Der nächste Schritt ist nun die Generierung der Zustandsliste $States$, wobei eine Reihe von Problemen auftreten. Die Ziele befinden sich dabei im Laufe der Zeit nicht mehr unbedingt auf der Seite des Verfolgers, welche die jeweilige Liste aus \emph{Left, Right, Top} und \emph{Bottom} vorgibt. Sei der Verfolger zum Zeitpunkt $t$ auf der oberen Seite der senkrechten Achse. Das Ziel $z$ befindet sich in der Liste $Left$ und befindet zum Zeitpunkt $t$ auf der rechten Seite der waagerechten Achse. Damit befindet sich $z$ nun auch auf der rechten Seite des Verfolgers und ist nicht mehr repräsentativ für die Liste $Left$. \\
-Mit dieser Überlegung muss nun jedes solcher Ziele, die den Schnittpunkt überqueren, betrachtet werden. Dieses hat potentiell eine hohe Geschwindigkeit und muss somit ggf. möglichst schnell abgefangen werden. Problematisch ist dabei, dass ein Ziel vielleicht eine hohe Geschwindigkeit besitzt, aber noch sich sehr weit entfernt vom Schnittpunkt befindet. (siehe Abbildung \textcolor{red}{TODO}). Es müsste also für jegliche Ziele, die einen Schnittpunkt überqueren extra Zustände geben, da diese als die nächsten Wendepunkte in Betracht gezogen werden könnten. Demnach gäbe es von einem Zustand weitaus mehr Übergänge, als nur $\tau_{left}$, $\tau_{right}$, $\tau_{top}$ und $\tau_{bottom}$. \\
+Mit dieser Überlegung muss nun jedes solcher Ziele, die den Ursprung überqueren, betrachtet werden. Dieses hat potentiell eine hohe Geschwindigkeit und muss somit ggf. möglichst schnell abgefangen werden. Problematisch ist dabei, dass ein Ziel vielleicht eine hohe Geschwindigkeit besitzt, aber noch sich sehr weit entfernt vom Ursprung befindet. (siehe Abbildung \textcolor{red}{TODO}). Es müsste also für jegliche Ziele, die einen Ursprung überqueren extra Zustände geben, da diese als die nächsten Wendepunkte in Betracht gezogen werden könnten. Demnach gäbe es von einem Zustand weitaus mehr Übergänge, als nur $\tau_{left}$, $\tau_{right}$, $\tau_{top}$ und $\tau_{bottom}$. \\
 Die nächste Überlegung wäre nun, die Listen nach jeder Iteration zu aktualisieren. Das Problem ist hierbei, dass damit die Modellierung des Graphen so nicht mehr funktioniert. Dabei entsteht mitten im Graphen ein komplett neuer Graph.  \\
 Letztendlich würde ein optimaler Algorithmus eine sehr große Laufzeit benötigen und gerade bei vielen Randbedingungen ist eine korrekte Implementierung schwer. Daher wird im nachfolgenden Abschnitt ein anderer Ansatz, bei dem die Ziele nach einer Priorität abgefangen werden, mit der Laufzeitkomplexität von $\mathcal{O}(n^2)$ vorgeschlagen.
 
@@ -365,7 +485,7 @@ eingesetzt. Diese wird in absteigender Reihenfolge nach $\alpha_i$ sotiert. In j
 \section{Algorithmus mit dem Prioritätsansatz}
 
 In diesem Abschnitt wird ein konkreter 20A-Fall-Algorithmus vorgestellt. Während der 1D-Algorithmus aus \cite{helvig} einmalig durch jeden Zustand iteriert, wird in diesem Algorithmus immer für das erste Element $current$ aus der Prioritätswarteschlange $\mathcal{Q}$ eine Abfolge von Operationen durchgeführt. \\
-Zunächst wird überprüft, ob sich inklusive $current$ alle verbleibenden Ziele auf einer Seite des Ursprungs befinden. Dabei muss gelten, dass die Ziele sich zu dem Zeitpunkt auf einer Seite befinden müssen, zu dem der Verfolger den Schnittpunkt erreicht hat. Das Abfangen der verbleibenden Ziele und die Rückkehr zum Ursprung ist dabei einfach zu berechnen. Dies stellt die Abbruchbedingung des Algorithmus dar und ist spätestens mit dem letzten Ziel erfüllt. Ist die Bedingung nicht erfüllt, wird für jedes verbleibende Ziel die Priorität $\alpha$ neu berechnet und in $\mathcal{Q}$ absteigend nach $\alpha$ neu sortiert. 
+Zunächst wird überprüft, ob sich inklusive $current$ alle verbleibenden Ziele auf einer Seite des Ursprungs befinden. Dabei muss gelten, dass die Ziele sich zu dem Zeitpunkt auf einer Seite befinden müssen, zu dem der Verfolger den Ursprung erreicht hat. Das Abfangen der verbleibenden Ziele und die Rückkehr zum Ursprung ist dabei einfach zu berechnen. Dies stellt die Abbruchbedingung des Algorithmus dar und ist spätestens mit dem letzten Ziel erfüllt. Ist die Bedingung nicht erfüllt, wird für jedes verbleibende Ziel die Priorität $\alpha$ neu berechnet und in $\mathcal{Q}$ absteigend nach $\alpha$ neu sortiert. 
 Anschließend wird die Zeit $\pi[prev\rightarrow current]$ vom vorherigen Ziel $prev$ bis $current$ berechnet und auf den aktuellen Zeitstempel addiert. Anschließend wird mit der ermittelten Zeit die Position jedes Ziels in $\mathcal{Q}$ gemäß Definition \ref{def:UpdatedPos} aktualisiert. 
 Nun werden neben $current$ alle Ziele, welche zwischen $prev$ und $current$ abgefangen wurden, aus $\mathcal{Q}$ entfernt und ein Output-Array $OUTPUT$ eingefügt. Dies wird dann solange bis zum Abbruchkriterium fortgeführt. Am Ende wird dann $OUTPUT$ in der Reihenfolge des Abfangens sortiert und zurückgegeben. Der Algorithmus ist formal beschrieben in Algorithmus \ref{alg:2OA.1}.
 
@@ -432,8 +552,8 @@ Bei der Korrektheit des Prioritätsansatzes ist die Bedingung wichtig, dass der 
 
 \section{Brute-Force für zwei orthogonale Achsen im MT-TSP}
 
-Der Prioritätsansatz liefert zwar eine effiziente und schnelle Lösung, garantiert aber keine optimalen Ergebnisse. Um die genaue Güte zu bestimmen, ist ein optimaler Algorithmus nötig. Zwar ist dieser für große Eingaben nicht zu gebrauchen, dennoch empfiehlt sich in diesem Fall die Brute-Force-Methode, um den Algorithmus abschätzen zu können. \\
-Mit einem Brute-Force werden alle Möglichkeiten durchprobiert, um eine Lösung zu bestimmen, in unserem Fall die optimale Tour. Dafür wird für die Zielliste des Inputs alle Permutationen erstellt. Um alle Permutationen zu bestimmen, wird ein Permutationsbaum generiert. Dieser beginnt bei der Wurzel, wobei für diese auch der Ursprung direkt eingesetzt werden kann. Anschließend wird jedes Ziel als Kind des Wurzelknotens eingesetzt. Die Kinder wiederum bekommen weitere $k-1$ Ziele als Kinderknoten, wobei $k$ die Tiefe des Baumes darstellt. Damit wird sichergestellt, dass keine Ziele in einer Tour doppelt vorkommen und damit, statt $10^{10}$, $n!$ Permutationen generiert werden. Mit dieser Variante wird bei $n$ Zielen insgesamt eine Anzahl von $V_n = n + n\cdot (V_{n-1})$ Knoten in den Baum eingefügt. Dies kann mittels Rekursion einfach berechnet werden. Für $10$ Ziele wären dies also $9.864.100$ Einträge.\\
+Der Prioritätsansatz liefert zwar eine effiziente und schnelle Lösung, garantiert aber keine optimalen Ergebnisse. Um die genaue Güte zu bestimmen, ist ein optimaler Algorithmus nötig. Zwar ist dieser für große Eingaben nicht zu gebrauchen, dennoch empfiehlt sich in diesem Fall die Brute-Force-Methode, um die Güte des Prioritäts-Algorithmus abschätzen zu können. \\
+Mit einem Brute-Force werden alle Möglichkeiten durchprobiert, um eine Lösung zu bestimmen, in diesem Fall die optimale Tour. Dafür wird für die Zielliste des Inputs alle Permutationen erstellt. Um alle Permutationen zu bestimmen, wird ein Permutationsbaum generiert. Dieser beginnt bei der Wurzel, wobei für diese auch der Ursprung direkt eingesetzt werden kann. Anschließend wird jedes Ziel als Kind des Wurzelknotens eingesetzt. Die Kinder wiederum bekommen weitere $k-1$ Ziele als Kinderknoten, wobei $k$ die Tiefe des Baumes darstellt. Damit wird sichergestellt, dass keine Ziele in einer Tour doppelt vorkommen und damit, statt $10^{10}$, $n!$ Permutationen generiert werden. Mit dieser Variante wird bei $n$ Zielen insgesamt eine Anzahl von $V_n = n + n\cdot (V_{n-1})$ Knoten in den Baum eingefügt. Dies kann mittels Rekursion einfach berechnet werden. Für $10$ Ziele wären dies also $9.864.100$ Einträge.\\
 Anschließend kann für jede der Permutationen die Tour bestimmt werden. Nachdem durch alle der Permutationen iteriert wurde, ist die Permutation mit der kürzesten Tourzeit die optimale Tour. Dabei zu beachten ist, dass es mehrere optimale Touren geben kann, die Tourzeit hingegen bleibt jeweils gleich. Gerade bei wenigen Zielen ist die Anwendung zu empfehlen, da beispielweise der Input $Z=\{z_1, z_2, z_3\}$ nur 6 Kombinationen durchrechnen muss (siehe Abbildung \ref{fig:BF1}). Wie bereits erwähnt ist die Brute-Force bei Eingaben mit vielen Zielen nicht zu empfehlen. Bereits mit $n=10$ Zielen gibt es $10! = 3.628.800$ Permutationen, die alle ausprobiert werden müssen. Um dem Abhilfe zu verschaffen, kann der Permutationsbaum an vielen Stellen beschnitten werden, sodass große Teile gar nicht erst berechnet werden müssen. Betrachten dafür zwei Szenarien an einer Permutation bis zum Index $k$.
 \begin{enumerate}
 \item
@@ -443,9 +563,8 @@ Sei $\tau_{min}$ die aktuell schnellste Tourzeit einer Permutation. Der Baum wir
 Überprüfe, ob zwischen dem vorherigen $z_{k-1}$ und dem jetzigen Ziel $z_{k}$ eines der verbleibenden Ziele abgefangen wird. Sofern ein Ziel $z_{i}, i>k$ dabei angefangen wird, ist dies äquivalent dazu, dass eine andere Permutation existiert, in der $z_i$ vor $z_k$ eingeholt wird. Diese wird ggf. später noch berechnet und somit wird der Baum ebenfalls bei $k$ beschnitten.
 \end{enumerate} 
 Somit werden Permutationen mit der selben Reihenfolge an Zielen bis $k$ ausgelassen, da diese keine optimale Route erzeugen werden. Zusätzlich kann der Algorithmus in den meisten Fällen mit einer Sortierung nach der Geschwindigkeit in absteigender Reihenfolge verbessert. Oftmals wird damit schnell ein gutes $\tau_{min}$ gefunden und damit werden umso mehr Pfade abgeschnitten. Darüber hinaus könnte ebenfalls ein Prioritätsmaß genutzt werden, ist aber nicht notwendig.
-Mit diesen Bedingungen wird im Beipiel von Abbildung \ref{fig:BF1} $2$ Berechnungen eingespart (siehe Abbildung \ref{fig:BF2}). Bei jeder Permutation wird am Anfang und am Ende der Ursprung eingerechnet. Formal zusammengefasst wird der Brute-Force-Algorithmus in Algorithmus \ref{alg:BF}. \\
-Als weitere Verbesserung kann direkt beim Erstellen des Permutationsbaum bei eines der Abbruchbedingungen der Baum an der Stelle abgeschnitten werden. Somit werden viele Permutationen gar nicht erst erstellt und die Gesamtlaufzeit verbessert sich erheblich. Allerdings wird hierbei der Brute-Force-Ansatz nur zur Bestimmung der Güte verwendet und muss keine guten Laufzeiten erzielen.\\
-\textcolor{red}{TODO: Bei sehr viel Zeit den genauen Algorithmus aufschreiben und Laufzeit abschätzen, ggf. könnte dieser Ansatz sogar für $n\approx 15$ im worst-case keine gravierenden Laufzeiten erzeugen.}\\
+Mit diesen Bedingungen wird im Beipiel von Abbildung \ref{fig:BF1} $2$ Berechnungen eingespart (siehe Abbildung \ref{fig:BF2}). Bei jeder Permutation wird am Anfang und am Ende der Ursprung eingerechnet. \\
+Zuletzt kann die Laufzeitkomplexität stark verbessert werden, indem der Permutationsbaum \emph{on-the-fly} generiert wird. Dafür wird für jeden Knoten bzw. jedes Ziel direkt alle Berechnungen durchgeführt und äquivalent zu den Beschneidungen, bricht der Algorithmus einfach bei dem Eintritt eines der oben genannten Szenarien ab. Formal zusammengefasst wird der Brute-Force-Algorithmus in Algorithmus \ref{alg:BF}. \\
 
 \begin{figure}[htbp]
 \centering
@@ -536,36 +655,31 @@ Als weitere Verbesserung kann direkt beim Erstellen des Permutationsbaum bei ein
 \floatname{algorithm}{Algorithmus}
 \caption{Brute-Force-Algorithmus für zwei-orthogonale Achsen beim MT-TSP}
 \label{alg:BF}
-\State \textbf{Input:} Ziele $Z$, Ursprung $z_{ursprung}$, Verfolgergeschwindigkeit $v_{max}$
-\State \textbf{Output:} Ziele $Z$ in der Tour-Reihenfolge, inklusive Retour zum Ursprung\\
+\State \textbf{Input:} Targets $Z$, pursuer
+\State \textbf{Output:} Targets $Z$ Targets Z in order of nondecreasing intercepting time\\
 
-\State $B\rightarrow$ Permutationsbaum, bei $n$ Zielen muss es $n$ Kinderknoten geben.
+\State Sort $Z$ in order of nonincreasing absolute values of the respective velocities
+\State Let $currentTargets$ be the current target order (partial permutation)
+\State Let $t$ be the time-array, which represents the intercepting time for each \\
+~~~~~target $z_i\in currentTargets$ 
 \State $\tau_{min}\leftarrow \infty$
-\State Sei $aktuelleZiele$ das Array mit den aktuellen Indizes von $Z$, initialisiert mit einsen
-\State Sei $k$ die aktuelle Tiefe im Baum
-\State Sei $t$ das Zeit-Array welches für die aktuelle Ziel-Reihenfolge die Abfangzeit angibt
-\State $k\leftarrow 1$
+\State $current\leftarrow z_0$
+\State $prev\leftarrow origin$, which is determined by the start position of the pursuer\\
 
-\While {$aktuelleZiele[0]\leq n$ und $aktuelleZiele[n]\leq n$}
-\State $current\leftarrow Z[aktuelleZiele[k]]$
-\State $prev\leftarrow Z[aktuelleZiele[k-1]]$
+\While {there are possible permutations remaining}
+\State $current\leftarrow$ the target just intercepted
+\State $prev\leftarrow$ the target previously intercepted 
 \State $t[current] \leftarrow t[prev] + \pi[prev\rightarrow current]$
-\If {$t[current]\geq \tau_{min}$ oder mindestens ein Ziel der verbliebenen Indizes wird zwischen\\~~~~~~~ $current$ und $prev$ abgefangen}
-\If {$aktuelleZiele[k]=n$}
-\State Dekrementiere $k$
-\State Inkrementiere $aktuelleZiele[k]$
+\If {$t[current]\geq \tau_{min}$ or at least one target of $Z\backslash currentTargets$ is located\\ ~~~~~~~~between $current$ and $prev$}
+\State Step back and follow the next possible permutation-path
 \Else
-\State Inkrementiere $aktuelleZiele[k]$ 
-\EndIf
-\Else
-\If {$k<n$}
-\State Inkrementiere $k$
+\If {$currentTargets$.length $\neq Z$.length}
+\State Choose the next target $z_i$, $z_i\notin currentTargets$
 \Else
 \State $t[current]\leftarrow t[current] + \pi[current\rightarrow ursprung]$ 
 \If {$t[current] < \tau_{min}$}
 \State $\tau_{min}\leftarrow t[current]$
-\State Dekrementiere $k$
-\State Inkrementiere $aktuelleZiele[k]$
+\State Step back and follow the next possible permutation-path
 \EndIf 
 \EndIf
 \EndIf
@@ -575,9 +689,9 @@ Als weitere Verbesserung kann direkt beim Erstellen des Permutationsbaum bei ein
 \end{minipage}
 
 \subsection{Laufzeitkomplexität Brute-Force-Ansatz}
-%Im worst case wird nichts oder erst ganz am Ende der Baum beschnitten, wodurch bei einem großen $n$ die Laufzeit
+\textcolor{red}{TODO: Überarbeiten, diese ist nun viel besser}
 Zunächst wird die benötigte Laufzeit zur Erstellung des Baums betrachtet. Dafür werden $V_n = n + n\cdot (V_{n-1})$ Knoten eingefügt. Die Generierung des Baums kann demnach mit $\mathcal{O}(n!)$ abgeschätzt werden. \\
-Trotz der zuvor vorgeschlagenen Verbesserungen des Brute-Force-Algorithmus muss der worst-case betrachtet werden. Dabei wird der Baum an keiner Stelle wegen der Tourzeit-Bedingung  beschnitten, da $\tau_{min}$ nach jeder Permutation kleiner wird. Der Fall ist zwar sehr unwahrscheinlich, aber möglich. Dies würde in eine Laufzeitkomplexität von $\mathcal{O}(n!)$ resultieren. Allerdings werden mit der 2. Bedingung definitiv Teile des Baumes abgeschnitten, da immer Ziele zwischen den einzelnen Zielen eingeholt werden\footnote{Dies gilt für $n>2$}. An sich benötigt die Berechnung eine Laufzeit von $\mathcal{O}(n^2)$, schneidet dafür aber große Teile des Baums weg. Es hat sich gezeigt, dass bei den eigentlichen $n!$ Permutationen meistens weniger als $5\%$ der Permutationen letztendlich ausgerechnet werden\footnote{Später dazu mehr im Kapitel Experimente}. \\
+Trotz der zuvor vorgeschlagenen Verbesserungen des Brute-Force-Algorithmus muss der worst-case betrachtet werden. Dabei wird der Baum an keiner Stelle wegen der Tourzeit-Bedingung  beschnitten, da $\tau_{min}$ nach jeder Permutation kleiner wird. Der Fall ist zwar sehr unwahrscheinlich, aber möglich. Dies würde in eine Laufzeitkomplexität von $\mathcal{O}(n!)$ resultieren. Allerdings werden mit dem zweiten Szenario definitiv Teile des Baumes abgeschnitten, da immer Ziele zwischen den einzelnen Zielen eingeholt werden\footnote{Dies gilt für $n>2$}. An sich benötigt die Berechnung eine Laufzeit von $\mathcal{O}(n^2)$, schneidet dafür aber große Teile des Baums weg. Es hat sich gezeigt, dass bei den eigentlichen $n!$ Permutationen meistens weniger als $5\%$ der Permutationen letztendlich ausgerechnet werden\footnote{Später dazu mehr im Kapitel Experimente}. \\
 Nach verschiedenen worse-case-Analysen hat sich schlussendlich gezeigt, dass die Erstellung des Permutationsbaums mit Abstand die größte Laufzeit einbüßt. Somit hat der Brute-Force-Algorithmus eine Zeitkomplexität von $\mathcal{O}(n!)$. 
 
 
@@ -586,78 +700,26 @@ Mit dem Brute-Force-Algorithmus wird jede mögliche Permutation an Zielen auspro
 
 
 \chapter{Experimente}
-\textcolor{red}{TODO}
+\textcolor{red}{TODO}\\
 Meine Vorschläge für dieses Kapitel:
 \begin{itemize}
 \item
 1D für $n=10,100,1000,10000$ testen, dabei eine Laufzeitkurve erstellen und analysieren
 \item
-$1.000.000$ mal den 2OA- gegen den Brute-Force-Algorithmus laufen lassen. Mit den Tourzeiten die Güte des 2OA-Algorithmus bestimmen.
+Brute-Force-Algorithmus auf Effektivität testen mit zufällig generierten Inputs für $n=10,12,14$
+\item
+$1.000.000$ mal den Prioritäts-Algorithmus gegen den BF-Algorithmus laufen lassen. Mit den Tourzeiten die Güte des 2OA-Algorithmus bestimmen.
 \item
 2OA-Algorithmus in allen Kombinationen der folgenden Parametern testen:
 \begin{align*}
 n&=5,25,50,75,100\\
-(v_{verfolger},v_i)&=(20,200),(40,100),(60,59)\\
+(v_{verfolger},v_i)&=(200,20),(100,40),(59,60)\\
 Startpositionen&=[10.000]
 \end{align*}
-Die zweite Notation Bedeutet dabei, dass die Verfolgergeschwindigkeit für $20,40,60$ und die Zielgeschwindigkeit (fest gesetzt für alle Ziele) für $200,100,59$ getestet wird(Parameterwahl nach \cite{stieber2015multiple} orientiert).
+Die zweite Notation bedeutet dabei, dass die Verfolgergeschwindigkeit für $200,100,59$ und die Zielgeschwindigkeit (fest gesetzt für alle Ziele) für $20,40,60$ getestet wird (Parameterwahl nach \cite{stieber2015multiple} orientiert).
 \end{itemize} 
 
-\chapter{Gegenbeispiel Algorithmus von Helvig et. al.}
 
-Dieses Kapitel dient temporär als Gegenbeispiel für den Algorithmus Helvig et. al. 
-Input: 
-\begin{itemize}
-\item
-Ziele $Z=\{(-933,13),(-883,-6),(-203,-12),(756,8)\}$\\
-\textcolor{red}{(Die Zahlen der Ziele sind zufällig generiert, also nicht wundern)}
-\item
-Verfolger $\kappa=(0,15)$
-\end{itemize}
-Damit befinden sich drei Ziele auf der linken und eines auf der rechten Seite des Ursprungs.
-\textcolor{red}{TODO: Wenn Gegenbsp korrekt, erstelle Grafik}\\
-Mit dem Algorithmus von Helvig et. al. würden nun folgende 6 Zustände erstellt werden:
-\begin{align*}
-&A_0 \\
-&A_1 = \{(-203, -12), (756, 8)\}\\
-&A_2 = \{(756, 8), (-203, -12)\}\\
-&A_3 = \{(-883, -6), (756, 8)\}\\
-&A_4 = \{(756, 8), (-883, -6)\}\\
-&A_5 = \{(-933, 13), (756, 8)\}\\
-&A_6 = \{(756, 8), (-933, 13)\}\\
-&A_{final} 
-\end{align*}
-Nun wird durch jeden dieser Zustände in chronologischer Reihenfolge iteriert. Dabei ergeben sich für die jeweiligen Zustände folgende Zeiten:
-\begin{align*}
-&\text{Iteration 0:}~t=[0.0, 67.67, 108.0, \infty, \infty, \infty, \infty, \infty] \\
-&\text{Iteration 1:}~t=[0.0, 67.67, 108.0, 98.11, 398.0, \infty, \infty, \infty] \\
-&\text{Iteration 2:}~t=[0.0, 67.67, 108.0, 98.11, 398.0, \infty, \infty, 2079.33] \\
-&\text{Iteration 3:}~t=[0.0, 67.67, 108.0, 98.11, 398.0, 1005.17, 528.48, 2079.33] \\
-&\text{Iteration 4:}~t=[0.0, 67.67, 108.0, 98.11, 398.0, 1005.17, 528.48, 1737.78] \\
-&\text{Iteration 5:}~t=[0.0, 67.67, 108.0, 98.11, 398.0, 1005.17, 528.485, 1737.78]
-\end{align*}
-Bemerke, dass keine Iteration $7$ nötig ist, da nach $A_{final}$ keine Ziele mehr abgefangen werden müssen. Mit der Iteration $6$ gab es keine weiteren Änderungen, kann also auch weggelassen werden. Somit hat die vermeintlich optimale Tour eine Dauer von $1737.78$-Zeiteinheiten. Dabei werden die Ziele in folgender Reihenfolge abgefangen:
-\begin{align*}
-(0,0),~ &\text{Abfangzeit}: 0.0 \\
-(-933, 13),~ &\text{Abfangzeit}: 33.32 \\
-(-203, -12),~ &\text{Abfangzeit}: 67.66 \\
-(756, 8),~ &\text{Abfangzeit}: 398.0 \\
-(-883, -6),~ &\text{Abfangzeit}: 1199,22 \\
-(0, 0),~ &\text{Abfangzeit}: 1727,78 
-\end{align*}
-
-Wendet man nun den Brute-Force-Algorithmus erhält man folgende Reihenfolge der Ziele:
-\begin{align*}
-(0, 0),~ &\text{Abfangzeit}: 0.0 \\
-(-933, 13),~ &\text{Abfangzeit}: 33.32 \\
-(-203, -12),~ &\text{Abfangzeit}: 67.66 \\
-(-883, -6),~ &\text{Abfangzeit}: 98.11 \\
-(756, 8),~ &\text{Abfangzeit}: 528.48 \\
-(0, 0),~ &\text{Abfangzeit}: 860.73 \\
-\end{align*}
-Zunächst würde man vermuten, dass der Algorithmus von Helvig et. al. nicht korrekt implementiert wurde. Dies kann man anhand dieses Beispiels wiederlegen. \\
-Nach dem Algorithmus wird der Graph $G$ in topologischer Reihenfolge erstellt. Dabei gibt es nur Übergänge in Zustände mit einem Summenwert der Indizes, der genau ein höher ist, als der Summenwert des jetzigen Zustandes. Betrachten nun das nicht so ganz offensichtliche Problemziel $Z_P=(-993, 13)$. Dieses liegt in den Zuständen $A_6$ und $A_7$, welche sich damit in $G$ an letzter Stelle vor $A_{final}$ befinden. In der optimalen Tour liegt der erste Wendepunkt bei dem Ziel $(-883, -6)$ und fängt dabei $(-993, 13)$ und $(-203,-12)$ ab. Der eindimensionale Algorithmus überprüft hingegen nicht auf Zustände bzw. Ziele, welche auf dem Weg zum Wendepunkt liegen. Diese werden erst im \emph{Postprocessing}-Schritt hinzugefügt. Somit wird $Z_P$ im Graphen erst ganz am Ende berechnet. Dabei dauern alle Pfade zu lange, sodass sich $Z_P$ inzwischen sehr weit entfernt vom Ursprung befindet. \\\\
-Dies lässt sich relativ simpel lösen, indem eben genau diese Zustände berechnet werden, bei denen das jeweilige $s_k$ zwischen Wendepunkten eingeholt wird. Diese Zustände werden markiert und wenn eine Verbindung zu diesem Zustand berechnet wurde, werden die maximal 2 nachfolgenden Zustände berechnet. Befindet sich die Iteration bei einem markierten Zustand, wird dieser übersprungen. Zwar erhöhen sich die Berechnungen für einen Zustand ggf., die Gesamtberechnungen bleiben wiederum gleich. Dies lässt sich algorithmisch allerdings nur in $\mathcal{O}(n^3)$ lösen. Mit Sicherheit gibt es eine elegantere Lösung, bei der Laufzeitkomplexität von $\mathcal{O}(n^2)$ bleibt der Algorithmus damit vermutlich nicht mehr.
 
 %\chapter{Conclusion}
 \chapter{Zusammenfassung und Ausblick}
@@ -666,9 +728,9 @@ Dies lässt sich relativ simpel lösen, indem eben genau diese Zustände berechn
 
 \noindent
 %----------------------Verbesserungen------------------------
-Zwar wurden die Probleme bei der Modellierung als Graphen aufgezeigt, ausgeschlossen sei diese allerdings nicht. Mit dem Ansatz über das Lemma \ref{lem:1} sollte eine optimale Strategie definitiv möglich sein und eine geringere Laufzeit aufweist, als der Brute-Force-Algorithmus mit $\mathcal{O}(n!)$. Der Brute-Force-Ansatz kann zudem um einiges verbessert werden, indem der Permutationsbaum bereits bei der Generierung die einzelnen Ziele berechnet. Somit werden viele Permutationen gar nicht erst erstellt. Zwar wird damit eine deutlich bessere Laufzeit erzielt, bei worst-case-Fällen mit Eingaben von $n>10$ ist Brute-Force allerdings weiterhin untauglich.\\
+Zwar wurden die Probleme bei der Modellierung als Graphen aufgezeigt, ausgeschlossen sei diese allerdings nicht. Mit dem Ansatz über das Lemma \ref{lem:2} sollte eine optimale Strategie definitiv möglich sein und eine geringere Laufzeit aufweist, als der Brute-Force-Algorithmus mit $\mathcal{O}(n!)$. Der Brute-Force-Ansatz kann zudem um einiges verbessert werden, indem der Permutationsbaum bereits bei der Generierung die einzelnen Ziele berechnet. Somit werden viele Permutationen gar nicht erst erstellt. Zwar wird damit eine deutlich bessere Laufzeit erzielt, bei worst-case-Fällen mit Eingaben von $n>14$ ist Brute-Force allerdings weiterhin untauglich.\\
 %-------------------------Ausblick---------------------------
-Mit dem Prioritätsansatz wurde zum Einen ein effizienter und mit dem Brute-Force-Ansatz zum Anderen ein optimaler Algorithmus für wenig Ziele vorgestellt. Als nächstes Schritt wäre ein einigermaßen effizienter, aber optimaler Algorithmus vom großen Interesse. Dies wäre ein notwendiger Schritt, um theoretische Arbeit für $k$-Achsen in MT-TSP zu leisten. Darüber hinaus ist das nächste Ziel in dieser Thematik die Betrachtung von zweidimensionalen MT-TSP und das Aufstellen von Heuristiken.
+Mit dem Prioritätsansatz wurde zum Einen ein effizienter und mit dem Brute-Force-Ansatz zum Anderen ein optimaler Algorithmus für wenig Ziele vorgestellt. Als nächsten Schritt wäre ein einigermaßen effizienter, aber optimaler Algorithmus vom großen Interesse. Dies wäre ein notwendiger Schritt, um theoretische Arbeit für $k$-Achsen in MT-TSP zu leisten. Darüber hinaus ist das nächste Ziel in dieser Thematik die Betrachtung von zweidimensionalen MT-TSP und das Aufstellen von Heuristiken.
 Diesen Jahres wurde für generelle Fälle eine Arbeit\cite{moraes} veröffentlicht, in der mit evolutionären Strategien versucht wird, auf eine optimale Tour in vielen Iterationen hinzuarbeiten. Dabei ist allerdings die optimale Tour von vielen verschiedenen Parametern abhängig und garantieren auch keine optimale Lösung. 
 
 
@@ -689,6 +751,8 @@ Diesen Jahres wurde für generelle Fälle eine Arbeit\cite{moraes} veröffentlic
   title={Experimental Analysis of Heuristic Solutions for the Moving Target Traveling Salesman Problem Applied to a Moving Targets Monitoring System},
   author={de Moraes, Rodrigo S and de Freitas, Edison P},
   journal={Expert Systems with Applications},
+  volume={136},
+  pages={392--409},
   year={2019},
   publisher={Elsevier}
 }
@@ -738,6 +802,7 @@ Diesen Jahres wurde für generelle Fälle eine Arbeit\cite{moraes} veröffentlic
 @book{weicker2015evolutionare,
   title={Evolution{\"a}re algorithmen},
   author={Weicker, Karsten},
+  pages={24--25},
   year={2015},
   publisher={Springer-Verlag}
 }
@@ -769,7 +834,7 @@ Diesen Jahres wurde für generelle Fälle eine Arbeit\cite{moraes} veröffentlic
 \appendix
 \chapter{Implementierungen}
 
-
+\textcolor{red}{TODO} 
 
 
 % \section{Experimental Parameters} % possibly
