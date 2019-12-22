@@ -96,8 +96,8 @@ I = (Z, \kappa).
 \end{align*}
 Jedes Ziel $z_i$ befindet sich zunächst an einem Startpunkt $p_i$ und bewegt sich dann mit einer konstanten Geschwindigkeit $v_i$ entlang einer Achse , $p_i, v_i \in\mathbb{R}$. Demnach kann ein Ziel als ein Tupel $z_i = (p_i, v_i)$ dargestellt werden. Der Ursprung ist der Start und das Ziel jeder Tour und ist definiert durch einen Punkt ohne Geschwindigkeit. Die genaue Position ist dabei die Startposition des Verfolgers $p_{\kappa}$. Jegliche Positionen und Geschwindigkeiten können dabei als Vektoren $P$ und $V$ 
 \begin{align*}
-P &= (p_1, ..., ,p_n)\\
-V &= (v_1,\; ...,\; v_n)
+P &= (p_1, ..., p_n)\\
+V &= (v_1, ..., v_n)
 \end{align*}\newpage\noindent
 dargestellt werden.
 \end{definition}\noindent
@@ -106,7 +106,7 @@ Das Tupel $(-1,0)$ würde also als Beispiel bedeuten, dass der Verfolger an der 
 \begin{definition}
 Der Verfolger bewegt sich mit der Maximalgeschwindigkeit 
 \begin{align*}
-v_{verfolger} > |v_i|, \forall v_i\in V,
+v_{\kappa} > |v_i|, \forall v_i\in V,
 \end{align*}
 somit wird sichergestellt, dass der Verfolger nach einer gewissen Zeit jedes Ziel auf jeden Fall eingeholt hat.
 \end{definition} \noindent
@@ -124,17 +124,17 @@ p_{i,t} = p_{i,0} + v_i\cdot t.
 \begin{definition}
 \label{def:WegZeit}
 Die Zeit, die benötigt wird, um ein Ziel $B$ von der Position von Ziel $A$ einzuholen, ist als. 
-%v_{verfolger}\cdot\tau + pos_A &= v_{B}\cdot\tau + pos_B \\
-%(v_{verfolger}-v_B)\cdot\tau &= pos_B-pos_A \\
+%v_{\kappa}\cdot\tau + pos_A &= v_{B}\cdot\tau + pos_B \\
+%(v_{\kappa}-v_B)\cdot\tau &= pos_B-pos_A \\
 \begin{align*}
-\tau &= \bigg\vert\frac{\|pos_A,pos_B\|_1}{v_{verfolger}-v_B}\bigg\vert
+\tau &= \bigg\vert\frac{\|pos_A,pos_B\|_1}{v_{\kappa}-v_B}\bigg\vert
 \end{align*} 
 definiert.
 \end{definition}\noindent
-Die Berechnung beruht auf der nach der Zeit (in diesem Fall $\tau$) gleichgesetzten und umgestellten physikalischen Formel \footnote{Gleichförmige Bewegung: $s=v\cdot t+s_0$}.
-Bemerke, $v_A$ wird durch $v_{verfolger}$ ersetzt, da sich der Verfolger immer mit maximaler Geschwindigkeit bewegt.\\
+Die Berechnung beruht auf der nach der Zeit (in diesem Fall $\tau$) gleichgesetzten und umgestellten physikalischen Formel\footnote{Gleichförmige Bewegung: $s=v\cdot t+s_0$}.
+Bemerke, $v_A$ wird durch $v_{\kappa}$ ersetzt, da sich der Verfolger immer mit maximaler Geschwindigkeit bewegt.\\
 Mit diesen Voraussetzungen kann da Problem nun modelliert und gelöst werden. Dafür wird im Folgenden die Vorarbeit aus \cite{helvig} detailliert beschrieben. Die Autoren modellieren das Problem als Graph-Problem, wobei der eigentliche Graph on-the-fly erstellt wird. Mit linearer Programmierung wird anschließend die schnellstmögliche Abfangzeit für jeden Zustand bestimmt. Somit kann die die optimale Tourzeit und -Reihenfolge bestimmt werden.
-Im eindimensionalen-Fall befinden sich alle Ziele auf einer Achse und können sich nur in zwei verschiedene Richtungen bewegen. Dasselbe gilt auch für den Verfolger. Wichtig ist zunächst die Bedingung, dass der Verfolger sich immer mit seiner maximalen Geschwindigkeit $v_{verfolger}$ bewegt. Helvig et. al. bewiesen dies mit dem Aspekt, dass ein eine Reisegeschwindigkeit von $v<v_{verfolger}$ äquivalent zu einer Wartezeit an einem Punkt ist. Dies resultiert in eine längere Tourzeit, das heißt die Tour wäre nicht mehr optimal.\\
+Im eindimensionalen-Fall befinden sich alle Ziele auf einer Achse und können sich nur in zwei verschiedene Richtungen bewegen. Dasselbe gilt auch für den Verfolger. Wichtig ist zunächst die Bedingung, dass der Verfolger sich immer mit seiner maximalen Geschwindigkeit $v_{\kappa}$ bewegt. Helvig et. al. bewiesen dies mit dem Aspekt, dass ein eine Reisegeschwindigkeit von $v<v_{\kappa}$ äquivalent zu einer Wartezeit an einem Punkt ist. Dies resultiert in eine längere Tourzeit, das heißt die Tour wäre nicht mehr optimal.\\
 Um das Problem der kürzesten Route zu lösen, muss sich der Verfolger an einem Ziel entscheiden, das nächste Ziel in derselben oder entgegengesetzte Richtung einzuholen. Die Kostenberechnung für eine schnellste Tour aus
 \begin{itemize}
 \item alle Ziele links vom Ursprung aus gesehen und danach alle rechten Ziele abfangen
@@ -186,7 +186,7 @@ ist zwar simpel und einfach implementierbar, reicht aber nicht aus (siehe Abbild
 \draw (5,0.8) -- (5.2,0.8);
 \draw (5.2,0.9) -- (5.4,0.8) -- (5.2,0.7) -- cycle;
 \end{tikzpicture}
-\caption{Offensichtlich würde der Verfolger mit der Geschwindigkeit $v_{verfolger}=11$ deutlich länger für eine Tour brauchen, sofern er zunächst alle Ziele auf der einen und dann auf der anderen Seite abarbeitet. Hierbei wäre es sinnvoll, zunächst die Ziele $(-1,-10)$ und $(1,10)$ einzuholen.}
+\caption{Offensichtlich würde der Verfolger mit der Geschwindigkeit $v_{\kappa}=11$ deutlich länger für eine Tour brauchen, sofern er zunächst alle Ziele auf der einen und dann auf der anderen Seite abarbeitet. Hierbei wäre es sinnvoll, zunächst die Ziele $(-1,-10)$ und $(1,10)$ einzuholen.}
 \label{fig:GegenBsp1Dim}
 \end{figure}
 Im worst case geht $t\rightarrow\infty$, sobald die äußersten Ziele noch deutlich weiter entfernt vom Ursprung aus liegen. Die Autoren aus \cite{helvig} definierten daraufhin Wendepunkte und bewiesen ihre Korrektheit. Nur an diesen ist es dem Verfolger möglich, die Richtung zu ändern. Wendepunkte sind dabei die schnellsten Ziele auf der rechten bzw. rechten Seite des Verfolgers. Sofern der Verfolger vor einem Wendepunkt umkehrt, verlängert sich die Tour und ist damit nicht mehr optimal.
@@ -398,13 +398,13 @@ Mit dem Beweis für 1D-Fälle in \cite{helvig} gilt dies unmittelbar auch für d
 
 \item Das nächste Ziel des Verfolgers bewegt sich auf der anderen Achse: \\
 Indirekter Beweis: \\
-Nehmen an, der Verfolger bewegt sich mit $v_{verfolger} < v_{max}$. Dies ist äquivalent dazu, dass der Verfolger an seiner aktuellen Position eine Zeit $\tau$ wartet und sich dann mit $v_{max}$ weiterbewegt, um dann das nächste Ziel $s$ einzuholen. Dabei befindet sich $s$ auf der anderen Achse. Nach der Wartezeit erreicht der Verfolger an Zeitpunkt $t_1$ den Ursprung und holt das Ziel $s$ an der Position $p$ zum Zeitpunkt $t_2$ ein. \\
+Nehmen an, der Verfolger bewegt sich mit $v_{\kappa} < v_{max}$. Dies ist äquivalent dazu, dass der Verfolger an seiner aktuellen Position eine Zeit $\tau$ wartet und sich dann mit $v_{max}$ weiterbewegt, um dann das nächste Ziel $s$ einzuholen. Dabei befindet sich $s$ auf der anderen Achse. Nach der Wartezeit erreicht der Verfolger an Zeitpunkt $t_1$ den Ursprung und holt das Ziel $s$ an der Position $p$ zum Zeitpunkt $t_2$ ein. \\
 Nehmen nun an, dass der Verfolger sich direkt zum Mittelpunkt bewegt. Bis zum Eintreffen des Zeitpunktes $t_1$ wartet der Verfolger nun wieder die Zeit $\tau$. Das Ziel $s$ wird nun zum selben Zeitpunkt $t_2$ bei $p$ erreicht, wie im vorherigen Szenario. \\
 Dies wird nun fortgeführt, indem der Verfolger nicht im Ursprung wartet, sondern von diesem aus $p$ direkt erreicht. Bis zum Zeitpunkt $t_2$ wird nun wieder für die Dauer von $\tau$ gewartet. Außerdem kann der Verfolger schon zu einem Zeitpunkt $t_1 \leq t_{s} \leq t_2$ abfangen, sofern sich $s$ vom Verfolger wegbewegt. \\
 Wird dies nur für alle restlichen Ziele der Tour fortgeführt, resultiert dies letztendlich in Wartezeit am Ende der Tour, was offensichtlich nicht optimal ist. Dieser Fall ist demnach nur eine Erweiterung des 1D-Fall-Beweises um den Ursprung zwischen Zielen, die auf unterschiedlichen Achsen liegen. 
 \end{enumerate}
 
-In jedem der Fälle wird eine Wartezeit erzeugt, welche an das Ende der Tour \\verschoben werden kann. Somit ist die Tour offensichtlich nicht mehr optimal. Der Verfolger bewegt sich also zu jeder Zeit mit $v_{verfolger} = v_{max}$.
+In jedem der Fälle wird eine Wartezeit erzeugt, welche an das Ende der Tour \\verschoben werden kann. Somit ist die Tour offensichtlich nicht mehr optimal. Der Verfolger bewegt sich also zu jeder Zeit mit $v_{\kappa} = v_{max}$.
 \end{proof}
 
 \begin{lem}
@@ -456,17 +456,17 @@ mit ein, um den jeweiligen Anteil an der Priorität zu erhöhen bzw. zu verringe
 %-------------------------Faktoren------------------------------- 
 Der Geschwindigkeitsfaktor $\phi_1$ erhöht Priorität eines schnellen Ziels $z_i$ und wird mit 
 \begin{align}
-\varphi_1(z_i, w_1) = \frac{|v_i|}{v_{verfolger}}\cdot w_1.
+\varphi_1(z_i, w_1) = \frac{|v_i|}{v_{\kappa}}\cdot w_1.
 \end{align}\\
 berechnet.
 \label{def:FaktorPos}
 Der Positionsfaktor $\phi_2$ erhöht Priorität bei Zielen, die sich vom Ursprung wegbewegen, andernfalls verringert sich die Priorität. Dies wird mit dem Faktor $a\in\{-1,1\}$ verrechnet.
 \begin{align}
-\varphi_2(z_i, w_2) = \frac{|p_i|}{v_{verfolger}}\cdot a \cdot w_2.
+\varphi_2(z_i, w_2) = \frac{|p_i|}{v_{\kappa}}\cdot a \cdot w_2.
 \end{align}\\
 Der Distanzfaktor $\varphi_3$ verringert die Priorität bei großen Abständen zur aktuellen Position und wird auf Grundlage der Definition \ref{def:WegZeit} berechnet mit
 \begin{align}
-\varphi_3(z_i, w_3) = \bigg\vert\frac{\|p_{verfolger},p_i\|_1}{v_{verfolger}-v_i}\bigg\vert \cdot w_3.
+\varphi_3(z_i, w_3) = \bigg\vert\frac{\|p_{verfolger},p_i\|_1}{v_{\kappa}-v_i}\bigg\vert \cdot w_3.
 \end{align}
 %\alpha(z_i, \omega) = \varphi_1(z_i,w_1) + \varphi_2(z_i,w_2) - \varphi_3(z_i,w_3) - \varphi_4(z_i,w_4) - \varphi_5(z_i,w_5)
 \begin{definition}
@@ -706,25 +706,55 @@ In diesem Kapitel werden die drei Algorithmen
 \end{itemize}
 mit verschiedenen Methoden getestet. Beim 1D-Algorithmus reicht es, diesen auf spezielle Eingaben zu testen. Anschließend wird beim Brute-Force-Algorithmus mit unterschiedlichen Eingabegrößen auf die Abschneidungen und die damit resultierenden Einsparungen bei der Berechnung der Permutationen getestet. Danach wird der Prioritäts-Algorithmus gegen den BF-Algorithmus laufen gelassen, um die dadurch resultierende Güte zu bestimmen. Zuletzt wird der Prioritäts-Algorithmus mit verschiedenen Kombinationen an Parametern betrachtet. 
 
-\textcolor{red}{TODO}
-
 \section{Spezielle Instanzen für den 1D-Algorithmus}
-1D für $n=10,100,1000,10000$ testen, dabei eine Laufzeitkurve erstellen und analysieren
+\textcolor{red}{TODO}\\
+1D für $n=10,100,1000,10000$ testen, dabei Iterationen betrachten, ggf. Laufzeitkurve, ansonsten Spezialinstanzen
 
 \section{Brute-Force-Algorithmus mit unterschiedlichen Eingabegrößen}
 
-Gängige Brute-Force-Ansätze 
+Gängige Brute-Force-Ansätze sind bei großen Eingabegrößen sehr ineffizient. Bereits bei $n=10$ ist mit $n!=3628800$ möglichen Kombinationen eine Berechnung sehr aufwendig. Mit den vorgeschlagenen Beschneidungen des Permutationsbaums soll dem Abhilfe geschaffen werden, was nun zu testen gilt. Hierfür wurde der Brute-Force-Algorithmus für verschiedene $n\in\{1,...,14\}$ getestet (siehe Tabelle \ref{tab:ExpBF}). Dabei wird die Verfolgergeschwindigkeit mit $v_{\kappa}=40$ festgesetzt. Zudem startet jedes Ziel bei einer Koordinate zwischen $-1000$ und $1000$ auf einer der Achsen. \\
+Mit den \emph{Instanzen} werden bei einer hohen Anzahl die Ergebnisse repräsentativer. Anschließend wird für mehrere Attribute der Durchschnitt aus allen Instanzen berechnet. Die in dem Permutationsbaum \emph{betrachteten Knoten} geben an, wie viele Ziele insgesamt berechnet wurden. Somit kann mit \emph{Anteil Knoten} durch die Berechnung des Verhältnisses von den \emph{betrachteten Knoten} und $V_n$ abgewogen werden, wie viele Knoten des Baums berechnet wurde. Je niedriger dieser Wert, desto mehr wurde im Baum abgeschnitten. Mit dem $Schnitte$-Attribut kann die Anzahl an Beschneidungen im Baum bestimmt werden. Dieser Wert ist allerdings nur in Kombination mit den \emph{betrachteten Knoten} repräsentativ, da die Schnitte an jeder Stelle im Baum möglich sind\footnote{Ein Schnitt in der Nähe der Wurzel sorgt für eine starke Reduzierung an betrachteten Knoten, während ein Schnitt weit unten genau das Gegenteil bewirkt.}. Sobald eine Instanz nicht berechnet werden kann, wird dies in \emph{Fails} festgehalten.
 
-Brute-Force-Algorithmus auf Effektivität testen mit zufällig generierten Inputs für $n=10,12,13,14$
+\begin{table}[htpb]
+\centering
+\scalebox{0.93}{
+\begin{tabular}{ccccccc} 
+\uzlhline
+\uzlemph{$n$} &\uzlemph{Instanzen}&\uzlemph{$\diameter$betr. Knoten} & \uzlemph{$\diameter$Anteil Knoten} & \uzlemph{$\diameter$Schnitte} & \uzlemph{$\diameter$ber. Blätter} & \uzlemph{Fails}\\ \uzlhline
+1& 10000& ~~~~~~1.00& 1.000000& ~~~~~~0.00& ~~~1.00& ~0 \\
+2& 10000& ~~~~~~3.75& 0.939151& ~~~~~~0.24& ~~~1.57& ~0 \\
+3& 10000& ~~~~~11.75& 0.783513& ~~~~~~0.95& ~~~3.14& ~0 \\
+4& 10000& ~~~~~37.81& 0.590758& ~~~~~~3.22& ~~~6.71& ~0 \\
+5& 10000& ~~~~130.44& 0.401344& ~~~~~11.87& ~~15.02& ~0 \\
+6& 10000& ~~~~471.76& 0.241184& ~~~~~47.23& ~~32.46& ~0 \\
+7& 10000& ~~~1819.94& 0.132852& ~~~~194.96& ~~70.33& ~0 \\
+8& 10000& ~~~7353.01& 0.067090& ~~~~852.13& ~150.30& ~0 \\
+9& 10000& ~~31426.98& 0.031860& ~~~3833.61& ~313.76& ~0 \\
+10&~1000& ~140342.54& 0.014228& ~~18169.79& ~620.86& ~0 \\
+11&~1000& ~650570.40& 0.005996& ~~88862.13& 1304.56& ~0 \\
+12&~~100& 3562601.51& 0.002736& ~457589.77& 3246.11& ~0 \\
+13&~~100& 8184931.87& 0.000484& 1523396.29& 4303.92& 22\\
+14&~~~10& 5033246.67& 0.000021& 1147070.33& 2025.67& ~7 \\ \uzlhline
+\end{tabular}}
+\caption{Brute-Force-Algorithmus mit bis zu $14$ Knoten}
+\label{tab:ExpBF}
+\end{table}
+\noindent 
+Mit der Anzahl zunehmender Eingabegröße steigt die Anzahl an betrachteten Knoten mit dem Faktor $\approx 4$ nahezu konstant an. Im Gegenzug sinkt zusätzlich der Anteil der Knoten und die Schnitte steigen. Auch die berechneten Blätter bzw. Permutationen steigen nur langsam an. Dies zeigt, dass bei ansteigender Eingabegröße, die Komplexität der Berechnung gar nicht so stark ansteigt. Bei $n=13$ werden im Schnitt gerade mal $4303.92$ von möglichen $6227020800$ ausgerechnet. Man würde nun annehmen, dass dies auch für größere $n$ eine gute Heuristik wäre. Allerdings erkennt man schon ab $n=10$, dass die Berechnungen immer länger dauern und bei $n=14$ nur noch $10$ Berechnungen durchgeführt wurden. Dies liegt an Fällen, in denen nicht nach kurzer Zeit ein gutes $\tau_{min}$ gefunden wurde. Damit werden bei steigender Eingabegröße erheblich mehr Berechnungen durchgeführt, da der eigentliche Permutationsbaum ohne Beschneidungen eine Größe von $n!$ Permutationen besitzt.  \\
+Die Ergebnisse fallen für diese Laufzeit trotzdem sehr positiv aus, da normale Brute-Force-Heuristiken bereits bei $n>10$ sehr langsam laufen und bei einer guten Vorsortierung potentiell auch Fälle mit $n=15$ durch große Abschneidungen in der Nähe der Wurzel lösbar sind. Die in diesem Fall verwendete Sortierung nach dem Betrag der Geschwindigkeit ist sehr simpel und zeigt, dass eine etwas komplexere Sortierung\footnote{Es könnten zusätzlich Prioritäten verwendet werden, wodurch ein Teil eines Baumes ggf. zunächst ausgelassen wird.} sehr wahrscheinlich schneller ein gutes $\tau_{min}$ finden kann. \\
+Die Algorithmen dieser Arbeit sind jeweils in Java programmiert. Ab einer Eingabegröße von $n>12$ ereignen sich \emph{Heap-Space}-Errors. Dies liegt daran, dass zu viele Knoten betrachtet werden. Mit der Programmiersprache könnte man vermutlich $n=13$ fehlerfrei berechnen, wäre allerdings vermutlich bei $n=14$ ebenfalls limitiert. Durch die Errors ist der Datensatz mit $n=14$ nicht mehr repräsentativ, da hierbei nur drei Instanzen berechnet werden konnten. Dabei wurde bei der ersten Instanz sehr früh ein niedriges $\tau_{min}$ gefunden, wodurch der Schnitt der jeweiligen Attribute sehr niedrig ist.   
+
 
 \section{Güte des Prioritäts-Algorithmus}
+\textcolor{red}{TODO}\\
 $1.000.000$ mal den Prioritäts-Algorithmus gegen den BF-Algorithmus laufen lassen. Mit den Tourzeiten die Güte des 2OA-Algorithmus bestimmen.
 
 \section{Auswirkung (Instanzen-Parameter auf den Prioritäts-Algorithmus}
+\textcolor{red}{TODO}\\
 Prioritäts-Algorithmus in allen Kombinationen der folgenden Parametern testen:
 \begin{align*}
 n&=5,25,50,75,100\\
-(v_{verfolger},v_i)&=(200,20),(100,40),(59,60)\\
+(v_{\kappa},v_i)&=(200,20),(100,40),(59,60)\\
 Startpositionen&=[10.000]
 \end{align*}
 Die zweite Notation bedeutet dabei, dass die Verfolgergeschwindigkeit für $200,100,59$ und die Zielgeschwindigkeit (fest gesetzt für alle Ziele) für $20,40,60$ getestet wird (Parameterwahl nach \cite{stieber2015multiple} orientiert).
