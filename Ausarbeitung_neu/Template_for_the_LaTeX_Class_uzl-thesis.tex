@@ -714,7 +714,7 @@ mit verschiedenen Methoden getestet. Beim 1D-Algorithmus reicht es, diesen auf s
 
 \section{Brute-Force-Algorithmus mit unterschiedlichen Eingabegrößen}
 
-Gängige Brute-Force-Ansätze sind bei großen Eingabegrößen sehr ineffizient. Bereits bei $n=10$ ist mit $n!=3628800$ möglichen Kombinationen eine Berechnung sehr aufwendig. Mit den vorgeschlagenen Beschneidungen des Permutationsbaums soll dem Abhilfe geschaffen werden, was nun zu testen gilt. Hierfür wurde der Brute-Force-Algorithmus für verschiedene $n\in\{1,...,14\}$ getestet (siehe Tabelle \ref{tab:ExpBF}). Dabei wird die Verfolgergeschwindigkeit mit $v_{\kappa}=40$ festgesetzt. Zudem startet jedes Ziel bei einer Koordinate zwischen $-100$ und $100$ auf einer der Achsen. \\
+Gängige Brute-Force-Ansätze sind bei Eingabegrößen mit Zielen sehr ineffizient. Bereits bei $n=10$ ist mit $n!=3628800$ möglichen Kombinationen eine Berechnung sehr aufwendig. Mit den vorgeschlagenen Beschneidungen des Permutationsbaums soll dem Abhilfe geschaffen werden, was nun zu testen gilt. Hierfür wurde der Brute-Force-Algorithmus für verschiedene $n\in\{1,...,14\}$ getestet (siehe Tabelle \ref{tab:ExpBF}). Dabei wird die Verfolgergeschwindigkeit mit $v_{\kappa}=40$ festgesetzt. Zudem startet jedes Ziel bei einer Koordinate zwischen $-100$ und $100$ auf einer der Achsen. \\
 Mit den \emph{Instanzen} werden bei einer hohen Anzahl die Ergebnisse repräsentativer. Anschließend wird für mehrere Attribute der Durchschnitt aus allen Instanzen berechnet. Die in dem Permutationsbaum \emph{betrachteten Knoten} geben an, wie viele Ziele insgesamt berechnet wurden. Somit kann mit \emph{Anteil Knoten} durch die Berechnung des Verhältnisses von den \emph{betrachteten Knoten} und $V_n$ abgewogen werden, wie viele Knoten des Baums berechnet wurde. Je niedriger dieser Wert, desto mehr wurde im Baum abgeschnitten. Mit dem $Schnitte$-Attribut kann die Anzahl an Beschneidungen im Baum bestimmt werden. Dieser Wert ist allerdings nur in Kombination mit den \emph{betrachteten Knoten} repräsentativ, da die Schnitte an jeder Stelle im Baum möglich sind\footnote{Ein Schnitt in der Nähe der Wurzel sorgt für eine starke Reduzierung an betrachteten Knoten, während ein Schnitt weit unten genau das Gegenteil bewirkt.}. Sobald eine Instanz nicht berechnet werden kann, wird dies in \emph{Fails} festgehalten.
 
 \begin{table}[htpb]
@@ -780,18 +780,46 @@ betrachtet und mit bis zu $10000$ Instanzen getestet\footnote{Die Laufzeit steig
 \label{tab:ExpGüte}
 \end{table}\noindent
 
-Dies sind sehr überraschende Ergebnisse, da hierbei viele Erkenntnisse gewonnen werden. Zunächst fällt für $max\{v_i\}=60$ jeweils eine gravierende maximale Güte auf. Dies hängt damit zusammen, dass der Algorithmus nur aktuelle Ziele betrachtet und in diesem Schritt keine Berechnung für potentiell folgende Ziele getätigt wird. Bei der Durchführung ist aufgefallen, dass diese worst-case-Szenarien vor allem auftreten, sofern mehrere Zielen eine Geschwindigkeit von $v_i=60$ besitzen. Um dafür eine optimale Lösung zu garantieren, müssten auf die Instanz abgestimmte Gewichte $\omega$ gewählt werden. Durch diese Ausnahmefälle steigt auch die durchschnittliche Güte stark an. \\
+Dies sind sehr überraschende Ergebnisse, da hierbei viele Erkenntnisse gewonnen werden. Zunächst fällt für $max\{v_i\}=60$ jeweils eine gravierende maximale Güte auf. Dies hängt damit zusammen, dass der Algorithmus nur aktuelle Ziele betrachtet und in diesem Schritt keine Berechnung für potentiell folgende Ziele getätigt wird. Bei der Durchführung ist aufgefallen, dass diese worst-case-Szenarien vor allem auftreten, sofern mehrere Zielen eine Geschwindigkeit von $v_i=61$ besitzen. Um dafür eine optimale Lösung zu garantieren, müssten auf die Instanz abgestimmte Gewichte $\omega$ gewählt werden. Durch diese Ausnahmefälle steigt auch die durchschnittliche Güte stark an. \\
 Bei steigender Eingabegröße verringern sich der Anteil der optimalen Touren quasi konstant. Dies lässt vermuten, dass ab $n=14$ quasi keine optimalen Lösungen mehr gefunden werden. Mit dieser Überlegung wäre der Prioritäts-Algorithmus keine gute Option ab $n>10$, da kaum noch optimale Lösungen gefunden werden. Betrachtet man allerdings nun die durchschnittliche Güte, ist der Algorithmus vielleicht doch für große Eingabegrößen geeignet. Diese ist nahezu konstant für alle die jeweiligen maximalen Geschwindigkeiten der Ziele. Mit der konstanten durchschnittlichen Güte werden somit trotz sinkender Anzahl an optimalen Touren weiterhin schnelle Touren berechnet. Dies ist allerdings nur spekulativ, da ab $n>12$ mit dem Brute-Force-Algorithmus die Güte nicht mehr präzise genug ausgerechnet werden kann. Im Endeffekt steht und fällt der Algorithmus mit den gewählten Gewichten.
 
-\section{Große Eingabegrößen für den Prioritäts-Algorithmus}
-Es wird nun das Verhalten des Prioritäts-Algorithmus für Instanzen mit vielen Zielen getestet. Dabei kann keine Korrektheit mehr bewiesen werden, da der Brute-Force-Algorithmus für solche Eingabegrößen nicht geeignet ist. Die Startkoordinaten der Ziele liegen dabei weiterhin zwischen $-100$ und $100$. Die Eingabegröße liegt für dieses Experiment zwischen $5$ und $100$. Die Geschwindigkeit wird in drei verschiedenen Kombinationen von Zielen und Verfolger getestet:
+\section{Instanzen mit vielen Zielen für den Prioritäts-Algorithmus}
+Es wird nun das Verhalten des Prioritäts-Algorithmus für Instanzen mit vielen Zielen getestet. Dabei kann keine Korrektheit mehr bewiesen werden, da der Brute-Force-Algorithmus für solche Eingabegrößen nicht geeignet ist. Die Startkoordinaten der Ziele liegen dabei zwischen $-250$ und $250$. Die Eingabegröße liegt für dieses Experiment zwischen $5$ und $100$. Die Geschwindigkeit wird in drei verschiedenen Kombinationen von Zielen und Verfolger getestet:
 \begin{itemize}
 \item $20-200$: langsame Ziele, schneller Verfolger
 \item $40-100$: Differenz der Geschwindigkeiten verringert sich etwas
-\item $60-61$: Verfolger ist nur minimal schneller
+\item $60-~~~61$:~Verfolger ist nur minimal schneller
 \end{itemize}\noindent
-Diese Wahl der Geschwindigkeiten wurde aus \cite{stieber2015multiple} übernommen. Bemerke, dass es sich bei den Geschwindigkeiten der Ziele im Gegenzug zu vorherigen Tests nicht um Maximalgeschwindigkeiten handelt, sondern festgesetzt sind. Da allerdings nur ein Verfolger betrachtet wird, kann $v_{\kappa}$ um einen Wert inkrementiert werden. Somit werden unendliche Tourzeiten verhindert. 
+Diese Wahl der Startkoordinaten und Geschwindigkeiten wurden aus \cite{stieber2015multiple} übernommen. Bemerke, dass es sich bei den Geschwindigkeiten der Ziele im Gegenzug zu vorherigen Tests nicht um Maximalgeschwindigkeiten handelt, sondern festgesetzt sind. Da allerdings nur ein Verfolger betrachtet wird, kann $v_{\kappa}$ um einen Wert inkrementiert werden. Somit werden unendliche Tourzeiten verhindert. Auch in diesem Experiment werden die Gewichte $\omega = \{87,34,31\}$ verwendet. In Tabelle \ref{tab:ExpPrio} sind die Ergebnisse aus den verschiedenen Kombinationen präsentiert.
 
+\begin{table}[htpb]
+\centering
+\scalebox{1}{
+\begin{tabular}{cccc} 
+\uzlhline
+\uzlemph{$n$} & \uzlemph{$v_i$}& \uzlemph{$v_{\kappa}$} & \uzlemph{Tourzeit} \\ \uzlhline
+~~5& 20 & 200 & ~~~~~~~~~~~~~~4.11 \\
+~~5& 40 & 100 & ~~~~~~~~~~~~15.59 \\
+~~5& 60 & ~61 & ~~~~~7198012 \\
+~25& 20 & 200 & ~~~~~~~~~~~~12.75 \\
+~25& 40 & 100 & ~~~~~~~~~~~136.28 \\
+~25& 60 & ~61 & 1199646497 \\
+~50& 20 & 200 & ~~~~~~~~~~~~13.46 \\
+~50& 40 & 100 & ~~~~~~~~~~~149.14 \\
+~50& 60 & ~61 & 1622776018 \\
+~75& 20 & 200 & ~~~~~~~~~~~~17.28 \\
+~75& 40 & 100 & ~~~~~~~~~~~168.81 \\
+~75& 60 & ~61 & 1747321268 \\
+100& 20 & 200 & ~~~~~~~~~~~~14.17 \\
+100& 40 & 100 & ~~~~~~~~~~~164.75 \\
+100& 60 & ~61 & 1615929568 \\
+\uzlhline
+\end{tabular}}
+\caption{Ziele mit gleichen Geschwindigkeiten im Prioritäts-Algorithmus}
+\label{tab:ExpPrio}
+\end{table}\noindent
+
+Mit den vorherigen Ergebnissen von Tabelle \ref{tab:ExpGüte} wird nun klar, dass die Änderungen der Geschwindigkeiten der Ziele beim Prioritäts-Algorithmus die Tourzeiten stark beeinflussen. Es kann nun grundsätzlich gesagt werden, dass der Algorithmus sehr effizient ist, sobald der Verfolger deutlich schneller ist, als jedes gegebene Ziel. Für sehr gute Ergebnisse sollte die Differenz der Geschwindigkeiten bei mindestens $40$ liegen. Für Instanzen mit sehr kleinen Differenzen sind die berechneten Touren meist weit entfernt von einer optimalen Lösung. 
 
 %\chapter{Conclusion}
 \chapter{Zusammenfassung und Ausblick}
