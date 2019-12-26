@@ -385,12 +385,12 @@ Sobald allerdings eine ungültige Eingabe, z.B. wenn eine Zielgeschwindigkeit gr
 
 \chapter{Zwei-orthogonale-Achsen im MT-TSP}
 
-Als neue Modifikation des 1D-Falls wird nun der Achse eine weitere hinzugefügt. Alle Bewegungen und Positionierungen der Ziele und des Verfolgers sind ebenfalls auf die Achsen beschränkt. Die Achsen liegen dabei orthogonal zueinander. Den Ziele ist es dabei nicht erlaubt, an dem Schnittpunkt die Achse zu wechseln. Ein Ziel befindet sich also entweder auf der waagerechten oder senkrechten Achse. Der Schnittpunkt ist dabei festgesetzt auf die Koordinate $0$. Dies gilt einfachheitshalber ebenfalls für den Ursprung. Im Folgenden wird der Ursprung als Begriff für diesen Punkt verwendet. \\
+Als neue Modifikation des 1D-Falls wird nun der Achse eine weitere hinzugefügt. Alle Bewegungen und Positionierungen der Ziele und des Verfolgers sind ebenfalls auf die Achsen beschränkt. Die Achsen liegen dabei orthogonal zueinander. Den Ziele ist es dabei nicht erlaubt, an dem Schnittpunkt die Achse zu wechseln. Ein Ziel befindet sich also entweder auf der waagerechten oder senkrechten Achse\cite{Nehmen an, die Achsen werden nur von einer bestimmten Richtung betrachtet.}. Der Schnittpunkt ist dabei festgesetzt auf die Koordinate $0$. Dies gilt ebenfalls für den Ursprung. Im Folgenden wird der Ursprung als Begriff für diesen Punkt verwendet. \\
 Mit der neuen Achse könnte für die Positionsbestimmung eine zweidimensionale Koordinate verwendet werden. Allerdings wäre einer dieser Koordinaten immer gleich $0$, da jegliche Bewegungen der Ziele und des Verfolgers auf die Achsen beschränkt sind. Somit ist nur eine einfache Ergänzung der Definition \ref{def:Instanz} um einen booleschen Wert $b$ nötig. Die Position $p_i$ wird dabei mit 
 \begin{align*}
-p_i = (a, b) \text{ mit } a\in\mathbb{R}, b\in \{true, false\}
+p_i = (a, b) \text{ mit } a\in\mathbb{R}, b\in \{0,1\}
 \end{align*}
-neu definiert. Dabei gibt $b$ die Achse an, \emph{true} steht für die waagerechte, \emph{false} für die senkrechte Achse. Die Ziele werden nun neben den Listen \emph{Left} und \emph{Right} auch in die \emph{Top} und \emph{Bottom} einsortiert. Dabei deckt \emph{Top} den positiven und \emph{Bottom} den negativen Koordinatenbereich ab. Mit dieser Ergänzung gelten weiterhin alle anderen der vorherigen Definitionen.
+neu definiert. Dabei gibt $b$ die Achse an, $0$ steht für die waagerechte, $1$ für die senkrechte Achse. Die Ziele werden nun neben den Listen \emph{Left} und \emph{Right} auch in die \emph{Top} und \emph{Bottom} einsortiert. Dabei deckt \emph{Top} den positiven und \emph{Bottom} den negativen Koordinatenbereich ab. Mit dieser Ergänzung gelten weiterhin alle anderen der vorherigen Definitionen.
 
 \section{Theoretische Grundlagen}
 
@@ -398,7 +398,7 @@ In diesem Abschnitt soll mit der Vorarbeit aus \cite{helvig} gezeigt werden, das
 
 \begin{lem}
 \label{lem:1}
-In jeder optimalen Tour bei zwei orthogonale Achsen im MT-TSP bewegt sich der Verfolger immer mit maximaler Geschwindigkeit.
+In jeder optimalen Tour bei zwei orthogonale Achsen im MT-TSP muss sich der Verfolger mit maximaler Geschwindigkeit bewegen.
 \end{lem}
  
 \begin{proof}
@@ -423,9 +423,9 @@ In jedem der Fälle wird eine Wartezeit erzeugt, welche an das Ende der Tour \\v
 In jeder optimalen Tour bei zwei orthogonale Achsen im MT-TSP gelten für den Verfolger folgende Eigenschaften:
 \begin{itemize}
 \item
-Bewegt sich der Verfolger wegführend vom Ursprung, kann dieser erst seine Richtung ändern, sofern er das schnellste Ziel in seiner Richtung abgefangen hat.
+Bewegt sich der Verfolger wegführend vom Ursprung, ändert dieser erst seine Richtung, sofern er das schnellste Ziel in seiner Richtung abgefangen hat.
 \item
-Bewegt sich der Verfolger in Richtung des Ursprungs, kann dieser solange nicht seine Richtung ändern, bis er das den Ursprungs erreicht hat.
+Bewegt sich der Verfolger in Richtung des Ursprungs, ändert dieser solange nicht seine Richtung, bis er den Ursprung erreicht hat.
 \end{itemize}
 \end{lem}
 
