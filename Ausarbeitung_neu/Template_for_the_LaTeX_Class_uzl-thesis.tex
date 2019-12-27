@@ -60,12 +60,12 @@
 Das Travelling-Salesman-Problem (TSP) ist ein in der Informatik weit verbreitetes und seit der Formulierung im Jahre 1930 als mathematisches Problem ein langjährig erforschtes Optimierungsproblem aus der Kombinatorik. Dies hat eine besonders hohe Relevanz für alltägliche Probleme, da diese auf das TSP reduziert werden können. Gesucht ist dabei eine Reihenfolge an Wegen, welche die Ziele miteinander verbinden, sodass 
 die Tourzeit minimal ist. In dieser Tour muss jedes Ziel über die Wege besucht werden. Sofern die Tour eine Rundtour ist, wird jene auch im Startpunkt beendet. Betrachten dafür eine Menge an Städten. Diese sollen allesamt von einem FlixBus als Zwischenstop genutzt werden, da an diesem Reisende aus- und einsteigen wollen. Am Ende der Tour soll der FlixBus zum Auftanken wieder zu seinem Ausgangspukt zurückgelangen. Um die Benzinkosten gering zu halten, wird also die kürzeste Abfolge an Städten gesucht. Dabei sollte man beachten, dass mehrere optimale Touren möglich sind. Für TSP gibt es gerade heutzutage diverse Anwendungsgebiete. Wir leben in einem Zeitalter, in welchem autonome Systeme zunehmend eine große Rolle spielen. Früher oder später übernehmen autonome Fahrzeuge die Verantwortung auf unseren Straßen \cite{minx2015autonomes}. Der Vorreiter für diesen Markt ist die Firma Tesla. Die Fahrzeuge besitzen bereits die Software zum selbstständigen Fahren, erlaubt ist der Einsatz ganz ohne den Menschen aber noch nicht. Auch hierbei werden auf den Straßen die kürzesten Routen gesucht. Die künstliche Intelligenz kann dies unter anderem mit der Reduzierung auf das TSP berechnen. \\
 Darüber hinaus ist ein Spezialfall des TSP von großem Interesse. Die Ziele sind nun nicht mehr unbedingt stationär, sondern bewegen sich mit einer konstanten Geschwindigkeit. Diese spezielle Instanz wird als Moving-Target-TSP bezeichnet. Die Problematik besteht dabei, dass sich nach dem Erreichen eines Ziels die Position der anderen Ziele über die Zeit geändert haben. Somit ist eine Berechnung der optimalen Tour mindestens genauso schwer, wie TSP-Instanzen mit stationären Zielen. Das Moving-Target-TSP ist auch in ebenfalls für Alltagsprobleme interessant. Für autonome Fahrzeuge könnten Drohnen zur Überwachung eingesetzt werden, welche ein Fahrzeug identifizieren können. Somit könnten Daten des Fahrverhaltens für eine Momentaufnahme eines der zu Testfahrzeuge gesammelt werden. Als bereits integriertes System ist der Nahverkehr auf Google Maps zu erwähnen. Für eine Route wird die schnellstmögliche Route berechnet, wobei aktuelle Positionen von Bussen und Zügen betrachtet werden. Innerhalb dieser beiden Anwendungen bewegen sich die Ziele zwar nicht unbedingt mit einer konstanten Geschwindigkeit. Mittels eines Abwägungsmaßes, z.B. einer Durchschnittsgeschwindigkeit, lassen sich diese auf Moving-Target-TSP übertragen. \\
-Im Jahre 1998 wurde diese spezielle Instanz des TSP vorgestellt  \cite{helvig}. Dabei wurde dynamische Programmierung  \cite{kunzi2013einfuhrungskursus} in Kombination mit der Modellierung eines Graphen in topologischer Reihenfolge als Strategie für eindimensionale Moving-Target-TSP vorgeschlagen.
+Im Jahre 1998 wurde diese spezielle Instanz des TSP vorgestellt \cite{helvig}. Dabei wurde dynamische Programmierung  \cite{kunzi2013einfuhrungskursus} in Kombination mit der Modellierung eines Graphen in topologischer Reihenfolge als Strategie für eindimensionale Moving-Target-TSP vorgeschlagen.
 
 %\section{Contributions of this Thesis}
 \section{Beiträge dieser Arbeit}
 
-In dieser Arbeit wird ein neuer, auf dem eindimensionalen Moving-Target-TSP basierender Fall, eingeführt. Dieser enthält zusätzlich eine weitere orthogonale Achse, auf welcher sich die Ziele und die Verfolger bewegen können. Die für den eindimensionalen Fall bereits gezeigten Eigenschaften, dass sich der Verfolger in einer optimalen Tour jederzeit mit $v_{max}>v_i,~\forall v_i\in V$ nach links oder rechts bewegt und erst seine Richtung ändern kann, sofern er das schnellste Ziel in seiner Prioritäts-Algorithmus eingeholt hat, gelten auch für diese neue Modifikation. Mit dem Prioritäts-Algorithmus wurde ein effizienter aber nicht optimaler Algorithmus vorgestellt, während der Brute-Force-Ansatz für optimale Ergebnisse für kleine Instanzen $n<14$ genutzt werden kann. \\
+In dieser Arbeit wird ein neuer, auf dem eindimensionalen Moving-Target-TSP basierender Fall, eingeführt. Dieser enthält zusätzlich eine weitere orthogonale Achse, auf welcher sich die Ziele und die Verfolger bewegen können. Die für den eindimensionalen Fall bereits gezeigten Eigenschaften, dass sich der Verfolger in einer optimalen Tour jederzeit mit seiner maximalen Geschwindigkeit $v_{\kappa}$ in eine Richtung bewegt und erst seine Richtung ändern kann, sofern der Verfolger das schnellste Ziel in seiner Richtung eingeholt hat, gelten auch für diese neue Modifikation. Mit dem Prioritäts-Algorithmus wurde ein effizienter aber nicht optimaler Algorithmus vorgestellt, während der Brute-Force-Ansatz für optimale Ergebnisse für kleine Instanzen $n<14$ genutzt werden kann. \\
 \textcolor{red}{TODO: Ergebnisse aus Experimente präsentieren}
 
 
@@ -108,7 +108,7 @@ dargestellt werden.
 Das Tupel $(-1,0)$ würde also zum Beispiel bedeuten, dass der Verfolger an der Koordinate $-1$ startet und ist durch die Geschwindigkeit von $0$ stationär. In dieser Arbeit wird der Ursprung mit $(0,0)$ für 1D-Fälle fest definiert. Ein Ziel sei bei einer negativen Koordinate links, bei einer positiven Koordinate rechts vom Ursprung positioniert.
 
 \begin{definition}
-Der Verfolger bewegt sich mit der Geschwindigkeit 
+Der Verfolger bewegt sich mit seiner maximalen Geschwindigkeit $v_{\kappa}$ mit
 \begin{align*}
 v_{\kappa} > |v_i|, \forall v_i\in V.
 \end{align*}
@@ -258,7 +258,7 @@ Delete targets from \emph{Right} which are closer to the origin than faster targ
 \State Calculate the time required to intercept all remaining targets; and 
 \State Go to the postprocessing step
 \EndIf
-
+~\\
 \State \textbf{Main Algorithm}
 \State Let $A_0$ be the start state \\
 Let $A_{final}$ be the final state \\
@@ -291,7 +291,7 @@ $current \leftarrow 0$
 \State Increment \emph{current}
 \EndWhile
 \State $OUTPUT \leftarrow$ the reverse list of states from $A_{final}$ back to $A_0$
-
+~\\
 \State \textbf{Postprocessing}
 \For {pair of consecutive states in $OUTPUT$}
 \State Calculate which targets are intercepted between the state pair 
@@ -397,7 +397,7 @@ In diesem Abschnitt soll mit der Vorarbeit aus \cite{helvig} gezeigt werden, das
 
 \begin{lem}
 \label{lem:1}
-In jeder optimalen Tour bei zwei orthogonale Achsen im MT-TSP muss sich der Verfolger mit maximaler Geschwindigkeit bewegen.
+In jeder optimalen Tour bei zwei orthogonale Achsen im MT-TSP muss sich der Verfolger mit seiner  maximalen Geschwindigkeit bewegen.
 \end{lem}
  
 \begin{proof}
@@ -408,12 +408,12 @@ Mit dem Beweis für 1D-Fälle in \cite{helvig} gilt dies auch für diesen Fall.
 
 \item Das nächste Ziel des Verfolgers bewegt sich auf der anderen Achse: \\
 Fall wird mit indirektem Beweis gezeigt: \\
-Nehmen an, der Verfolger bewegt sich mit $v_{\kappa} < v_{max}$. Dies ist äquivalent dazu, dass der Verfolger an seiner aktuellen Position eine Zeit $\tau$ wartet und sich dann mit $v_{max}$ weiterbewegt, um dann das nächste Ziel $s$ einzuholen. Dabei befindet sich $s$ auf der anderen Achse. Nach der Wartezeit erreicht der Verfolger an Zeitpunkt $t_1$ den Ursprung und holt das Ziel $s$ an der Position $p$ zum Zeitpunkt $t_2$ ein. \\
+Nehmen an, der Verfolger bewegt sich mit $v < v_{\kappa}$. Dies ist äquivalent dazu, dass der Verfolger an seiner aktuellen Position eine Zeit $\tau$ wartet und sich dann mit $v_{\kappa}$ weiterbewegt, um dann das nächste Ziel $s$ einzuholen. Dabei befindet sich $s$ auf der anderen Achse. Nach der Wartezeit erreicht der Verfolger an Zeitpunkt $t_1$ den Ursprung und holt das Ziel $s$ an der Position $p$ zum Zeitpunkt $t_2$ ein. \\
 Nehmen nun an, dass der Verfolger sich direkt zum Mittelpunkt bewegt. Bis zum Eintreffen des Zeitpunktes $t_1$ wartet der Verfolger nun wieder die Zeit $\tau$. Das Ziel $s$ wird nun zum selben Zeitpunkt $t_2$ bei $p$ erreicht, wie im vorherigen Szenario. \\
 Dies wird nun fortgeführt, indem der Verfolger nicht im Ursprung wartet, sondern von diesem aus $p$ direkt erreicht. Bis zum Zeitpunkt $t_2$ wird nun wieder für die Dauer von $\tau$ gewartet. Außerdem kann der Verfolger schon zu einem Zeitpunkt $t_1 \leq t_{s} \leq t_2$ abfangen, sofern sich $s$ vom Verfolger wegbewegt. \\
 Werden die Wartezeiten nun jeweils auch für alle restlichen Ziele der Tour hinten angehängt, resultiert dies letztendlich in Wartezeit am Ende der Tour, was offensichtlich nicht optimal ist. Dieser Fall ist demnach nur eine Erweiterung des 1D-Fall-Beweises um den Ursprung zwischen Zielen, die auf unterschiedlichen Achsen liegen. 
 \end{enumerate}\noindent
-In jedem der Fälle wird eine Wartezeit erzeugt, welche an das Ende der Tour \\verschoben werden kann. Somit ist die Tour offensichtlich nicht mehr optimal. Der Verfolger bewegt sich also zu jeder Zeit mit $v_{\kappa} = v_{max}$.
+In jedem der Fälle wird eine Wartezeit erzeugt, welche an das Ende der Tour \\verschoben werden kann. Somit ist die Tour offensichtlich nicht mehr optimal. Der Verfolger bewegt sich also zu jeder Zeit mit $v_{\kappa}$.
 \end{proof}
 
 \begin{lem}
@@ -451,7 +451,7 @@ In diesem Kapitel werden konkrete Heuristiken für den zwei-orthogonale-Achsen-F
 Im 1D-Fall konnte über über die topologische Reihenfolge der Wendepunkte bzw. Zustände ein Graph erzeugt werden. Somit wurde mit der Bestimmung des kürzesten Pfads das Problem die optimale Tour bestimmt. \\
 Es ist also zunächst sinnvoll, diesen Ansatz für den zwei-orthogonale-Achsen-Fall zu übernehmen, da nur eine Achse hinzugekommen ist. Hierfür werden wieder die einzelnen Ziele in die Listen \emph{Left, Right, Top} und \emph{Bottom} aufgeteilt. Bei dem Algorithmus von \cite{helvig} wurden nun die Ziele eliminiert, welche sowieso eingeholt werden und dementsprechend keine Wendepunkte darstellen. Mit der zusätzlichen Achse gilt dies nur noch für Ziele, welche sich wegführend vom Ursprung bewegen. Das liegt daran, dass Ziele nun den Ursprung überqueren können, während der Verfolger sich auf der anderen Achse befindet. Somit werden solche Ziele nicht automatisch eingeholt. \\
 Der nächste Schritt ist nun die Generierung der Zustandsliste $States$, wobei eine Reihe von Problemen auftreten. Die Ziele befinden sich dabei im Laufe der Zeit nicht mehr unbedingt auf der Seite des Verfolgers, welche die jeweilige Liste aus \emph{Left, Right, Top} und \emph{Bottom} vorgibt. Sei der Verfolger zum Zeitpunkt $t$ auf der oberen Seite der senkrechten Achse. Das Ziel $z$ befindet sich in der Liste $Left$ und befindet zum Zeitpunkt $t$ auf der rechten Seite der waagerechten Achse. Damit befindet sich $z$ nun auch auf der rechten Seite des Verfolgers und ist nicht mehr repräsentativ für die Liste $Left$. \\
-Mit dieser Überlegung muss nun jedes solcher Ziele, die den Ursprung überqueren, betrachtet werden. Dieses hat potentiell eine hohe Geschwindigkeit und muss somit ggf. möglichst schnell abgefangen werden. Problematisch ist dabei, dass ein Ziel vielleicht eine hohe Geschwindigkeit besitzt, aber noch sich sehr weit entfernt vom Ursprung befindet. (siehe Abbildung \textcolor{red}{TODO}). Es muss also für jegliche Ziele, die einen Ursprung überqueren extra Zustände geben, da diese als die nächsten Wendepunkte in Betracht gezogen werden könnten. Demnach gibt es von einem Zustand weitaus mehr Übergänge, als nur $\tau_{left}$, $\tau_{right}$, $\tau_{top}$ und $\tau_{bottom}$. \\
+Mit dieser Überlegung muss nun jedes solcher Ziele, die den Ursprung überqueren, betrachtet werden. Dieses hat potentiell eine hohe Geschwindigkeit und muss somit ggf. möglichst schnell abgefangen werden. Problematisch ist dabei, dass ein Ziel vielleicht eine hohe Geschwindigkeit besitzt, aber noch sich sehr weit entfernt vom Ursprung befindet. Es muss also für jegliche Ziele, die einen Ursprung überqueren extra Zustände geben, da diese als die nächsten Wendepunkte in Betracht gezogen werden könnten. Demnach gibt es von einem Zustand weitaus mehr Übergänge, als nur $\tau_{left}$, $\tau_{right}$, $\tau_{top}$ und $\tau_{bottom}$. \\
 Die nächste Überlegung ist nun, die Listen nach jeder Iteration zu aktualisieren. Das Problem ist hierbei, dass damit die Modellierung des Graphen so nicht mehr funktioniert. Dabei entsteht mitten im Graph ein komplett neuer Graph.  \\
 Letztendlich wird ein optimaler Algorithmus eine sehr große Laufzeit benötigen und gerade bei vielen Randbedingungen ist eine korrekte Implementierung schwer. Daher wird im nachfolgenden Abschnitt ein anderer Ansatz, bei dem die Ziele nach einer Priorität abgefangen werden, mit der Laufzeitkomplexität von $\mathcal{O}(n^2)$ vorgeschlagen.
 
@@ -718,18 +718,14 @@ mit verschiedenen Methoden getestet. Beim 1D-Algorithmus reicht es, diesen auf s
 
 \section{Durchschnittliche Laufzeit des 1D-Algorithmus}
 
-Der eindimensionale Algorithmus (siehe Algorithmus \ref{alg:1D}) findet optimale Lösungen innerhalb von $\mathcal{O}(n^2)$. Dabei ist interessant, wie sich die Laufzeit bei verschiedenen Instanzen im Durchschnitt verhält. Es werden nun folgende Parameter festgesetzt:
-\begin{align*}
-
-\end{align*}
-
+Der eindimensionale Algorithmus (siehe Algorithmus \ref{alg:1D}) findet optimale Lösungen innerhalb von $\mathcal{O}(n^2)$. Dabei ist interessant, wie sich die Laufzeit bei verschiedenen Instanzen im Durchschnitt verhält. Es werden im Folgenden Eingaben von bis zu $1000$ Zielen getestet. Dabei wird die Verfolgergeschwindigkeit auf $v_\kappa=40$ festgesetzt, wodurch sich jedes Ziel $z_i$ mit $|v_i|<v_\kappa$ fortbewegt. Außerdem sind die Startkoordinaten der Ziele zwischen $-10.000$ und $10.000$ limitiert. Dies ist gerade bei $n=1.000$ nötig, da die Ziele direkt nebeneinander starten. Für jede der Eingabegrößen wird für $100$ Instanzen jeweils die Laufzeit getestet. Jede der Instanzen ist zufällig generiert. Anschließend wird der Durchschnitt bestimmt. \\
 \begin{figure}[htpb]
 \centering
 \includegraphics[scale=0.24]{../Grafiken/Verwendete/Exp1D_2.png}
-\caption{blub}
-\label{bla}
-\end{figure}
-
+\caption{Nahezu konstanter Anstieg der durchschnittlichen Berechenzeit von $100$ Instanzen bei steigender Eingabegröße.}
+\label{fig:Exp1D}
+\end{figure} \noindent
+Die Ergebnisse in Abbildung \ref{fig:Exp1D} zeigen einen nahezu konstanten Anstieg der durchschnittlichen Laufzeit. Untersucht man die einzelnen Ausgaben der zufälligen Instanzen, wird der Zusammenhang schnell klar. Durch die Eliminierungen werden in nahezu allen Fällen die meisten Ziele aus $Left$ und $Right$ entfernt. Mit dem $Preprocessing$- und dem $Postprocessing$-Schritt werden sind weiterhin quadratische Laufzeiten nötig. Die eigentliche Berechnung der optimalen Tour über die Zustände ist dann äquivalent zu deutlich kleineren Instanzen. Somit wächst die durchschnittliche Laufzeit nahezu lineare an. 
 
 \section{Brute-Force-Algorithmus mit unterschiedlichen Eingabegrößen}
 
@@ -765,6 +761,28 @@ Bei zunehmender Eingabegröße steigt die Anzahl an betrachteten Knoten mit dem 
 Die Ergebnisse fallen für diese Laufzeit trotzdem sehr positiv aus, da normale Brute-Force-Heuristiken bereits bei $n>10$ sehr langsam laufen und bei einer guten Vorsortierung potentiell auch Fälle mit $n=15$ durch große Abschneidungen in der Nähe der Wurzel lösbar sind. Die in diesem Fall verwendete Sortierung nach dem Betrag der Geschwindigkeit ist sehr simpel und zeigt, dass eine etwas komplexere Sortierung\footnote{Es könnten auch hier zusätzlich Prioritäten verwendet werden.} sehr wahrscheinlich schneller ein kleines $\tau_{min}$ finden kann. \\
 Die Algorithmen dieser Arbeit sind jeweils in Java programmiert. Ab einer Eingabegröße von $n>12$ ereignen sich \emph{Heap-Space}-Fehler. Dies liegt daran, dass zu viele Knoten betrachtet werden. Mit der Programmiersprache könnte man vermutlich $n=13$ fehlerfrei berechnen, wäre allerdings vermutlich bei $n=14$ ebenfalls limitiert. Durch die Fehler ist der Datensatz mit $n=14$ nicht mehr repräsentativ, da hierbei nur drei Instanzen berechnet werden konnten. Dabei wurde bei der ersten Instanz sehr früh ein kleines $\tau_{min}$ gefunden, wodurch der Schnitt der jeweiligen Attribute sehr niedrig ist.   
 
+\section{Wahl der Gewichte für den Prioritäts-Algorithmus}
+
+Offensichtlich gibt es keine universellen Gewichte, die gute Ergebnisse garantieren. In diesem Abschnitt sollen trotzdem Gewichte präsentiert, die für zufällige Instanzen gute Ergebnisse ermöglichen. Hierfür wird die Verfolgergeschwindigkeit auf $v_{\kappa}=40$ gesetzt. Im Folgenden  werden für die Eingabegrößen $n\in\{8,10,12\}$ und den Betrag der Startkoordinatenlimits $[100,10.000]$ jegliche Kombinationen getestet. 
+\begin{table}[htpb]
+\centering
+\scalebox{1}{
+\begin{tabular}{cccc} 
+\uzlhline
+$n$ & |Koordinatenlimit| & $\omega$\\ \uzlhline
+~8& ~~~~100& $\{64,21,19\}$ \\
+~8&  10.000& $\{54,17,40\}$ \\
+10& ~~~~100& $\{98,39,74\}$ \\
+10&  10.000& ~~~~$\{75,3,6\}$ \\
+12& ~~~~100& ~~$\{69,14,8\}$ \\
+12&  10.000& ~~~~$\{24,4,7\}$ \\
+\uzlhline
+\end{tabular}}
+\caption{Der jeweils beste Gewichte-Kandidat von $1.000$ zufälligen Gewichten für $100$ zufällige Instanzen.}
+\label{tab:ExpGewichte}
+\end{table} 
+\noindent
+Die Gewichte aus Tabelle \ref{tab:ExpGewichte} belegen, wie auch schon erwähnt, dass es keine universellen Gewichte gibt. Allerdings wird mit der Tabelle ein grobes Verhältnis der Gewichte deutlich. Dabei ist $w_1$ mindestens doppelt so groß wie $w_2$. Das Gewicht $w_3$ variiert hingegen im Verhältnis zu $w_1$ stärker und ist für einige Instanzen zum Teil größer als $w_1$. Allerdings gibt es auch Instanzen, in denen $w_2$ als größtes Gewicht die besten Ergebnisse erzielt. Im Folgenden werden die Gewichte $\omega = \{87,34,31\}$ gewählt. Diese Gewichte haben sich für eine große Menge an Testinstanzen bewährt und werden somit auch für die nachfolgenden Experimente gewählt.
 
 \section{Güte des Prioritäts-Algorithmus}
 Der Prioritäts-Algorithmus gilt mit einer Laufzeit von $\mathcal{O}(n^2)$ als sehr effizient. Da dieser keine optimalen Touren garantiert, muss nun abgeschätzt werden, ob die Ergebnisse zufriedenstellend sind. Dafür lassen wir den Algorithmus gegen den Brute-Force-Algorithmus laufen, um die Güte zu bestimmen. Der Prioritäts-Algorithmus erzeugt bei einer Instanz $I$ eine Ausgabe der Laufzeit mit $prio(I)$. Die Güte $r_I$ wird für eine Instanz mit
@@ -777,7 +795,7 @@ n&\in\{8,10,12\}\\
 max\{v_{i}\}\footnotemark&\in\{20,40,60\} 
 \end{align*}
 \footnotetext{Dies bezeichnet die Maximalgeschwindigkeit eines jeden Ziels $z_i\in Z$}
-\noindent betrachtet und mit bis zu $10.000$ Instanzen getestet\footnote{Die Laufzeit steigt mit der Eingabegröße stark an, demnach wird für $n=10$ und $n=12$ eine Instanzenanzahl von $1.000$ bzw. $100$ getestet.}. Mit den Instanzen wird jeweils die \emph{maximale} und \emph{durchschnittliche Güte} des Prioritäts-Algorithmus berechnet Zudem wird die Anzahl an \emph{optimalen Touren} und deren \emph{Anteil} an den Instanzen berechnet. Die Verfolgergeschwindigkeit $v_{\kappa}=61$ und die Startkoordinaten der Ziele zwischen $-100$ und $100$ werden als feste Parameter gewählt. Als Gewichte für die Berechnung der Priorität wird $\omega = \{87,34,31\}$. Diese Gewichte haben sich für verschiedene Instanzen bewährt und werden somit auch für dieses Experiment gewählt. Die Ergebnisse werden in Tabelle \ref{tab:ExpGüte} präsentiert.
+\noindent betrachtet und mit bis zu $10.000$ Instanzen getestet\footnote{Die Laufzeit steigt mit der Eingabegröße stark an, demnach wird für $n=10$ und $n=12$ eine Instanzenanzahl von $1.000$ bzw. $100$ getestet.}. Mit den Instanzen wird jeweils die \emph{maximale} und \emph{durchschnittliche Güte} des Prioritäts-Algorithmus berechnet Zudem wird die Anzahl an \emph{optimalen Touren} und deren \emph{Anteil} an den Instanzen berechnet. Die Verfolgergeschwindigkeit $v_{\kappa}=61$ und die Startkoordinaten der Ziele zwischen $-100$ und $100$ werden als feste Parameter gewählt. Als Gewichte für die Berechnung der Priorität wird $\omega = \{87,34,31\}$ verwendet. Die Ergebnisse werden in Tabelle \ref{tab:ExpGüte} präsentiert.
 
 \begin{table}[htpb]
 \centering
@@ -802,7 +820,7 @@ max\{v_{i}\}\footnotemark&\in\{20,40,60\}
 Dies sind sehr überraschende Ergebnisse, da hierbei viele Erkenntnisse gewonnen werden. Zunächst fällt für $max\{v_i\}=60$ jeweils eine gravierende maximale Güte auf. Das hängt damit zusammen, dass der Algorithmus nur aktuelle Ziele betrachtet und in diesem Schritt keine Berechnung für potentiell folgende Ziele getätigt wird. Bei der Durchführung ist aufgefallen, dass diese worst-case-Szenarien vor allem auftreten, wenn mehrere Zielen eine Geschwindigkeit von $v_i=61$ besitzen. Um dafür eine optimale Lösung zu garantieren, müssten auf die Instanz abgestimmte Gewichte $\omega$ gewählt werden. Durch diese Ausnahmefälle steigt auch die durchschnittliche Güte stark an. \\
 Bei steigender Eingabegröße verringern sich der Anteil der optimalen Touren quasi konstant. Das lässt vermuten, dass ab $n=14$ quasi keine optimalen Lösungen mehr gefunden werden. Mit dieser Überlegung wäre der Prioritäts-Algorithmus keine gute Option ab $n>10$, da kaum noch optimale Lösungen gefunden werden. Betrachtet man allerdings nun die durchschnittliche Güte, ist der Algorithmus vielleicht doch für große Eingabegrößen geeignet. Diese ist nahezu konstant für alle die jeweiligen maximalen Geschwindigkeiten der Ziele. Mit der konstanten durchschnittlichen Güte werden somit trotz sinkender Anzahl an optimalen Touren weiterhin schnelle Touren berechnet. Für solche Eingabegrößen ist dies allerdings nur spekulativ, da ab $n>12$ mit dem Brute-Force-Algorithmus die Güte nicht mehr präzise genug ausgerechnet werden kann. Im Endeffekt steht und fällt der Algorithmus mit den gewählten Gewichten.
 
-\section{Instanzen mit $n\leq 100$ Zielen für den Prioritäts-Algorithmus}
+\section{Große Eingaben für den Prioritäts-Algorithmus}
 Es wird nun das Verhalten des Prioritäts-Algorithmus für Instanzen mit vielen Zielen getestet. Dabei kann keine Korrektheit mehr bewiesen werden, da der Brute-Force-Algorithmus für solche Eingabegrößen nicht geeignet ist. Die Startkoordinaten der Ziele liegen dabei zwischen $-250$ und $250$. Die Eingabegröße liegt für dieses Experiment zwischen $5$ und $100$. Die Geschwindigkeit wird in drei verschiedenen Kombinationen von Zielen und Verfolger getestet:
 \begin{itemize}
 \item $20-200$: langsame Ziele, schneller Verfolger
