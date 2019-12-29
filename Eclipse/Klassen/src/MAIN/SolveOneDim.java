@@ -6,24 +6,50 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 
+/**
+ * 
+ * @author FelixGreuling
+ *
+ */
 public class SolveOneDim {
 
+	/**
+	 * number targets
+	 */
 	private int n;
+	/**
+	 * pursuer Velocity
+	 */
 	private int pursuerVel;
+	/**
+	 * pursuer start position
+	 */
 	private int pursuerPos;
-	// getKey() -> Index 1 ; getKey() -> Index 2
-	private ArrayList<Target> unsortedTargetList;
+	/**
+	 * unsorted target list
+	 */
+	private ArrayList<Target> unsortedTargetList = new ArrayList<>();
+	/**
+	 * targets with startcoords. on the left side of the origin
+	 */
 	private ArrayList<Target> leftTargets = new ArrayList<>();
+	/**
+	 * targets with startcoords. on the right side of the origin
+	 */
 	private ArrayList<Target> rightTargets = new ArrayList<>();
 
+	/**
+	 * Constructor
+	 * @param inputFile 1D_<x>.txt
+	 * @throws IOException invalid input file
+	 */
 	public SolveOneDim(String inputFile) throws IOException {
 		// Read input file
 		BufferedReader in = new BufferedReader(new FileReader(inputFile));
 
 		this.n = Integer.valueOf(in.readLine());
-		this.pursuerPos = Integer.valueOf(in.readLine()); // TODO: origin can be different (later on in this code)
+		this.pursuerPos = Integer.valueOf(in.readLine().split(" ")[0]);
 		this.pursuerVel = Integer.valueOf(in.readLine());
 		String[] linePos = in.readLine().split(" ");
 		String[] lineVel = in.readLine().split(" ");
@@ -37,43 +63,76 @@ public class SolveOneDim {
 
 	/**
 	 * Solving MTT-TSP with Helvig et al. approach 1D-case
-	 * 
-	 * @return String with concatenated sorted lists of targets
+	 * @return Target list with concatenated sorted list in intercepting order of targets
 	 */
-	public String helvigApproach() {
+	public ArrayList<Target> helvigApproach() {
 		
 		Preprocessing();
 		
 		ArrayList<State> stateOutput = new ArrayList<>();
 		
+		// If all remaining targets are on one side of the origin
+		// calc the time required to intercept all remaining targets
 		if (leftTargets.isEmpty() || rightTargets.isEmpty()) {
-			// TODO: implement!
-			// calc the time required to intercept all remaining targets
-			// -> postprocessing	
+		
+			// add A_0
+			stateOutput.add(new State(true, 0));
+			// add A_final
+			stateOutput.add(new State(false, 1));
+			
+			double maxInterceptingTime = - 1;
+			// Index of last target on the other side 
+			int furthestAway = 0;
+			stateOutput.get(0).setShortestTime(0);
+			
+			if(leftTargets.isEmpty() || rightTargets.isEmpty()) {
+				int size;
+				ArrayList<Target> pairs;
+				if(leftTargets.isEmpty()) {
+					size = rightTargets.size();
+					pairs = rightTargets;
+				}
+				else { // rightTargets.isEmpty()
+					size = leftTargets.size();
+					pairs = leftTargets;
+				}
+				
+				for(int i=0; i<size; i++) {
+					// weight from the origin to the point leftPairs.get(i)
+					double tmp = calcTransWeight(0, pairs.get(i).getPos(), 0, pairs.get(i).getVel(), 0);
+					// and return to the origin
+					tmp += calcTransWeight(pairs.get(i).getPos(), 0, pairs.get(i).getVel(), 0, tmp);
+					if(tmp > maxInterceptingTime) {
+						maxInterceptingTime = tmp;
+						furthestAway = i;
+					}
+				}
+				// update tau_final
+				stateOutput.get(1).setShortestTime(maxInterceptingTime);
+				stateOutput.get(1).setFurthestAway(pairs.get(furthestAway));
+			}
+			
+			
 		} else {
 			stateOutput = mainAlgorithm();
-			
 			Collections.reverse(stateOutput);
 		}
-				
-		System.out.println("List of states from A_0 back to A_final:");
-		for (State s : stateOutput){
-		    System.out.println(s.toString());		    
-		}
-		System.out.println("");
-		
-		ArrayList<Target> interceptingOrder = postprocessing(stateOutput, unsortedTargetList);
-
-		// origin
-		System.out.println("(0, 0) - Intercetping time: 0");
-		
-		for(Target t : interceptingOrder) {
-			System.out.println(t.toString());
+		if(Constants.PRINT_TARGETS_AND_STEPS) {
+			System.out.println("List of states from A_0 back to A_final:");
+			for (State s : stateOutput){
+			    System.out.println(s.toString());		    
+			}
 		}
 		
-		return "------ \n" + "Solved";
+		ArrayList<Target> targetsInInterceptionOrder = postprocessing(stateOutput);
+		
+		return targetsInInterceptionOrder;
 	}
 
+	/**
+	 * Preprocessing Step of Helvig approach
+	 * sorts and eliminates targets in Left and Right
+	 */
 	private void Preprocessing() {
 		
 		for(Target t : unsortedTargetList) {
@@ -87,54 +146,55 @@ public class SolveOneDim {
 		Collections.sort(leftTargets, Target.compVel);
 		Collections.sort(rightTargets, Target.compVel);
 
-		System.out.println("LeftPairs without eliminations:");
-		for(Target t : leftTargets) {
-			System.out.println(t.toString());
+		if(Constants.PRINT_TARGETS_AND_STEPS) {
+			System.out.println("LeftPairs without eliminations:");
+			for(Target t : leftTargets) {
+				System.out.println(t.toString());
+			}
+			System.out.println("");
+			
+			System.out.println("RightPairs without eliminations:");
+			for(Target t : rightTargets) {
+				System.out.println(t.toString());
+			}
+			System.out.println("");
 		}
-		System.out.println("");
-		
-		System.out.println("RightPairs without eliminations:");
-		for(Target t : rightTargets) {
-			System.out.println(t.toString());
-		}
-		System.out.println("");
-
 		// eliminate those pairs, which are closer to the origin and slower than at
 		// least another pair
 		leftTargets = eliminatePairs(leftTargets, true);
 		rightTargets = eliminatePairs(rightTargets, false);
 
-		System.out.println("LeftPairs with eliminations:");
-		for(Target t : leftTargets) {
-			System.out.println(t.toString());
+		if(Constants.PRINT_TARGETS_AND_STEPS) {
+			System.out.println("LeftPairs with eliminations:");
+			for(Target t : leftTargets) {
+				System.out.println(t.toString());
+			}
+			System.out.println("");
+			
+			System.out.println("RightPairs with eliminations:");
+			for(Target t : rightTargets) {
+				System.out.println(t.toString());
+			}
+			System.out.println("");
 		}
-		System.out.println("");
-		
-		System.out.println("RightPairs with eliminations:");
-		for(Target t : rightTargets) {
-			System.out.println(t.toString());
-		}
-		System.out.println("");
-		
 	}
 
 	/**
-	 * Main algorithm part of Helvig approach
-	 * 
-	 * @param leftTargets
-	 * @param rightTargets
+	 * Main algorithm of Helvig approach
 	 * @return reverse list of states from A_final back to A_0
 	 */
 	private ArrayList<State> mainAlgorithm() {
 		
 		ArrayList<State> states = generateStates();
-
-		System.out.println("States:");
-		for (State s : states) {
-			System.out.println(s.toString());
+		
+		if(Constants.PRINT_TARGETS_AND_STEPS) {
+			System.out.println("States:");
+			for (State s : states) {
+				System.out.println(s.toString());
+			}
+			System.out.println("");
 		}
-		System.out.println("");
-
+		
 		// size of states in STATE
 		int n = states.size();
 		int lpSize = leftTargets.size();
@@ -152,92 +212,72 @@ public class SolveOneDim {
 		// iterator through all states
 		int current = 0;
 
-		while (current < n - 1) { // no need to calculate A_final transitions, because there are non
+		while (current < n-1) { // no need to calculate A_final transitions, because there are non
  
+			// the following condition belongs to the cond. above
+			// for more efficiant implementation the boolean validState insures skipping the State A
+			
+			
 			// A is the state that we consider in this iteration step
 			State A = states.get(current);
 			
-			System.out.println("");
-			System.out.println("Iteration: " + current);
-			System.out.println("A = " + A.toString());
-			System.out.println(Arrays.toString(t));
-			System.out.println("Parents: " + Arrays.toString(parents));
-			System.out.println("t[n-1]="+t[n-1]+ ", parent: "+parents[n-1]);
-
+			if(Constants.PRINT_TARGETS_AND_STEPS) {
+				System.out.println("");
+				System.out.println("Iteration: " + current);
+				System.out.println("A = " + A.toString());
+				System.out.println(Arrays.toString(t));
+				System.out.println("Parents: " + Arrays.toString(parents));
+				System.out.println("t[n-1]="+t[n-1]+ ", parent: "+parents[n-1]);
+			}
+			
 			// If there are no transitions into A then
 			// Increment current and jump back to the beginning of the while loop
 			if (t[current] == Double.MAX_VALUE) {
 				current++;
 				continue;
 			}
-
+			
 			// If for state A, all remaining targets are on one side of the origin then
+			
 			double maxInterceptingTime = - 1;
 			// Index of last target on the other side 
 			int furthestAway = 0;
+			
 			// Left- or Rightside left over
-//			if((!A.getIsLeft() && A.getSkIndex() == rpSize-1) || A.getIsLeft() && A.getSkIndex() == lpSize-1) {
-//				int size;
-//				ArrayList<Target> pairs;
-//				if(!A.getIsLeft() && A.getSkIndex() == lpSize-1) {
-//					size = rpSize;
-//					pairs = leftPairs;
-//				}
-//				if(A.getIsLeft() && A.getSkIndex() == lpSize-1) {
-//					size = lpSize;
-//					pairs = rightPairs;
-//				}
-//				
-//			}
-			
-			
-			// Leftside left over
-			if (!A.getIsLeft() && A.getSkIndex() == rpSize-1) {
-				for(int i=A.getSfIndex(); i<lpSize; i++) {
+			if(((!A.getIsLeft() && A.getSkIndex() == rpSize-1) || A.getIsLeft() && A.getSkIndex() == lpSize-1) && current!=0) {
+				int size;
+				ArrayList<Target> pairs;
+				if(!A.getIsLeft() && A.getSkIndex() == rpSize-1) {
+					size = lpSize;
+					pairs = leftTargets;
+				}
+				else { // (A.getIsLeft() && A.getSkIndex() == lpSize-1)
+					size = rpSize;
+					pairs = rightTargets;
+				}
+				for(int i=A.getSfIndex(); i<size; i++) {
 					// weight from A to the point leftPairs.get(i)
-					double tmp = calcTransWeight(A.getSk().getPos(), leftTargets.get(i).getPos(), A.getSk().getVel(), leftTargets.get(i).getVel(), t[current]);
+					double tmp = calcTransWeight(A.getSk().getPos(), pairs.get(i).getPos(), A.getSk().getVel(), pairs.get(i).getVel(), t[current]);
 					// and return to the origin
-					tmp += calcTransWeight(leftTargets.get(i).getPos(), 0, leftTargets.get(i).getVel(), 0, t[current] + tmp);
+					tmp += calcTransWeight(pairs.get(i).getPos(), 0, pairs.get(i).getVel(), 0, t[current] + tmp);
 					if(tmp > maxInterceptingTime) {
 						maxInterceptingTime = tmp;
 						furthestAway = i;
 					}
 				}
 				// update tau_final
-				if(t[current] + maxInterceptingTime < t[states.size()-1] && maxInterceptingTime != -1) {
+				if(t[current] + maxInterceptingTime < t[n-1] && maxInterceptingTime != -1) {
 					t[n-1] = t[current] + maxInterceptingTime;
 					parents[n-1] = current; 
-					states.get(n-1).setFurthestAway(leftTargets.get(furthestAway));
+					states.get(n-1).setFurthestAway(pairs.get(furthestAway));
 				}
 				current++;
-				continue;
-			}  
-			
-			// Rightside left over
-			if(A.getIsLeft() && A.getSkIndex() == lpSize-1) {
-				for(int i=A.getSfIndex(); i<rpSize; i++) {
-					// weight from A to the point rightPairs.get(i)
-					double tmp = calcTransWeight(A.getSk().getPos(), rightTargets.get(i).getPos(), A.getSk().getVel(), rightTargets.get(i).getVel(), t[current]);
-					// and return to the origin
-					tmp += calcTransWeight(rightTargets.get(i).getPos(), 0, rightTargets.get(i).getVel(), 0, t[current]+tmp);
-					if(tmp > maxInterceptingTime) {
-						maxInterceptingTime = tmp;
-						furthestAway = i;
-					}
-				}
-				// update tau_final
-				if(t[current] + maxInterceptingTime < t[states.size()-1] && maxInterceptingTime != -1) {
-					t[n-1] = t[current] + maxInterceptingTime;
-					parents[n-1] = current; 
-					states.get(n-1).setFurthestAway(rightTargets.get(furthestAway));
-				}
-				current++;
-				continue;
+				continue;				
 			}
 			
 			// determine States A_left and A_right
-			State ALeft = getNextState(states, A, true);
-			State ARight = getNextState(states, A, false);
+			State ALeft = getNextState(states, A, true, t[current]);
+			State ARight = getNextState(states, A, false, t[current]);
 			
 			// Calculate the two transitions left and right from state A using lists Left
 			// and Right
@@ -259,16 +299,17 @@ public class SolveOneDim {
 			if (t[current] + tauRight < t[ARight.getStateIndex()]) {
 				t[ARight.getStateIndex()] = t[current] + tauRight;
 				parents[ARight.getStateIndex()] = current;
-			}
-
+			}			
 			current++;
 		}
 		
-		System.out.println(""+"\n"+"Results: ");
-		System.out.println(Arrays.toString(t));
-		System.out.println(Arrays.toString(parents));
-		System.out.println(t[n-1]);
-		System.out.println("");
+		if(Constants.PRINT_TARGETS_AND_STEPS) {
+			System.out.println(""+"\n"+"Results: ");
+			System.out.println(Arrays.toString(t));
+			System.out.println("Parents: " + Arrays.toString(parents));
+			System.out.println("t[n-1]="+t[n-1]+ ", parent: "+parents[n-1]);
+			System.out.println("");
+		}
 		
 		ArrayList<State> OUTPUT = new ArrayList<State>();
 		
@@ -285,42 +326,46 @@ public class SolveOneDim {
 		return OUTPUT;
 	}
 
-	private ArrayList<Target> postprocessing(ArrayList<State> turningPoints, ArrayList<Target> targets) {
+	/**
+	 * Postprocessing Step of Helvig approach
+	 * @param turningPoints State list / turning points
+	 * @return Target list with concatenated sorted list in intercepting order of targets
+	 */
+	private ArrayList<Target> postprocessing(ArrayList<State> turningPoints) {
 		
 		double timestampA = 0;
 		double timestampB = 0;
 		State a, b;
-		ArrayList<Target> targetsInInterceptionOrder = new ArrayList<Target>();
+		
+		ArrayList<Target> targetsInInterceptionOrder = new ArrayList<>();
+		Target start = new Target(0, 0);
+		start.setInterceptingTime(0);
+		targetsInInterceptionOrder.add(start);
+		
+		double lastTimestamp = 0;
+		int lastS = 0;
+		int lastV = 0;
 		
 		for(int i=0; i<turningPoints.size()-1; i++) {
 			// For each pair of consecutive states in OUTPUT
 			a = turningPoints.get(i);
 			b = turningPoints.get(i+1);
 			
-			// Target List to be sorted and inserted into targetsInInterceptionOrder
-			ArrayList<Target> interceptedTargets = new ArrayList<Target>();
-			
-			int s1 = 0;
-			int s2 = 0;
-			int v1 = 0;
-			int v2 = 0;
-			double posA = 0;
-			double posB = 0;
+			int s1 = 0, s2 = 0, v1 = 0, v2 = 0;
+			double posA = 0, posB = 0;
 						
 			// calc positions and velocities of turning points
 			if(i!=0) {
+				s1 = a.getSk().getPos();
 				v1 = a.getSk().getVel();
-				posA = a.getSk().getPos();
-			} 
-			
-			if(i!=turningPoints.size()-2) {
-				s2 = b.getSk().getPos();
-				v2 = b.getSk().getVel();
 			} 
 			
 			if(i==turningPoints.size()-2) { // A_final
 				s2 = b.getFurthestAway().getPos();
 				v2 = b.getFurthestAway().getVel();	
+			} else { 
+				s2 = b.getSk().getPos();
+				v2 = b.getSk().getVel();
 			}
 			
 			// timestamp of a reaching b
@@ -329,65 +374,64 @@ public class SolveOneDim {
 			posA = posAtTimestamp(s1, v1, timestampA);
 			posB = posAtTimestamp(s2, v2, timestampB);
 			
-			// movement direction of pursuer from A to B
-			boolean rightDirection = posA < posB? true : false;
-			
 			//Calculate which targets are intercepted between the state pair
-			for(Target t: targets) {
-				if(targetsInInterceptionOrder.contains(t)) {
-					continue;
+			ArrayList<Target> interceptedTargets = calcTargetsWithinPositions(posA, posB, timestampA, timestampB, unsortedTargetList);
+			for(Target t:interceptedTargets) {
+				double interceptedTime = timestampA + calcTransWeight(s1, t.getPos(), v1, t.getVel(), timestampA);
+				t.setInterceptingTime(interceptedTime);
+				if(interceptedTime > lastTimestamp) {
+					lastTimestamp = interceptedTime;
+					lastS = t.getPos();
+					lastV = t.getVel();
 				}
-				// Positions of the target t at both timestamps
-				double posT1 = posAtTimestamp(t.getPos(), t.getVel(), timestampA);
-				double posT2 = posAtTimestamp(t.getPos(), t.getVel(), timestampB);		
-				// time to get a to t
-				double tau = calcTransWeight(i==0? 0 : a.getSk().getPos(), t.getPos(), v1, v2, timestampA);
-				
-				//  TODO: fix! 
-				if(rightDirection) {
-					if(posT1 > posA && posT2 < posB) {
-						continue;
-					} else {
-						// t is intercepted between A and B
-						t.setInterceptingTime(tau+timestampA);
-						interceptedTargets.add(t);
-					}
-				// left Direction
-				} else {
-					if(posT1 < posA && posT2 > posB) {
-						continue;
-					} else {
-						// t is intercepted between A and B
-						t.setInterceptingTime(tau+timestampA);
-						interceptedTargets.add(t);
-					}
-				}				
 			}
-			
-			//Sort the intercepted targets by the interception order
-			Collections.sort(interceptedTargets, new Comparator<Target>() {
-		        @Override
-		        public int compare(Target t1, Target t2) {
-		            return t1.getInterceptingTime() < t2.getInterceptingTime()? -1 : t1.getInterceptingTime() > t2.getInterceptingTime()? 1 : 0;
-		        }
-		    });
-			
+			this.unsortedTargetList.removeAll(interceptedTargets);
 			targetsInInterceptionOrder.addAll(interceptedTargets);
-			
+		
 			// add returning to the origin
 			if(i==turningPoints.size()-2) {
-				double time = targetsInInterceptionOrder.get(targetsInInterceptionOrder.size()-1).getInterceptingTime() + calcTransWeight(s2, 0, v2, 0, timestampB);
+				Collections.sort(targetsInInterceptionOrder, Target.compTime);
 				Target end = new Target(0, 0);
-				end.setInterceptingTime(time);
+				end.setInterceptingTime(lastTimestamp + calcTransWeight(lastS, 0, lastV, 0, lastTimestamp));
 				targetsInInterceptionOrder.add(end);
 			}
-			
 			// set new timestamp
-			timestampA = timestampB;
-			
-		}
-		
+			timestampA = timestampB;	
+		}		
 		return targetsInInterceptionOrder;
+	}
+	
+	/**
+	 * method to determine targets within positions
+	 * @param posA start
+	 * @param posB end
+	 * @param timestampA start
+	 * @param timestampB end
+	 * @param targets remaining targets
+	 * @return intercepted targets within posA and posB
+	 */
+	private ArrayList<Target> calcTargetsWithinPositions(double posA, double posB, double timestampA, double timestampB, ArrayList<Target> targets) {
+
+		ArrayList<Target> interceptedTargets = new ArrayList<>();
+
+		for (Target t : targets) {
+
+			double posTA = posAtTimestamp(t.getPos(), t.getVel(), timestampA);;
+			double posTB = posAtTimestamp(t.getPos(), t.getVel(), timestampB);
+			boolean rightDirection = posA < posB ? true : false;
+
+			// condition to be intercepted: posTA and posTB within posA & posB or
+			// posTA >= (<=) posB and posTB within posA & posB when moving right (left)
+			if (rightDirection && (posTA >= posA && posTB <= posB)) { // right
+				interceptedTargets.add(t);
+				continue;
+			}
+			if (!rightDirection && (posTA <= posA && posTB >= posB)) { // left
+				interceptedTargets.add(t);
+				continue;
+			}
+		}
+		return interceptedTargets;
 	}
 	
 	/**
@@ -414,10 +458,9 @@ public class SolveOneDim {
 	}
 
 	/**
-	 * method to generate states with the origin and left & right Pairs
+	 * method to generate states with left & right Pairs
+	 * also adds A_0 and A_final
 	 * 
-	 * @param leftPairs
-	 * @param rightPairs
 	 * @return State ArrayList
 	 */
 	private ArrayList<State> generateStates() {
@@ -441,7 +484,7 @@ public class SolveOneDim {
 		// sort in order of nondecreasing sum of the indices
 		Collections.sort(states);
 
-		// add A_end
+		// add A_final
 		states.add(new State(false, stateCnt));
 
 		return states;
@@ -456,14 +499,13 @@ public class SolveOneDim {
 	 * @param leftTrans true: determine A_left, false: determine A_right
 	 * @return nextState A_left or A_right, depends on boolean leftTrans
 	 */
-	private State getNextState(ArrayList<State> states, State A, boolean leftTrans) {
+	private State getNextState(ArrayList<State> states, State A, boolean leftTrans, double timestamp) {
 
 		int skIndex = A.getSkIndex();
 		int sfIndex = A.getSfIndex();
 		State nextState = null;
 		
 		if (!A.isStart()) {
-
 			// A_left
 			if (leftTrans) {
 				if (A.getIsLeft()) { // sk is left
@@ -490,6 +532,25 @@ public class SolveOneDim {
 					break;
 				}
 			}
+			// check if state is valid
+//			double posT1 = posAtTimestamp(A.getSk().getPos(), A.getSk().getVel(), timestamp);
+//			double posT2 = posAtTimestamp(nextState.getSk().getPos(), nextState.getSk().getVel(), timestamp);
+//			// A_left
+//			if (leftTrans) {
+//				if(posT1<posT2) {
+//					
+//				}
+//			}
+//			// A_right
+//			else {
+//				if(posT1>posT2) {
+//					
+//				}
+//			}
+			
+			
+			
+			
 		} else { // A_0 hard coded
 			nextState = leftTrans? states.get(1):states.get(2);
 		}
@@ -515,17 +576,18 @@ public class SolveOneDim {
 		
 		// pursuer needs to move left, if the target is left of the pursuer
 		int vpur = posB<posA?this.pursuerVel*-1:this.pursuerVel; 
-		
 		double tau = Math.abs((posB - posA) / (vpur - v2));
-		
-//		System.out.println(s1 + " + (" + vpur + "*" + timestamp + ") = " + posA);
-//		System.out.println("Rechnung: " + posA + ", " + posB + ", " + timestamp + ", " + s1 + ", " + s2 + ", " + vpur + ", " + v2);
-//		System.out.println("t="+timestamp);
-//		System.out.println(posB + " - " + posA + " / " + vpur + " - " + v2 + " = " + tau);
 
 		return tau;
 	}
 	
+	/**
+	 * calc. the position for a target at a spec. timestamp
+	 * @param init start coordinate
+	 * @param v target's velocity
+	 * @param timestamp current timestamp
+	 * @return new position
+	 */
 	public double posAtTimestamp(double init, int v, double timestamp) {
 		return init + (v*timestamp);
 	}

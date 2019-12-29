@@ -7,6 +7,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * 
+ * @author FelixGreuling
+ *
+ */
 public class GenerateInput {
 
 	// targets, geschwindigkeit, maxSpeed, PurPos 
@@ -25,7 +30,7 @@ public class GenerateInput {
 		BufferedWriter writer;
 		String path = "";
 		
-		if(Constants.is1D) {
+		if(Constants.IS_1D) {
 			File file = new File("D:\\Uni\\eclipse_workspace_new\\BA_MTTSP");
 			File[] fileArray = file.listFiles();
 			int index = 0;
@@ -50,44 +55,52 @@ public class GenerateInput {
 		}
 		
 		// n
-		writer.write(Constants.n + "\n");
+		writer.write(Constants.N + "\n");
 		
 		Random rand = new Random();
 		
 		// pPos (origin) - pursuer position
 		// purPos = rand.nextInt(Constants.limitXCoord+1);
-		// Purseuer position currently fixed
-		if(Constants.is1D) {
-			writer.write(Constants.purPos + "\n");
-		} else {
-			String tmp = Constants.pursuerStartsOnLeftRightAxis? "0":"1";
-			writer.write(Constants.purPos + " " + tmp + "\n");
+		// Pursuer position currently fixed
+		String axisPur = "0";
+		if(!Constants.IS_1D) {
+			axisPur = Constants.PURSUER_STARTS_ON_LEFTRIGHT_AXIS? "0":"1";	
 		}
+		writer.write(Constants.PURSUER_POS + " " + axisPur + "\n");
 		
 		
 		// pV - pursuer velocity / vmax
-		writer.write(Constants.vMax + "\n");
+		writer.write(Constants.V_PURSUER + "\n");
 		ArrayList<Integer> currentPositions = new ArrayList<>(); 
 		// positions & velocities
 		String pos = "";
 		String vel = "";
 		String axis = "";
 				
-		for(int i=0; i<Constants.n; i++) {
-			int tmp = rand.nextInt(Constants.limitCoord+1);
+		for(int i=0; i<Constants.N; i++) {
+			int tmp = rand.nextInt(Constants.LIMIT_COORD+1);
 			
-			if(!currentPositions.contains(tmp) && tmp!=Constants.purPos) {
+			if(!currentPositions.contains(tmp) && tmp!=Constants.PURSUER_POS) {
 				pos += String.valueOf(rand.nextInt(2)==0? tmp : tmp*(-1));
 				currentPositions.add(tmp);
 				
-				tmp = rand.nextInt((int)Constants.vMax-1)+1;
+				if(Constants.CONSTANT_VELOCITIES) {
+					tmp = Constants.V_I_MAX;
+				} else{
+					tmp = rand.nextInt((int)Constants.V_PURSUER)+1;
+				}
 				tmp = rand.nextInt(2)==0? tmp : tmp*(-1);
 				vel += String.valueOf(tmp);
 				
-				tmp = rand.nextInt(2)==0? 0 : 1;
+				if(Constants.IS_1D) {
+					tmp = 0;
+				} else {
+					tmp = rand.nextInt(2)==0? 0 : 1;
+				}
+				
 				axis += String.valueOf(tmp);
 				
-				if(i!=Constants.n-1) {
+				if(i!=Constants.N-1) {
 					pos += " ";
 					vel += " ";
 					axis += " ";
@@ -100,9 +113,7 @@ public class GenerateInput {
 		
 		writer.write(pos + "\n");
 		writer.write(vel + "\n");
-		if(!Constants.is1D) {
-			writer.write(axis);
-		}
+		writer.write(axis);
 		
 		writer.close();
 		return path;
