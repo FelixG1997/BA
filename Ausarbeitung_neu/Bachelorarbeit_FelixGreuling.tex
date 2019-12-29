@@ -1022,8 +1022,69 @@ Mit dem Prioritäts-Algorithmus wurde zum Einen ein effizienter und mit dem Brut
 \appendix
 \chapter{Implementierungen}
 
-\textcolor{red}{TODO} 
+Bei den beigefügten Java-Klassen handelt es sich um die Implementation folgender in dieser Arbeit vorgestellten Algorithmen:
+\begin{itemize}
+\item 1D-Algorithmus
+\item Prioritäts-Algorithmus
+\item Brute-Force-Algorithmus
+\end{itemize} 
+Diese habe ich anhand der Pseudocodes Algorithmus \ref{alg:1D}, Algorithmus \ref{alg:2OA.1} und Algorithmus \ref{alg:BF} implementiert. Der Quellcode umfasst insgesamt ca. 2300 Zeilen, inklusive einiger Testmethoden, welche für Kapitel \ref{kap5} verwendet wurden. Nachfolgend wird beschrieben, wie die zugehörigen Klassen verwendet werden und zu verstehen sind. 
 
+\section{Funktionsweise des Programmes und Relationen zwischen den Klassen}
+Die Klasse \emph{Constants.java} besitzt alle nötigen Parameter für die Algorithmen und Testmethoden, welche in Tabelle \ref{Constants} abgebildet werden. Es kann mit Hilfe der Parameter ein zufälliger Input mit \emph{GenerateInput.java} generiert oder ein bestimmter Input vorgegeben werden. Der Input besitzt dabei die Form ``1D\_<x>.txt''- oder ``2OA\_<x>.txt''-Datei, je nachdem, ob ein 1D-Fall oder zwei-orthogonale-Achsen-Fall betrachtet wird. Die \emph{main}-Methode liegt in \emph{Main.java}. Diese berechnet abhängig von den Konstanten einen der beiden Fälle oder startet eine der Test-Methoden. 
+
+Die Berechnung der 1D-Fälle erfolgt mit der Klasse \emph{SolveOneDim.java}, bei zwei-orthogonale-Achsen-Fälle wird die Tour mit \emph{SolveWithPriorityApproach} oder \emph{SolveWithBruteForce} berechnet. Die drei Klassen wandeln jeweils den Input in eine Liste von \emph{Target.java}-Objekten um. \emph{SolveOneDim.java} verwendet zusätzlich für die Zustandsliste die Klasse \emph{State.java}. Der Suchbaum des Brute-Force-Algorithmus wird mit \emph{SequenceStep} berechnet, indem für Kinderknoten neue \emph{SequenceStep}-Objekte erstellt werden. In jedem Schritt wird dann auf eine Abschneidung überprüft. 
+
+Mit \emph{CalcSequence} kann eine exakte Zeit bestimmt werden, die eine bestimmte Reihenfolge an Zielen benötigt. Dabei wird nicht auf Ziele überprüft, welche auf dem Weg zu dem nächsten Ziel abgefangen wurden. Es kann also eine Tour eines der Algorithmen in der Reihenfolge der Tour in ``Seq.txt'' gespeichert werden, welche anschließend berechnet wird. Damit kann sichergestellt werden, dass die Tour korrekt berechnet wurde. Dies ist bei Randbedingungen sinnvoll und fördert zugleich das Debuggen. 
+
+\section{Testumgebung für die Experimente}
+
+Die Testumgebung befindet sich innerhalb der $Main.java$. Ab dem Parameter \\\emph{TESTING\_ENABLED} aus Tabelle \ref{Constants} werden anstelle der normalen Berechnungen die Testmethoden in \emph{Main.java} verwendet. Für 1D-Fälle wird dabei die Laufzeit für zufällige Instanzen in \emph{test1DRuntime} getestet. 
+
+Bei zwei-ortogonale-Achsen-Fällen werden verschiedene Tests durchgeführt. Mit \emph{testPrioWithMultipleInstances} werden zufällige Gewichte für zufällig generierte Instanzen durchprobiert und am Ende die besten $10$ Gewichte-Tripel in eine Datei geschrieben. Der Suchbaum beim Brute-Force-Algorithmus wird in \emph{testBFWithMultipleInstances} ebenfalls für zufällige Instanzen analysiert und die Ergebnisse in einer Datei festgehalten. Mit \emph{testPrioQuality} wird die Güte des Prioritäts-Algorithmus für zufällige Instanzen berechnet und weitere Ergebnisse, wie die maximale Güte, in eine Datei geschrieben. Es kann aber auch nur eine Instanz getestet werden. Für diese werden in \emph{testWeightsWithBruteForce} Gewichte zufällig generiert und bei optimalen Ergebnisse werden die Gewichten in eine andere Datei festgehalten. In \emph{testWeightsWithoutBruteForce} werden die Gewichte, zufällig gewählt, festgehalten, die bessere Ergebnisse erzielen, als jene in der vorherigen Iteration. Für \emph{testWeightsWithBruteForce} und \emph{testWeightsWithoutBruteForce} kann mit \emph{calcWeightAverage} der Durchschnitt der Gewichte berechnet werden.
+
+\begin{table}[htpb]
+\centering
+\footnotesize
+\scalebox{0.9}{
+\begin{tabular}{lll} \uzlhline
+\uzlemph{Parameter} & \uzlemph{Datentyp} & \uzlemph{Bedeutung/Belegung} \\ \uzlhline
+&& Welcher Fall/Instanz soll berechnet werden? \\
+IS\_1D & boolean                          & true: 1D-Fall \\ 
+&& false: 2OA-Fall \\\uzlhline
+&& Soll eine zufällige Eingabe generiert werden?\\
+GENERATE\_NEW\_INPUT & boolean            & true: Ja \\ 
+&& false: Eigene Eingabe-Datei verwenden \\\uzlhline
+INPUT\_FILE\_1D & String                  & 1D-Instanz-Datei \\ \uzlhline
+INPUT\_FILE\_2OA & String                 & 2OA-Instanz-Datei \\ \uzlhline
+USE\_BRUTE\_FORCE & boolean               & Brute-Force-Algorithmus verwenden? \footnotemark \\ \uzlhline
+PRINT\_TARGETS\_AND\_STEPS & boolean      & Sollen die Schritte angezeigt werden? \\ \uzlhline
+N & int                                   & Eingabegröße \\ \uzlhline
+PURSUER\_POS & int                        & Startposition Verfolger / Ursprung \\ \uzlhline
+V\_PURSUER & int                          & Verfolgergeschwindigkeit \\ \uzlhline
+V\_I\_MAX & int                           & Maximale Geschwindigkeit eines Ziels \\ \uzlhline
+LIMIT\_COORD & int                        & Maximale Startkoordinate eines Ziels \\ \uzlhline
+&& Auf welcher Achse soll der Verfolger starten?\\
+PURSUER\_POS\_AXIS & boolean              & true: waagerechte Achse \\ 
+&& false: senkrechte Achse \\ \uzlhline
+WEIGHTS & int[]                           & Gewichte-Array der Größe 3  \\ \uzlhline
+&& Feste für die Geschwindigkeiten aller Ziele?\\
+CONSTANT\_VELOCITIES & boolean            &  true: Ja \\
+&&False: zufällige Geschwindigkeit \\ \uzlhline
+TESTING\_ENABLED & boolean                & Soll eine der Testmethoden verwendet werden? \\\uzlhline
+TEST\_SPECIFIC\_SEQUENCE & boolean        & Vorgegebene Sequenz an Zielen berechnen?\\ \uzlhline
+TEST\_MULTIPLE\_PRIO\_INSTANCES & boolean & Gewichte mit zufälligen Instanzen testen?\\ \uzlhline
+TEST\_MULTIPLE\_BF\_INSTANCES & boolean   & Bäume mit zufälligen Instanzen testen? \\ \uzlhline 
+TEST\_WEIGHTS & boolean                   & Zufällige Gewichte für eine Instanz testen? \\ \uzlhline
+TEST\_PRIO\_QUALITY & boolean             & Güte für mehrere Instanzen testen? \\ \uzlhline
+TEST\_ITERATIONS  & int                   & Anzahl an Testiterationen \\ \uzlhline
+TEST\_INSTANCES & int                     & Anzahl an generierten Testinputs \\ \uzlhline
+LIMIT\_RANDOM\_WEIGHTS & int              & Maximaler, zufälliger Gewichtswert \\ \uzlhline
+\end{tabular}}
+\caption{Belegungen der Parameter in \emph{Constants.java} und deren Bedeutung.}
+\label{Constants}
+\end{table}
+\footnotetext{Bei solchen boolean-Parametern gilt true: Ja und false: Nein}
 
 % \section{Experimental Parameters} % possibly
 %

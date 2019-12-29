@@ -47,7 +47,7 @@ $n$ &Instanzen& betr. Knoten & Anteil Knoten & Schnitte & ber. Blätter & Fails\
 14&~~~10& 5033246.67& 0.000021& 1147070.33& 2025.67& 7 \\ \hline
 \end{tabular}}
 \caption{blub}
-\label{tab:ExpBF}
+\label{tab:ExpBF1}
 \end{table}
 
 \begin{table}[htpb]
@@ -68,7 +68,7 @@ $n$ & Instanzen& $max\{v_i\}$ & D Güte & max Güte & opt. Touren & Anteil opt.\
  \hline
 \end{tabular}}
 \caption{blub}
-\label{tab:ExpBF}
+\label{tab:ExpBF2}
 \end{table}
 
 \begin{table}[htpb]
@@ -95,7 +95,7 @@ $n$ & $v_i$& $v_{\kappa}$ & Tourlänge\\ \hline
  \hline
 \end{tabular}}
 \caption{blub}
-\label{tab:ExpBF}
+\label{tab:ExpBF3}
 \end{table}
 
 \begin{table}[htpb]
@@ -122,6 +122,49 @@ $n$ & |Koordinatenlimit| & $\omega$\\ \hline
 \caption{blub}
 \label{bla}
 \end{figure}
+
+\begin{table}[htpb]
+\centering
+\footnotesize
+\scalebox{0.9}{
+\begin{tabular}{>{\scriptsize}lll} \hline
+Parameter & Datentyp & Bedeutung/Belegung \\ \hline
+&& Welcher Fall/Instanz soll berechnet werden? \\
+IS\_1D & boolean                          & true: 1D-Fall \\ 
+&& false: 2OA-Fall \\\hline
+&& Soll eine zufällige Eingabe generiert werden?\\
+GENERATE\_NEW\_INPUT & boolean            & true: Ja \\ 
+&& false: Eigene Eingabe-Datei verwenden \\\hline
+INPUT\_FILE\_1D & String                  & 1D-Instanz-Datei \\ \hline
+INPUT\_FILE\_2OA & String                 & 2OA-Instanz-Datei \\ \hline
+USE\_BRUTE\_FORCE & boolean               & Brute-Force-Algorithmus verwenden? \footnotemark \\ \hline
+PRINT\_TARGETS\_AND\_STEPS & boolean      & Sollen die Schritte angezeigt werden? \\ \hline
+N & int                                   & Eingabegröße \\ \hline
+PURSUER\_POS & int                        & Startposition Verfolger / Ursprung \\ \hline
+V\_PURSUER & int                          & Verfolgergeschwindigkeit \\ \hline
+V\_I\_MAX & int                           & Maximale Geschwindigkeit eines Ziels \\ \hline
+LIMIT\_COORD & int                        & Maximale Startkoordinate eines Ziels \\ \hline
+&& Auf welcher Achse soll der Verfolger starten?\\
+PURSUER\_POS\_AXIS & boolean              & true: waagerechte Achse \\ 
+&& false: senkrechte Achse \\ \hline
+WEIGHTS & int[]                           & Gewichte-Array der Größe 3  \\ \hline
+&& Feste für die Geschwindigkeiten aller Ziele?\\
+CONSTANT\_VELOCITIES & boolean            &  true: Ja \\
+&&False: zufällige Geschwindigkeit \\ \hline
+TESTING\_ENABLED & boolean                & Soll eine der Testmethoden verwendet werden? \\hline
+TEST\_SPECIFIC\_SEQUENCE & boolean        & Vorgegebene Sequenz an Zielen berechnen?\\ \hline
+TEST\_MULTIPLE\_PRIO\_INSTANCES & boolean & Gewichte mit zufälligen Instanzen testen?\\ \hline
+TEST\_MULTIPLE\_BF\_INSTANCES & boolean   & Bäume mit zufälligen Instanzen testen? \\ \hline 
+TEST\_WEIGHTS & boolean                   & Zufällige Gewichte für eine Instanz testen? \\ \hline
+TEST\_PRIO\_QUALITY & boolean             & Güte für mehrere Instanzen testen? \\ \hline
+TEST\_ITERATIONS  & int                   & Anzahl an Testiterationen \\ \hline
+TEST\_INSTANCES & int                     & Anzahl an generierten Testinputs \\ \hline
+LIMIT\_RANDOM\_WEIGHTS & int              & Maximaler, zufälliger Gewichtswert \\ \hline
+\end{tabular}}
+\caption{Belegungen der Parameter in \emph{Constants.java} und deren Bedeutung.}
+\label{Constants}
+\end{table}
+\footnotetext{Bei solchen boolean-Parametern gilt: true: Ja, false: Nein}
 
 \end{document}
 
