@@ -26,6 +26,38 @@
 \begin{figure}
 \centering
 \begin{tikzpicture}
+\coordinate (o) at (0,0) ;
+\coordinate (l) at (-6,0); %node[below=0.1cm of l]{-30};
+\coordinate (r) at (6,0); %node[below=0.1cm of r]{30};
+\coordinate (b) at (0,-3); %node[left=0.1cm of b]{-30};
+\coordinate (t) at (0,6); %node[left=0.1cm of t]{30};
+\draw (l)--(r) (b)--(t);
+% target 1 left ((-10,0),5)
+\coordinate (l1) at (-2,0) node[below=0.1cm of l1]{-10};
+\fill (l1) circle (2.5pt);
+\coordinate (l1a) at (-2,0.8) node[above=0.1cm of l1a, xshift=0.1cm]{5};
+\draw (l1) -- (l1a) -- (-1.7,0.8);
+\draw (-1.7,0.9) -- (-1.5,0.8) -- (-1.7,0.7) -- cycle;
+% target 2 left ((-15,0),8)
+\coordinate (l2) at (-3,0) node[below=0.1cm of l2]{-15};
+\fill (l2) circle (2.5pt);
+\coordinate (l2a) at (-3,0.8) node[above=0.1cm of l2a, xshift=-0.2cm]{7};
+\draw (l2) -- (l2a) -- (-3.4,0.8);
+\draw (-3.4,0.9) -- (-3.6,0.8) -- (-3.4,0.7) -- cycle;
+% target 3 top ((25,1),13)
+\coordinate (l3) at (0,4.5) node[left=0.1cm of l3]{25};
+\fill (l3) circle (2.5pt);
+\coordinate (l3a) at (0.8,4.5) node[right=0.1cm of l3a, yshift=0.4cm]{13};
+\draw (l3) -- (l3a) -- (0.8,5.2);
+\draw (0.7,5.2) -- (0.8,5.4) -- (0.9,5.2) -- cycle;
+\end{tikzpicture}
+\caption{Zuvor wäre das Ziel $z=(((-10,0),5))$ im 1D-Fall aus der Liste \emph{Left} eliminiert worden. Mit der zusätzlichen Achse gilt dies nicht mehr für $z$}
+\label{fig:BSP}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{tikzpicture}
 \coordinate (a) at (-5,0) node[below=0.1cm of a]{-1000};
 \coordinate (b) at (-1,0) node[below=0.1cm of b]{-1};
 \coordinate (c) at (0,0) node[below=0.1cm of c]{0};
@@ -66,7 +98,7 @@
 %\caption{einfaches Gegenspiel}
 \label{fig:BSP}
 \end{figure}
-
+\newpage
 \begin{figure}
 \centering
 \includegraphics[scale=0.09]{../Grafiken/Whiteboard/GegenBsp1Dim.jpg}

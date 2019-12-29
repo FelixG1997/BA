@@ -73,7 +73,7 @@ Im Jahre 1998 wurde diese spezielle Instanz des TSP vorgestellt \cite{helvig}. D
 %\section{Contributions of this Thesis}
 \section{Beiträge dieser Arbeit}
 
-In dieser Arbeit wird ein neuer, auf dem eindimensionalen Moving-Target-TSP basierender Fall, eingeführt. Dieser enthält zusätzlich eine weitere orthogonale Achse, auf welcher sich die Ziele und die Verfolger bewegen können. Die für den eindimensionalen Fall bereits gezeigten Eigenschaften, dass sich der Verfolger in einer optimalen Tour jederzeit mit seiner maximalen Geschwindigkeit $v_{\kappa}$ in eine Richtung bewegt und erst seine Richtung ändern kann, sofern der Verfolger das schnellste Ziel in seiner Richtung eingeholt hat, gelten auch für diese neue Modifikation. Mit dem Prioritäts-Algorithmus wurde ein effizienter aber nicht optimaler Algorithmus vorgestellt, während der Brute-Force-Ansatz für optimale Ergebnisse für kleine Instanzen $n<14$ genutzt werden kann. Der Prioritäts-Algorithmus garantiert gute bis optimale Ergebnisse bei einer Differenz der Verfolgergeschwindigkeit und der maximalen Geschwindigkeit der Ziele von 40. Die Gewichte $\omega=\{87,34,31\}$ werden zur Lösung genereller Fälle vorgeschlagen. Durch immer größere Beschneidungen bei steigender Eingabegröße wird beim Brute-Force-Algorithmus in den meisten Fällen nur ein kleiner Bruchteil des Baumes betrachtet. Trotz der schlechten Laufzeitkomplexität, wird ggf. auch bei $n=15$ in kurzer Zeit eine optimale Tour gefunden.
+In dieser Arbeit wird ein neuer, auf dem eindimensionalen Moving-Target-TSP basierender Fall, eingeführt. Dieser enthält zusätzlich eine weitere orthogonale Achse, auf welcher sich die Ziele und die Verfolger bewegen können. Die für den eindimensionalen Fall bereits gezeigten Eigenschaften, dass sich der Verfolger in einer optimalen Tour jederzeit mit seiner maximalen Geschwindigkeit $v_{\kappa}$ in eine Richtung bewegt und erst seine Richtung ändern kann, sofern der Verfolger das schnellste Ziel in seiner Richtung eingeholt hat, gelten auch für diese neue Modifikation. Mit dem Prioritäts-Algorithmus wurde ein effizienter aber nicht optimaler Algorithmus vorgestellt, während der Brute-Force-Ansatz für optimale Ergebnisse für kleine Instanzen $n<14$ genutzt werden kann. Der Prioritäts-Algorithmus garantiert gute bis optimale Ergebnisse bei einer Differenz der Verfolgergeschwindigkeit und der maximalen Geschwindigkeit der Ziele von 40. Die Gewichte $\omega=\{87,34,31\}$ werden zur Lösung genereller Fälle vorgeschlagen. Durch immer größere Beschneidungen bei steigender Eingabegröße wird beim Brute-Force-\\Algorithmus in den meisten Fällen nur ein kleiner Bruchteil des Baumes betrachtet. Trotz der schlechten Laufzeitkomplexität, wird ggf. auch bei $n=15$ in kurzer Zeit eine optimale Tour gefunden.
 
 
 %\section{Related Work}
@@ -159,7 +159,8 @@ Um das Problem der kürzesten Route zu lösen, muss sich der Verfolger an einem 
 \item alle Ziele links vom Ursprung aus gesehen und danach alle rechten Ziele abfangen
 \item alle Ziele rechts vom Ursprung aus gesehen und danach alle linken Ziele abfangen
 \end{itemize} 
-ist zwar simpel und einfach implementierbar, garantiert aber keine optimale Lösung (siehe Abbildung \ref{fig:GegenBsp1Dim}).
+ist zwar simpel und einfach implementierbar, garantiert aber keine optimale Lösung (siehe Abbildung \ref{fig:GegenBsp1Dim}). Im worst case geht $t\rightarrow\infty$, sobald die äußersten Ziele noch deutlich weiter entfernt vom Ursprung aus liegen. \\~\\
+
 \begin{figure}[htbp]
 \centering
 \begin{tikzpicture}
@@ -208,7 +209,8 @@ ist zwar simpel und einfach implementierbar, garantiert aber keine optimale Lös
 \caption{Für diese Instanz mit 4 Zielen würde der Verfolger mit der Geschwindigkeit $v_{\kappa}=10$ deutlich länger für eine Tour brauchen, sofern er zunächst alle Ziele auf der einen und dann auf der anderen Seite abarbeitet. Hierbei wäre es sinnvoll, zunächst die Ziele $(-1,-8)$ und $(1,8)$ einzuholen.}
 \label{fig:GegenBsp1Dim}
 \end{figure}
-Im worst case geht $t\rightarrow\infty$, sobald die äußersten Ziele noch deutlich weiter entfernt vom Ursprung aus liegen. 
+\newpage
+
 \begin{definition}
 Wendepunkte sind Ziele, an jenen es dem Verfolger möglich ist, die Richtung zu ändern. Dabei sind potentielle Wendepunkte die aktuell  schnellsten Ziele auf der rechten bzw. rechten Seite des Verfolgers.
 \end{definition}\noindent
@@ -250,7 +252,7 @@ Nach dem Schema aus dem vorherigen Abschnitts werden wieder die Listen \emph{Lef
 \item Falls der Verfolger jedes Ziel auf einer Seite des Ursprungs eingeholt hat, erzeuge einen Übergang $\tau_{final}$ in $A_{final}$. Dies ist der Fall, sobald das $s_k$ von $A_i$ das letzte Listenelement in \emph{Left} oder \emph{Right} darstellt. Berechne dann die Zeit, um die verbleibenden Ziele auf der anderen Seite einzuholen und zusätzlich die Retour zum Ursprung. 
 \item Berechne ansonsten $\tau_{Left}$ und $\tau_{Right}$, welche den Verfolger entweder zum schnellsten Ziel auf der rechten oder linken Seite schickt. Falls die Zeit addiert mit dem aktuellen Zeitstempel $t[i]$ kleiner ist, als bisher von einem anderen Zustand, aktualisiere $t[A_{Left}]$ bzw. $t[A_{Right}]$ mit diesem Wert.
 \end{itemize}
-Schließlich werden alle Ziele, einschließlich der zuvor eliminierten Ziele, zwischen den Wendepunkten berechnet und in der richtigen Reihenfolge zusammengefügt. Somit wird eine optimale Tour durch die Kombination aus topologischer Reihenfolge und dynamischer Programmierung garantiert. Der dazu entwickelte Pseudocode ist in Algorithmus \ref{alg:1D} abgebildet \cite{helvig}. 
+Schließlich werden alle Ziele, einschließlich der zuvor eliminierten Ziele, zwischen den Wendepunkten berechnet und in der richtigen Reihenfolge zusammengefügt. Somit \\wird eine optimale Tour durch die Kombination aus topologischer Reihenfolge und dynamischer Programmierung garantiert. Der dazu entwickelte Pseudocode ist in Algorithmus \ref{alg:1D} abgebildet \cite{helvig}. 
 
 \scalebox{0.84}{
 \begin{minipage}{1\linewidth}
@@ -352,7 +354,7 @@ A_7&=\{(-1000, -1), (1000, 2))\} &\text{Index-Summenwert}=2\\
 A_8&=\{(1000, 2), (-1000, -1))\} &\text{Index-Summenwert}=2\\
 A_{final}&=\emptyset
 \end{align*}
-Nun beginnt die dynamische Programmierung. Dafür wird durch jeden Zustand aus $States$ in chronologischer Reihenfolge iteriert. Dabei ergeben sich für jede Iteration folgende benötigte Zeiten bis zum Erreichen eines jeden Zustands:
+Nun beginnt die dynamische Programmierung. Dafür wird durch jeden Zustand aus \\$States$ in chronologischer Reihenfolge iteriert. Dabei ergeben sich für jede Iteration folgende benötigte Zeiten bis zum Erreichen eines jeden Zustands:
 \begin{align*}
 \text{Iteration 0:}~~~~t=&[0,0;~ 0,5;~ 0,5;~ \infty;~ \infty;~ \infty;~ \infty;~ \infty;~ \infty;~ \infty] \\
 \text{Iteration 1:}~~~~t=&[0,0;~ 0,5;~ 0,5;~ \infty;~ \infty;~ 111,11;~ 5,5;~ \infty;~ \infty;~ \infty] \\
@@ -391,7 +393,7 @@ Dies ist nun die optimale Tour, in der alle Ziele aus $Z$ abgefangen wurden.
 
 \end{example}
 
-\section{Eingabe $\&$ Ausgabe}
+\section{Eingabe und Ausgabe der Heuristiken}
 
 Um Heuristiken aufzustellen und zu bewerten ist eine sinnvolle und einheitliche Eingabe und Ausgabe notwendig. Für die Eingabe wird eine Menge $T$ von Zielen sowie die initiale Position und Geschwindigkeit des Verfolgers erwartet. Dies reicht aus, um eine Tour zu bestimmen. 
 Bei der Ausgabe kommt es darauf an, wie detailliert die Tour beschrieben werden soll. Als offensichtliche Parameter werden die Tourlänge und Tourzeit zurückgegeben. Damit ist allerdings die Tour schlecht nachvollziehbar. Demnach werden die Ziele in der vom Verfolger eingeholten Reihenfolge zurückgegeben. Dabei verfügt jedes Ziel über die Position und Zeit in der der Verfolger es eingeholt hat. Um die Tour komplett nachvollziehen, ist eine graphische Anwendung sinnvoll, aber nicht notwendig. 
@@ -481,7 +483,7 @@ In diesem Kapitel werden konkrete Heuristiken für den zwei-orthogonale-Achsen-F
 \section{Problem der Modellierung als Graphen}
 Im 1D-Fall konnte über über die topologische Reihenfolge der Wendepunkte bzw. Zustände ein Graph erzeugt werden. Somit wurde mit der Bestimmung des kürzesten Pfads das Problem die optimale Tour bestimmt. 
 
-Es ist also zunächst sinnvoll, diesen Ansatz für den zwei-orthogonale-Achsen-Fall zu übernehmen, da nur eine Achse hinzugekommen ist. Hierfür werden wieder die einzelnen Ziele in die Listen \emph{Left, Right, Top} und \emph{Bottom} aufgeteilt. Bei dem Algorithmus von \cite{helvig} wurden nun die Ziele eliminiert, welche sowieso eingeholt werden und dementsprechend keine Wendepunkte darstellen. Mit der zusätzlichen Achse gilt dies nur noch für Ziele, welche sich wegführend vom Ursprung bewegen. Das liegt daran, dass Ziele nun den Ursprung überqueren können, während der Verfolger sich auf der anderen Achse befindet. Somit werden solche Ziele nicht automatisch eingeholt. 
+Es ist also zunächst sinnvoll, diesen Ansatz für den zwei-orthogonale-Achsen-Fall zu übernehmen, da nur eine Achse hinzugekommen ist. Hierfür werden wieder die einzelnen Ziele in die Listen \emph{Left, Right, Top} und \emph{Bottom} aufgeteilt. Bei dem Algorithmus von \cite{helvig} wurden nun die Ziele eliminiert, welche sowieso eingeholt werden und dementsprechend keine Wendepunkte darstellen. Mit der zusätzlichen Achse gilt dies nur noch für Ziele, welche sich wegführend vom Ursprung bewegen. Das liegt daran, dass Ziele nun den Ursprung überqueren können, während der Verfolger sich auf der anderen Achse befindet. Somit werden solche Ziele nicht automatisch eingeholt (siehe Abbildung \ref{fig:2OA}).
 
 Der nächste Schritt ist nun die Generierung der Zustandsliste $States$, wobei eine Reihe von Problemen auftreten. Die Ziele befinden sich dabei im Laufe der Zeit nicht mehr unbedingt auf der Seite des Verfolgers, welche die jeweilige Liste aus \emph{Left, Right, Top} und \emph{Bottom} vorgibt. Sei der Verfolger zum Zeitpunkt $t$ auf der oberen Seite der senkrechten Achse. Das Ziel $z$ befindet sich in der Liste $Left$ und befindet zum Zeitpunkt $t$ auf der rechten Seite der waagerechten Achse. Damit befindet sich $z$ nun auch auf der rechten Seite des Verfolgers und ist nicht mehr repräsentativ für die Liste $Left$. 
 
@@ -490,6 +492,39 @@ Mit dieser Überlegung muss nun jedes solcher Ziele, die den Ursprung überquere
 Die nächste Überlegung ist nun, die Listen nach jeder Iteration zu aktualisieren. Das Problem ist hierbei, dass damit die Modellierung des Graphen so nicht mehr funktioniert. Dabei entsteht mitten im Graph ein komplett neuer Graph. 
  
 Letztendlich wird ein optimaler Algorithmus eine sehr große Laufzeit benötigen und gerade bei vielen Randbedingungen ist eine korrekte Implementierung schwer. Daher wird im nachfolgenden Abschnitt ein anderer Ansatz, bei dem die Ziele nach einer Priorität abgefangen werden, mit der Laufzeitkomplexität von $\mathcal{O}(n^2)$ vorgeschlagen. Für folgende Arbeiten wäre allerdings ein exakter Algorithmus für optimale Touren über den Ansatz aus \ref{lem:2} vom großen Interesse.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\coordinate (o) at (0,0) ;
+\coordinate (l) at (-6,0); %node[below=0.1cm of l]{-30};
+\coordinate (r) at (6,0); %node[below=0.1cm of r]{30};
+\coordinate (b) at (0,-3); %node[left=0.1cm of b]{-30};
+\coordinate (t) at (0,6); %node[left=0.1cm of t]{30};
+\draw (l)--(r) (b)--(t);
+% target 1 left ((-10,0),5)
+\coordinate (l1) at (-2,0) node[below=0.1cm of l1]{-10};
+\fill (l1) circle (2.5pt);
+\coordinate (l1a) at (-2,0.8) node[above=0.1cm of l1a, xshift=0.1cm]{5};
+\draw (l1) -- (l1a) -- (-1.7,0.8);
+\draw (-1.7,0.9) -- (-1.5,0.8) -- (-1.7,0.7) -- cycle;
+% target 2 left ((-15,0),8)
+\coordinate (l2) at (-3,0) node[below=0.1cm of l2]{-15};
+\fill (l2) circle (2.5pt);
+\coordinate (l2a) at (-3,0.8) node[above=0.1cm of l2a, xshift=-0.2cm]{7};
+\draw (l2) -- (l2a) -- (-3.4,0.8);
+\draw (-3.4,0.9) -- (-3.6,0.8) -- (-3.4,0.7) -- cycle;
+% target 3 top ((25,1),13)
+\coordinate (l3) at (0,4.5) node[left=0.1cm of l3]{25};
+\fill (l3) circle (2.5pt);
+\coordinate (l3a) at (0.8,4.5) node[right=0.1cm of l3a, yshift=0.4cm]{13};
+\draw (l3) -- (l3a) -- (0.8,5.2);
+\draw (0.7,5.2) -- (0.8,5.4) -- (0.9,5.2) -- cycle;
+\end{tikzpicture}
+\caption{Zuvor wäre das Ziel $z=(((-10,0),5))$ im 1D-Fall aus der Liste \emph{Left} eliminiert worden. Mit der zusätzlichen Achse gilt dies nicht mehr für $z$}
+\label{fig:2OA}
+\end{figure}
+\newpage
 
 \section{Prioritätsansatz für zwei-orthogonale-Achsen im MT-TSP}
 
@@ -536,6 +571,7 @@ Ist die Bedingung nicht erfüllt, wird für jedes verbleibende Ziel $z_i\in \mat
 
 Nun werden neben $current$ alle Ziele, welche zwischen $prev$ und $current$ abgefangen wurden, aus $\mathcal{Q}$ entfernt und in $OUTPUT$ eingefügt. Dies wird solange bis zum Abbruchkriterium fortgeführt. Am Ende wird $OUTPUT$ in der Reihenfolge des Abfangens sortiert und zurückgegeben. Der Algorithmus ist formal beschrieben in Algorithmus \ref{alg:2OA.1}.
 
+\scalebox{0.9}{
 \begin{minipage}{1\linewidth}
 \begin{algorithm}[H]
 \begin{algorithmic}
@@ -559,7 +595,7 @@ Nun werden neben $current$ alle Ziele, welche zwischen $prev$ und $current$ abge
 \EndFor\\
 
 \While {$\mathcal{Q}$ is not empty}
-\If {each remmaining target is located on one of the four sides of the intersection}
+\If {each remaining target is located on one of the four sides of the origin}
 \For {$z_i\in \mathcal{Q}$}
 \State $t[z_i] \leftarrow$ Time to intercept $z_i$ 
 \EndFor
@@ -584,17 +620,16 @@ Nun werden neben $current$ alle Ziele, welche zwischen $prev$ und $current$ abge
 \State return $OUTPUT$
 \end{algorithmic}
 \end{algorithm}
-\end{minipage}
-
-
+\end{minipage}}
+\newpage
 
 \subsection{Laufzeitkomplexität Prioritätsansatz}
 
-Der Prioritätsansatz geht mit der Prioritätswarteschlange jedes Ziel maximal einmal durch. Wird ein Ziel zwischen dem vorherigem und dem aktuell betrachteten eingeholt, wird dieses direkt aus der Warteschlange entfernt. 
+Der Prioritätsansatz geht mit der Prioritätswarteschlange jedes Ziel maximal einmal \\durch. Wird ein Ziel zwischen dem vorherigem und dem aktuell betrachteten eingeholt, wird dieses direkt aus der Warteschlange entfernt. 
 
 Für die Überprüfung auf abgefangene Ziele ergibt sich eine Zeitkomplexität von $\mathcal{O(n)}$, da diese für alle verbleibenden Ziele aus der Warteschlange durchgeführt wird. Die selbe Komplexität ergibt sich für das Aktualisieren der Prioritäten. Die Berechnung der Zeit zum Einholen eines Ziels erfolgt in $\mathcal{O(1)}$ (siehe Definition \ref{def:WegZeit}). Die Überprüfung auf die Abbruchbedingung beläuft sich auf eine Laufzeit von $\mathcal{O(n)}$, da für alle verbleibenden Ziele überprüft wird, ob sich diese auf der selben Seite befinden. Ist dem so, wird für jedes Ziel die finale Zeit und anschließend die Rückkehr zum Ursprung in konstanter Zeit berechnet. In Kombination mit dem Iterieren durch die Warteschlange werden die soeben genannten Laufzeiten um den Faktor $n$ erhöht. Jegliche Sortierungen befinden sich außerhalb der Warteschlange und haben mit einem gängigen Sortierverfahren \cite{kaaser2014algorithmen} eine Zeitkomplexität von $\mathcal{O(n\log(n))}$. 
 
-Somit ergibt sich für den Prioritäts-Algorithmus eine Gesamtzeitkomplexität von $\mathcal{O(n^2)}$.
+Somit ergibt sich für den Prioritäts-Algorithmus eine Gesamtlaufzeitkomplexität von $\mathcal{O(n^2)}$.
 
 \subsection{Korrektheit Prioritätsansatz}
 Bei der Korrektheit des Prioritätsansatzes ist die Bedingung wichtig, dass der Algorithmus nicht unbedingt ein optimales Ergebnis liefert. Dieser betrachtet nach jedem Abfangen eines Ziels jedes verbliebene Ziel und updatet deren neue Priorität. Die Gewichte für die Prioritätsberechnung können dabei willkürlich gewählt werden, allerdings empfiehlt sich geeignete Gewichte zu wählen, um eine schnelle Tour zu ermöglichen (siehe Kapitel \ref{kap5:gewichte}). In jeder Iteration wird dabei das Ziel mit der höchsten Priorität ausgewählt und abgefangen. Sofern ein Ziel bereits zwischen zwei anderen eingeholt wurde, wird dieses aus der Warteschlange entfernt. In der Abbruchbedingung befinden sich alle Ziele auf der selben Seite, dieser Teil ist einfach zu berechnen und garantiert die schnellstmögliche Abfolge am Ende der Tour. 
@@ -605,7 +640,7 @@ In jedem Fall wird eine Tour zurückgegeben, dessen Reihenfolge von den gewählt
 
 Der Prioritätsansatz liefert zwar eine effiziente und schnelle Lösung, garantiert aber keine optimalen Ergebnisse. Um die genaue Güte zu bestimmen, ist ein optimaler Algorithmus nötig. Zwar ist dieser für große Eingaben nicht zu gebrauchen, dennoch empfiehlt sich in diesem Fall die Brute-Force-Methode, um die Güte des Prioritäts-Algorithmus für kleine Eingaben abschätzen zu können. 
 
-Mit einem Brute-Force-Ansatz werden alle Möglichkeiten durchprobiert, um eine Lösung zu bestimmen, in diesem Fall die optimale Tour. Dafür werden für die Zielliste des Eingabe alle Permutationen erstellt. Um alle Permutationen zu bestimmen, wird ein Suchbaum generiert. Dieser beginnt bei der Wurzel, wobei für diese auch der Ursprung direkt eingesetzt werden kann. Anschließend wird jedes Ziel als Kind des Wurzelknotens eingesetzt. Die Kinder wiederum bekommen weitere $k-1$ Ziele als Kinderknoten, wobei $k$ die Tiefe des Baumes darstellt. Damit wird sichergestellt, dass keine Ziele in einer Tour doppelt vorkommen und damit, statt $n^n$, $n!$ Permutationen generiert werden. Mit dieser Variante wird bei $n$ Zielen insgesamt eine Anzahl von $V_n = n + n\cdot (V_{n-1})$ Knoten in den Baum eingefügt. Dies kann mittels Rekursion einfach berechnet werden. Für $10$ Ziele wären dies also $V_{10}=9.864.100$ Einträge.
+Mit einem Brute-Force-Ansatz werden alle Möglichkeiten durchprobiert, um eine \\Lösung zu bestimmen, in diesem Fall die optimale Tour. Dafür werden für die Zielliste des Eingabe alle Permutationen erstellt. Um alle Permutationen zu bestimmen, wird ein Suchbaum generiert. Dieser beginnt bei der Wurzel, wobei für diese auch der Ursprung direkt eingesetzt werden kann. Anschließend wird jedes Ziel als Kind des Wurzelknotens eingesetzt. Die Kinder wiederum bekommen weitere $k-1$ Ziele als Kinderknoten, wobei $k$ die Tiefe des Baumes darstellt. Damit wird sichergestellt, dass keine Ziele in einer Tour doppelt vorkommen und damit, statt $n^n$, $n!$ Permutationen generiert werden. Mit dieser Variante wird bei $n$ Zielen insgesamt eine Anzahl von $V_n = n + n\cdot (V_{n-1})$ Knoten in den Baum eingefügt. Dies kann mittels Rekursion einfach berechnet werden. Für $10$ Ziele wären dies also $V_{10}=9.864.100$ Einträge.
 
 Anschließend kann für jede der Permutationen die Tour bestimmt werden. Nachdem durch alle der Permutationen iteriert wurde, ist die Permutation mit der kürzesten Tourzeit die optimale Tour. Dabei zu beachten ist, dass es mehrere optimale Touren geben kann, die Tourzeit hingegen bleibt jeweils gleich. Gerade bei wenigen Zielen ist die Anwendung zu empfehlen, da beispielsweise die Eingabe $Z=\{z_1, z_2, z_3\}$ nur 6 Kombinationen durchrechnen muss (siehe Abbildung \ref{fig:BF1}). Wie bereits erwähnt ist der Brute-Force-Ansatz bei Eingaben mit vielen Zielen nicht zu empfehlen. Bereits mit $n=10$ Zielen gibt es $10! = 3.628.800$ Permutationen, die alle ausprobiert werden müssen. Um dem Abhilfe zu verschaffen, kann der Suchbaum an vielen Stellen beschnitten werden, sodass große Teile gar nicht erst berechnet werden müssen. Betrachten dafür zwei Szenarien an einer Permutation bis zum Index $k$.
 \begin{enumerate}
@@ -617,7 +652,7 @@ Sei $\tau_{min}$ die aktuell schnellste Tourzeit einer Permutation. Der Baum wir
 \end{enumerate} 
 Somit werden Permutationen mit der selben Reihenfolge an Zielen bis $k$ ausgelassen, da diese keine optimale Route erzeugen werden. Zusätzlich kann der Algorithmus in den meisten Fällen mit einer Sortierung nach der Geschwindigkeit in absteigender Reihenfolge verbessert. Oftmals wird damit in kurzer Zeit ein kleines $\tau_{min}$ gefunden und wodurch umso mehr Pfade abgeschnitten werden. Darüber hinaus könnte ebenfalls ein Prioritäts-Maß genutzt werden. 
 
-Mit diesen Bedingungen werden im Beipiel von Abbildung \ref{fig:BF1} zwei Berechnungen eingespart (siehe Abbildung \ref{fig:BF2}). Bei jeder Permutation wird am Anfang und am Ende der Ursprung eingerechnet. Zuletzt kann die Laufzeitkomplexität stark verbessert werden, indem der Suchbaum \emph{on-the-fly} generiert wird. Dafür werden für jeden Knoten bzw. jedes Ziel direkt alle Berechnungen durchgeführt und äquivalent zu den Beschneidungen, bricht der Algorithmus einfach bei dem Eintritt eines der oben genannten Szenarien ab. Formal zusammengefasst wird der Brute-Force-Algorithmus in Algorithmus \ref{alg:BF}. \\
+Mit diesen Bedingungen werden im Beispiel von Abbildung \ref{fig:BF1} zwei Berechnungen eingespart (siehe Abbildung \ref{fig:BF2}). Bei jeder Permutation wird am Anfang und am Ende der Ursprung eingerechnet. Zuletzt kann die Laufzeitkomplexität stark verbessert werden, indem der Suchbaum \emph{on-the-fly} generiert wird. Dafür werden für jeden Knoten bzw. jedes Ziel direkt alle Berechnungen durchgeführt und äquivalent zu den Beschneidungen, bricht der Algorithmus einfach bei dem Eintritt eines der oben genannten Szenarien ab. Formal zusammengefasst wird der Brute-Force-Algorithmus in Algorithmus \ref{alg:BF}. \\
 
 \begin{figure}[htbp]
 \centering
@@ -702,6 +737,7 @@ Mit diesen Bedingungen werden im Beipiel von Abbildung \ref{fig:BF1} zwei Berech
 \label{fig:BF2}
 \end{figure}
 
+\scalebox{0.9}{
 \begin{minipage}{1\linewidth}
 \begin{algorithm}[H]
 \begin{algorithmic}
@@ -739,7 +775,8 @@ Mit diesen Bedingungen werden im Beipiel von Abbildung \ref{fig:BF1} zwei Berech
 \EndWhile
 \end{algorithmic}
 \end{algorithm}
-\end{minipage}
+\end{minipage}}
+\newpage
 
 \subsection{Laufzeitkomplexität Brute-Force-Ansatz}
 Betrachten dafür zunächst den Suchbaum ohne die vorgeschlagenen Verbesserungen durch Beschneidungen. Der Suchbaum besitzt dabei $V_n = n + n\cdot (V_{n-1})$ Knoten, wodurch die Berechnung des kompletten Baums mit $\mathcal{O}(n!)$ abgeschätzt werden kann. 
@@ -763,14 +800,18 @@ mit verschiedenen Instanzen getestet. Beim 1D-Algorithmus reicht es, diesen auf 
 
 \section{Durchschnittliche Laufzeit des 1D-Algorithmus}
 
-Der eindimensionale Algorithmus (siehe Algorithmus \ref{alg:1D}) findet optimale Lösungen innerhalb von $\mathcal{O}(n^2)$. Dabei ist interessant, wie sich die Laufzeit bei verschiedenen Instanzen verhält. Es werden im Folgenden Eingaben von bis zu $1000$ Zielen getestet. Dabei wird die Verfolgergeschwindigkeit auf $v_\kappa=40$ festgesetzt, wodurch sich jedes Ziel $z_i$ mit $|v_i|<v_\kappa$ fortbewegt. Außerdem sind die Startkoordinaten der Ziele zwischen $-10.000$ und $10.000$ limitiert. Dies ist gerade bei $n=1.000$ nötig, da die Ziele direkt nebeneinander starten. Mit diesen Bedingungen wird jedes der $n$ Ziele die Geschwindigkeit und Startposition für einen Testdurchlauf zufällig generiert. Für jede der Eingabegrößen wird für $100$ Instanzen jeweils die Laufzeit getestet. Anschließend wird der Durchschnitt bestimmt. \\
+Der eindimensionale Algorithmus (siehe Algorithmus \ref{alg:1D}) findet optimale Lösungen innerhalb von $\mathcal{O}(n^2)$. Dabei ist interessant, wie sich die Laufzeit bei verschiedenen Instanzen verhält. Es werden im Folgenden Eingaben von bis zu $1000$ Zielen getestet. Dabei wird die Verfolgergeschwindigkeit auf $v_\kappa=40$ festgesetzt, wodurch sich jedes Ziel $z_i$ mit $|v_i|<v_\kappa$ fortbewegt. Außerdem sind die Startkoordinaten der Ziele zwischen $-10.000$ und $10.000$ limitiert. Dies ist gerade bei $n=1.000$ nötig, da die Ziele direkt nebeneinander starten. Mit diesen Bedingungen wird jedes der $n$ Ziele die Geschwindigkeit und Startposition für einen Testdurchlauf zufällig generiert. Für jede der Eingabegrößen wird für $100$ Instanzen jeweils die Laufzeit getestet. Anschließend wird der Durchschnitt bestimmt. 
+
+Die Ergebnisse in Abbildung \ref{fig:Exp1D} zeigen einen nahezu konstanten Anstieg der durchschnittlichen Laufzeit. Untersucht man die einzelnen Ausgaben der zufälligen Instanzen, wird der Zusammenhang schnell klar. Durch die Eliminierungen werden in nahezu allen Fällen die meisten Ziele aus $Left$ und $Right$ entfernt. Mit dem $Preprocessing$- und dem $Postprocessing$-Schritt werden sind weiterhin quadratische Laufzeiten nötig. Die eigentliche Berechnung der optimalen Tour über die Zustände ist dann äquivalent zu deutlich kleineren Instanzen. Somit wächst die durchschnittliche Laufzeit nahezu lineare an. 
+
+\newpage
 \begin{figure}[htpb]
 \centering
 \includegraphics[scale=0.24]{../Grafiken/Verwendete/Exp1D_2.png}
 \caption{Nahezu konstanter Anstieg der durchschnittlichen Berechenzeit von $100$ Instanzen bei steigender Eingabegröße.}
 \label{fig:Exp1D}
 \end{figure} 
-Die Ergebnisse in Abbildung \ref{fig:Exp1D} zeigen einen nahezu konstanten Anstieg der durchschnittlichen Laufzeit. Untersucht man die einzelnen Ausgaben der zufälligen Instanzen, wird der Zusammenhang schnell klar. Durch die Eliminierungen werden in nahezu allen Fällen die meisten Ziele aus $Left$ und $Right$ entfernt. Mit dem $Preprocessing$- und dem $Postprocessing$-Schritt werden sind weiterhin quadratische Laufzeiten nötig. Die eigentliche Berechnung der optimalen Tour über die Zustände ist dann äquivalent zu deutlich kleineren Instanzen. Somit wächst die durchschnittliche Laufzeit nahezu lineare an. 
+\newpage
 
 \section{Brute-Force-Algorithmus mit unterschiedlichen Eingabegrößen}
 \label{kap5:bf}
@@ -778,6 +819,12 @@ Die Ergebnisse in Abbildung \ref{fig:Exp1D} zeigen einen nahezu konstanten Ansti
 Gängige Brute-Force-Ansätze sind bei Eingabegrößen mit Zielen sehr ineffizient. Bereits bei $n=10$ ist mit $n!=3.628.800$ möglichen Permutationen eine Berechnung sehr aufwendig. Mit den vorgeschlagenen Beschneidungen des Suchbaums soll dem Abhilfe geschaffen werden. Dies wird nachfolgend analysiert. Hierfür wurde der Brute-Force-Algorithmus für $n\in\{1,\dots,14\}$ getestet (siehe Tabelle \ref{tab:ExpBF}). Dabei wird die Verfolgergeschwindigkeit mit $v_{\kappa}=40$ festgesetzt. Zudem startet jedes Ziel bei einer Koordinate zwischen $-100$ und $100$ auf einer der Achsen. Damit wird jeweils für ein Ziel die Geschwindigkeit und Startposition für einen Testdurchlauf zufällig generiert.
 
 Je größer die Anzahl an \emph{Instanzen}, desto repräsentativer sind die Ergebnisse des Datensatzes für die jeweilige Eingabegröße. Für die nachfolgenden Attribute wird für der Durchschnitt aus allen Instanzen berechnet. Die in dem Suchbaum \emph{betrachteten Knoten} geben an, wie viele Ziele insgesamt berechnet wurden. Somit kann mit \emph{Anteil Knoten} durch die Berechnung des Verhältnisses von den \emph{betrachteten Knoten} und $V_n$ abgewogen werden, wie viele Knoten des Baums berechnet wurde. Je niedriger dieser Wert, desto mehr wurde im Baum abgeschnitten. Mit dem $Schnitte$-Attribut kann die Anzahl an Beschneidungen im Baum bestimmt werden. Dieser Wert ist allerdings nur in Kombination mit den \emph{betrachteten Knoten} repräsentativ, da die Schnitte an jeder Stelle im Baum möglich sind\footnote{Ein Schnitt in der Nähe der Wurzel sorgt für eine starke Reduzierung an betrachteten Knoten, während ein Schnitt weit unten genau das Gegenteil bewirkt.}. Sobald eine Instanz aufgrund eines \emph{Heap-Space}-Fehlers\footnote{Die Algorithmen dieser Arbeit sind jeweils in Java über programmiert. Um dies zu umgehen sind leistungsstärkere Rechner notwendig.} nicht berechnet werden kann, wird dies in \emph{Fails} festgehalten.
+ 
+Bei zunehmender Eingabegröße steigt die Anzahl an betrachteten Knoten mit dem Faktor $\approx 4$ nahezu konstant an. Im Gegenzug sinkt zusätzlich der Anteil der Knoten und die Anzahl an Schnitten nimmt zu. Auch die Anzahl der Blätter bzw. Permutationen steigen nur langsam an. Dies zeigt, dass bei ansteigender Eingabegröße, die Komplexität der Berechnung gar nicht so stark ansteigt. Bei $n=13$ werden im Schnitt gerade einmal $4.303,92$ von möglichen $6.227.020.800$ Blättern ausgerechnet. Damit konvergiert der Anteil an betrachteten Knoten gegenüber der Gsamtknotenanzahl bereits ab wenig Zielen gegen $0$. Man würde nun annehmen, dass der Brute-Force-Algorithmus auch für größere $n$ eine gute Ergebnisse liefert. Allerdings erkennt man schon ab $n=10$, dass die Berechnungen immer länger dauern und sehr viele Ressourcen beziehen. Bei $n=14$ ereignen sich die ersten Fehler, wodurch nur noch $3$ Berechnungen durchgeführt werden. Die langen Berechnungszeiten sind auf Fälle zurückzuführen, in denen nicht nach kurzer Zeit ein kleines $\tau_{min}$ gefunden wurde. Damit werden bei steigender Eingabegröße erheblich mehr Berechnungen durchgeführt, da der eigentliche Suchbaum ohne Beschneidungen eine Größe von $n!$ Permutationen besitzt.  
+
+Die Ergebnisse fallen für diese Laufzeit trotzdem sehr positiv aus, da normale Brute-Force-Heuristiken bereits bei $n>10$ sehr langsam laufen und bei einer guten Vorsortierung potentiell auch Fälle mit $n=15$ durch große Abschneidungen in der Nähe der Wurzel lösbar sind. Die in diesem Fall verwendete Sortierung nach dem Betrag der Geschwindigkeit ist sehr simpel und zeigt, dass eine etwas komplexere Sortierung\footnote{Es könnten auch hier zusätzlich Prioritäten verwendet werden.} sehr wahrscheinlich schneller ein kleines $\tau_{min}$ finden kann. 
+
+Ab einer Eingabegröße von $n>12$ ereignen sich \emph{Heap-Space}-Fehler. Dies liegt daran, dass sehr viele Knoten betrachtet werden, aber nicht genug Rechenkapazität zur Verfügung stand. Mit einer anderen Programmiersprache oder einem leistungsstärkeren Rechner könnte man vermutlich $n=13$ fehlerfrei berechnen. Durch die Fehler ist der Datensatz mit $n=14$ nicht mehr repräsentativ, da hierbei nur drei Instanzen berechnet werden konnten. Dabei wurde bei der ersten Instanz sehr früh ein kleines $\tau_{min}$ gefunden, wodurch der Schnitt der jeweiligen Attribute sehr niedrig ist.   \\~\\
 
 \begin{table}[htpb]
 \centering
@@ -803,17 +850,15 @@ Je größer die Anzahl an \emph{Instanzen}, desto repräsentativer sind die Erge
 \caption{Beschneidungen im Suchbaum des Brute-Force-Algorithmus bei einer Eingabe von $1\leq n\leq 14$ Zielen}
 \label{tab:ExpBF}
 \end{table}
- 
-Bei zunehmender Eingabegröße steigt die Anzahl an betrachteten Knoten mit dem Faktor $\approx 4$ nahezu konstant an. Im Gegenzug sinkt zusätzlich der Anteil der Knoten und die Anzahl an Schnitten nimmt zu. Auch die Anzahl der Blätter bzw. Permutationen steigen nur langsam an. Dies zeigt, dass bei ansteigender Eingabegröße, die Komplexität der Berechnung gar nicht so stark ansteigt. Bei $n=13$ werden im Schnitt gerade einmal $4.303,92$ von möglichen $6.227.020.800$ Blättern ausgerechnet. Damit konvergiert der Anteil an betrachteten Knoten gegenüber der Gsamtknotenanzahl bereits ab wenig Zielen gegen $0$. Man würde nun annehmen, dass der Brute-Force-Algorithmus auch für größere $n$ eine gute Ergebnisse liefert. Allerdings erkennt man schon ab $n=10$, dass die Berechnungen immer länger dauern und sehr viele Ressourcen beziehen. Bei $n=14$ ereignen sich die ersten Fehler, wodurch nur noch $3$ Berechnungen durchgeführt werden. Die langen Berechnungszeiten sind auf Fälle zurückzuführen, in denen nicht nach kurzer Zeit ein kleines $\tau_{min}$ gefunden wurde. Damit werden bei steigender Eingabegröße erheblich mehr Berechnungen durchgeführt, da der eigentliche Suchbaum ohne Beschneidungen eine Größe von $n!$ Permutationen besitzt.  
-
-Die Ergebnisse fallen für diese Laufzeit trotzdem sehr positiv aus, da normale Brute-Force-Heuristiken bereits bei $n>10$ sehr langsam laufen und bei einer guten Vorsortierung potentiell auch Fälle mit $n=15$ durch große Abschneidungen in der Nähe der Wurzel lösbar sind. Die in diesem Fall verwendete Sortierung nach dem Betrag der Geschwindigkeit ist sehr simpel und zeigt, dass eine etwas komplexere Sortierung\footnote{Es könnten auch hier zusätzlich Prioritäten verwendet werden.} sehr wahrscheinlich schneller ein kleines $\tau_{min}$ finden kann. 
-
-Ab einer Eingabegröße von $n>12$ ereignen sich \emph{Heap-Space}-Fehler. Dies liegt daran, dass sehr viele Knoten betrachtet werden, aber nicht genug Rechenkapazität zur Verfügung stand. Mit einer anderen Programmiersprache oder einem leistungsstärkeren Rechner könnte man vermutlich $n=13$ fehlerfrei berechnen. Durch die Fehler ist der Datensatz mit $n=14$ nicht mehr repräsentativ, da hierbei nur drei Instanzen berechnet werden konnten. Dabei wurde bei der ersten Instanz sehr früh ein kleines $\tau_{min}$ gefunden, wodurch der Schnitt der jeweiligen Attribute sehr niedrig ist.   
+\newpage
 
 \section{Wahl der Gewichte für den Prioritäts-Algorithmus}
 \label{kap5:gewichte}
 
 Offensichtlich gibt es keine universellen Gewichte, die gute Ergebnisse garantieren. In diesem Abschnitt sollen trotzdem Gewichte präsentiert, die für zufällige Instanzen gute Ergebnisse ermöglichen. Hierfür wird die Verfolgergeschwindigkeit auf $v_{\kappa}=40$ gesetzt. Im Folgenden  werden für die Eingabegrößen $n\in\{8,10,12\}$ und den Betrag der Startkoordinatenlimits $[100,10.000]$ jegliche Kombinationen getestet. Für jedes der Ziele werden mit diesen Bedingungen die Geschwindigkeit und Startposition für einen Testdurchlauf zufällig generiert.
+
+Die Gewichte aus Tabelle \ref{tab:ExpGewichte} belegen, wie auch schon erwähnt, dass es keine universellen Gewichte gibt. Allerdings wird mit der Tabelle ein grobes Verhältnis der Gewichte deutlich. Dabei ist $w_1$ mindestens doppelt so groß wie $w_2$. Das Gewicht $w_3$ variiert hingegen im Verhältnis zu $w_1$ stärker und ist für einige Instanzen zum Teil größer als $w_1$. Allerdings gibt es auch Instanzen, in denen $w_2$ als größtes Gewicht die besten Ergebnisse erzielt. Im Folgenden werden die Gewichte $\omega = \{87,34,31\}$ gewählt. Diese Gewichte haben sich für eine große Menge an Testinstanzen bewährt und werden somit auch für die nachfolgenden Experimente gewählt. \\~\\
+
 \begin{table}[htpb]
 \centering
 \scalebox{1}{
@@ -831,11 +876,10 @@ $n$ & |Koordinatenlimit| & $\omega$\\ \uzlhline
 \caption{Der jeweils beste Gewichte-Kandidat von $1.000$ zufälligen Gewichten für $100$ zufällige Instanzen.}
 \label{tab:ExpGewichte}
 \end{table} 
-
-Die Gewichte aus Tabelle \ref{tab:ExpGewichte} belegen, wie auch schon erwähnt, dass es keine universellen Gewichte gibt. Allerdings wird mit der Tabelle ein grobes Verhältnis der Gewichte deutlich. Dabei ist $w_1$ mindestens doppelt so groß wie $w_2$. Das Gewicht $w_3$ variiert hingegen im Verhältnis zu $w_1$ stärker und ist für einige Instanzen zum Teil größer als $w_1$. Allerdings gibt es auch Instanzen, in denen $w_2$ als größtes Gewicht die besten Ergebnisse erzielt. Im Folgenden werden die Gewichte $\omega = \{87,34,31\}$ gewählt. Diese Gewichte haben sich für eine große Menge an Testinstanzen bewährt und werden somit auch für die nachfolgenden Experimente gewählt.
+\newpage
 
 \section{Güte des Prioritäts-Algorithmus}
-Der Prioritäts-Algorithmus gilt mit einer Laufzeit von $\mathcal{O}(n^2)$ als sehr effizient. Da dieser keine optimalen Touren garantiert, muss nun abgeschätzt werden, ob die Ergebnisse zufriedenstellend sind. Dafür lassen wir den Algorithmus gegen den Brute-Force-Algorithmus laufen, um die Güte zu bestimmen. Der Prioritäts-Algorithmus erzeugt bei einer Instanz $I$ eine Ausgabe der Laufzeit mit $prio(I)$. Die Güte $r_I$ wird für eine Instanz mit
+Der Prioritäts-Algorithmus gilt mit einer Laufzeit von $\mathcal{O}(n^2)$ als sehr effizient. Da dieser keine optimalen Touren garantiert, muss nun abgeschätzt werden, ob die Ergebnisse zufriedenstellend sind. Dafür lassen wir den Algorithmus gegen den Brute-Force-\\Algorithmus laufen, um die Güte zu bestimmen. Der Prioritäts-Algorithmus erzeugt bei einer Instanz $I$ eine Ausgabe der Laufzeit mit $prio(I)$. Die Güte $r_I$ wird für eine Instanz mit
 \begin{align*}
 r_I = \dfrac{prio(I)}{opt(I)}
 \end{align*} 
@@ -846,6 +890,10 @@ max\{v_{i}\}\footnotemark&\in\{20,40,60\}
 \end{align*}
 \footnotetext{Dies bezeichnet die Maximalgeschwindigkeit eines jeden Ziels $z_i\in Z$}
  betrachtet und mit bis zu $10.000$ Instanzen getestet\footnote{Die Laufzeit steigt mit der Eingabegröße stark an, demnach wird für $n=10$ und $n=12$ eine Instanzenanzahl von $1.000$ bzw. $100$ getestet.}. Mit den Instanzen wird jeweils die \emph{maximale} und \emph{durchschnittliche Güte} des Prioritäts-Algorithmus berechnet Zudem wird die Anzahl an \emph{optimalen Touren} und deren \emph{Anteil} an den Instanzen berechnet. Die Verfolgergeschwindigkeit $v_{\kappa}=61$ und die Startkoordinaten der Ziele zwischen $-100$ und $100$ werden als feste Parameter gewählt. Als Gewichte für die Berechnung der Priorität wird $\omega = \{87,34,31\}$ verwendet. Die Ergebnisse werden in Tabelle \ref{tab:ExpGüte} präsentiert.
+
+Dies sind sehr überraschende Ergebnisse, da hierbei viele Erkenntnisse gewonnen werden. Zunächst fällt für $max\{v_i\}=60$ jeweils eine gravierende maximale Güte auf. Das hängt damit zusammen, dass der Algorithmus nur aktuelle Ziele betrachtet und in diesem Schritt keine Berechnung für potentiell folgende Ziele getätigt wird. Bei der Durchführung ist aufgefallen, dass diese worst-case-Szenarien vor allem auftreten, wenn mehrere Zielen eine Geschwindigkeit von $v_i=60$ besitzen. Um dafür eine optimale Lösung zu garantieren, müssten auf die Instanz abgestimmte Gewichte $\omega$ gewählt werden. Durch diese Ausnahmefälle steigt auch die durchschnittliche Güte stark an. 
+
+Bei steigender Eingabegröße verringern sich der Anteil der optimalen Touren quasi konstant. Das lässt vermuten, dass ab $n=14$ quasi keine optimalen Lösungen mehr gefunden werden. Mit dieser Überlegung wäre der Prioritäts-Algorithmus keine gute Option ab $n>10$, da kaum noch optimale Lösungen gefunden werden. Betrachtet man allerdings nun die durchschnittliche Güte, ist der Algorithmus vielleicht doch für große Eingabegrößen geeignet. Diese ist nahezu konstant für alle die jeweiligen maximalen Geschwindigkeiten der Ziele. Mit der konstanten durchschnittlichen Güte werden somit trotz sinkender Anzahl an optimalen Touren weiterhin schnelle Touren berechnet. Für solche Eingabegrößen ist dies allerdings nur spekulativ, da ab $n>12$ mit dem Brute-Force-Algorithmus die Güte nicht mehr präzise genug ausgerechnet werden kann. Im Endeffekt steht und fällt der Algorithmus mit den gewählten Gewichten. \\~\\
 
 \begin{table}[htpb]
 \centering
@@ -866,19 +914,18 @@ max\{v_{i}\}\footnotemark&\in\{20,40,60\}
 \caption{Güte des Prioritäts-Algorithmus}
 \label{tab:ExpGüte}
 \end{table}
-
-Dies sind sehr überraschende Ergebnisse, da hierbei viele Erkenntnisse gewonnen werden. Zunächst fällt für $max\{v_i\}=60$ jeweils eine gravierende maximale Güte auf. Das hängt damit zusammen, dass der Algorithmus nur aktuelle Ziele betrachtet und in diesem Schritt keine Berechnung für potentiell folgende Ziele getätigt wird. Bei der Durchführung ist aufgefallen, dass diese worst-case-Szenarien vor allem auftreten, wenn mehrere Zielen eine Geschwindigkeit von $v_i=60$ besitzen. Um dafür eine optimale Lösung zu garantieren, müssten auf die Instanz abgestimmte Gewichte $\omega$ gewählt werden. Durch diese Ausnahmefälle steigt auch die durchschnittliche Güte stark an. 
-
-Bei steigender Eingabegröße verringern sich der Anteil der optimalen Touren quasi konstant. Das lässt vermuten, dass ab $n=14$ quasi keine optimalen Lösungen mehr gefunden werden. Mit dieser Überlegung wäre der Prioritäts-Algorithmus keine gute Option ab $n>10$, da kaum noch optimale Lösungen gefunden werden. Betrachtet man allerdings nun die durchschnittliche Güte, ist der Algorithmus vielleicht doch für große Eingabegrößen geeignet. Diese ist nahezu konstant für alle die jeweiligen maximalen Geschwindigkeiten der Ziele. Mit der konstanten durchschnittlichen Güte werden somit trotz sinkender Anzahl an optimalen Touren weiterhin schnelle Touren berechnet. Für solche Eingabegrößen ist dies allerdings nur spekulativ, da ab $n>12$ mit dem Brute-Force-Algorithmus die Güte nicht mehr präzise genug ausgerechnet werden kann. Im Endeffekt steht und fällt der Algorithmus mit den gewählten Gewichten.
+\newpage
 
 \section{Große Eingaben für den Prioritäts-Algorithmus}
-Es wird nun das Verhalten des Prioritäts-Algorithmus für Instanzen mit vielen Zielen getestet. Dabei kann keine Korrektheit mehr bewiesen werden, da der Brute-Force-Algorithmus für solche Eingabegrößen nicht geeignet ist. Die Startkoordinaten der Ziele werden dabei zwischen $-250$ und $250$ zufällig gewählt. Die Eingabegröße liegt für dieses Experiment zwischen $5$ und $100$. Die Geschwindigkeit wird in drei verschiedenen Kombinationen von Zielen und Verfolger getestet:
+Es wird nun das Verhalten des Prioritäts-Algorithmus für Instanzen mit vielen Zielen getestet. Dabei kann keine Korrektheit mehr bewiesen werden, da der Brute-Force-\\Algorithmus für solche Eingabegrößen nicht geeignet ist. Die Startkoordinaten der Ziele werden dabei zwischen $-250$ und $250$ zufällig gewählt. Die Eingabegröße liegt für dieses Experiment zwischen $5$ und $100$. Die Geschwindigkeit wird in drei verschiedenen Kombinationen von Zielen und Verfolger getestet:
 \begin{itemize}
 \item $20-200$: langsame Ziele, schneller Verfolger
 \item $40-100$: Differenz der Geschwindigkeiten verringert sich etwas
 \item $60-~~~61$:~Verfolger ist nur minimal schneller
 \end{itemize}
 Diese Wahl der Startkoordinaten und Geschwindigkeiten wurden aus \cite{stieber2015multiple} übernommen. Bemerke, dass es sich bei den Geschwindigkeiten der Ziele im Gegenzug zu vorherigen Tests nicht um Maximalgeschwindigkeiten handelt, sondern festgesetzt sind. Da allerdings nur ein Verfolger betrachtet wird, kann $v_{\kappa}$ um einen Wert inkrementiert werden. Somit werden unendliche Tourzeiten verhindert. Auch in diesem Experiment werden die Gewichte $\omega = \{87,34,31\}$ verwendet. In Tabelle \ref{tab:ExpPrio} sind die Ergebnisse aus den verschiedenen Kombinationen präsentiert.
+
+Mit den vorherigen Ergebnissen von Tabelle \ref{tab:ExpGüte} wird nun klar, dass die Änderungen der Geschwindigkeiten der Ziele beim Prioritäts-Algorithmus die Tourzeiten stark beeinflussen. Es kann nun grundsätzlich gesagt werden, dass der Algorithmus sehr effizient ist, sobald der Verfolger deutlich schneller ist, als jedes gegebene Ziel. Für sehr gute Ergebnisse ist in diesem Fall also eine Differenz der Geschwindigkeiten von mindestens $40$ zu empfehlen. Für Instanzen mit sehr kleinen Differenzen sind die berechneten Touren ggf. weit entfernt von einer optimalen Lösung. \\
 
 \begin{table}[htpb]
 \centering
@@ -907,8 +954,6 @@ Diese Wahl der Startkoordinaten und Geschwindigkeiten wurden aus \cite{stieber20
 \label{tab:ExpPrio}
 \end{table}
 
-Mit den vorherigen Ergebnissen von Tabelle \ref{tab:ExpGüte} wird nun klar, dass die Änderungen der Geschwindigkeiten der Ziele beim Prioritäts-Algorithmus die Tourzeiten stark beeinflussen. Es kann nun grundsätzlich gesagt werden, dass der Algorithmus sehr effizient ist, sobald der Verfolger deutlich schneller ist, als jedes gegebene Ziel. Für sehr gute Ergebnisse ist in diesem Fall also eine Differenz der Geschwindigkeiten von mindestens $40$ zu empfehlen. Für Instanzen mit sehr kleinen Differenzen sind die berechneten Touren ggf. weit entfernt von einer optimalen Lösung. 
-
 %\chapter{Conclusion}
 \chapter{Zusammenfassung und Ausblick}
 %-------------------Ergebnisse der Arbeit--------------------
@@ -916,7 +961,7 @@ Die Lemmata aus Kapitel \ref{kap4} zeigen, dass für optimale Touren dieselben E
 Der Prioritäts-Algorithmus ist sehr abhängig von den gewählten Gewichten. Dabei haben sich für generelle Fälle die Gewichte $\omega=\{87,34,31\}$ etabliert. Sobald der Verfolger um $40$ Geschwindigkeit-Einheiten schneller ist, als das schnellste Ziel der Instanz, werden gute bis optimale Touren von dem Algorithmus nahezu garantiert. Die Güte bleibt bei steigender Eingabegröße nahezu gleich. Der Brute-Force-Algorithmus liefert für kleine Instanzen sehr effizient optimale Ergebnisse. Dabei konvergieren das Verhältnis der betrachteten Knoten zu den Gesamtknoten durch große Abschneidungen im Baum gegen $0$, wodurch im Gegensatz zu herkömmlichen Brute-Force-Heuristiken auch Instanzen mit $n=14$ ggf. schnell berechnet werden können. 
 
 %----------------------Verbesserungen------------------------
-Zwar wurden die Probleme bei der Modellierung als Graphen aufgezeigt, ausgeschlossen sei diese allerdings nicht. Mit dem Ansatz über das Lemma \ref{lem:2} sollte eine optimale Strategie definitiv möglich sein und welche eine geringere Laufzeit aufweist, als der Brute-Force-Algorithmus. Der Brute-Force-Ansatz kann über die vorgeschlagenen Beschneidungs-Szenarien um einiges verbessert werden. Dafür kann in jedem Knoten eine Sortierung der Nachfolgeknoten durchgeführt werden. Zudem können Ziele im eliminiert werden, welche so oder so von dem Verfolger abgefangen werden. Diese werden dann, wie im  Algorithmus \ref{alg:1D}, im Nachhinein wieder hinzugefügt. Dennoch können lange Laufzeiten bei worst-case-Szenarien nicht ausgeschlossen werden, weshalb der Brute-Force-Algorithmus bei großen Instanzen weiterhin  untauglich ist. Beim Prioritäts-Algorithmus könnten zudem im Vorwege Ziele eliminiert werden, welche sowieso eingeholt und damit im Algorithmus gar nicht erst betrachtet werden. 
+Zwar wurden die Probleme bei der Modellierung als Graphen aufgezeigt, ausgeschlossen sei diese allerdings nicht. Mit dem Ansatz über das Lemma \ref{lem:2} sollte eine optimale Strategie definitiv möglich sein und welche eine geringere Laufzeit aufweist, als der Brute-Force-Algorithmus. Der Brute-Force-Ansatz kann über die vorgeschlagenen \\Beschneidungs-Szenarien um einiges verbessert werden. Dafür kann in jedem Knoten eine Sortierung der Nachfolgeknoten durchgeführt werden. Zudem können Ziele im eliminiert werden, welche so oder so von dem Verfolger abgefangen werden. Diese werden dann, wie im  Algorithmus \ref{alg:1D}, im Nachhinein wieder hinzugefügt. Dennoch können lange Laufzeiten bei worst-case-Szenarien nicht ausgeschlossen werden, weshalb der Brute-Force-Algorithmus bei großen Instanzen weiterhin  untauglich ist. Beim Prioritäts-\\Algorithmus könnten zudem im Vorwege Ziele eliminiert werden, welche sowieso eingeholt und damit im Algorithmus gar nicht erst betrachtet werden. 
 
 %-------------------------Ausblick---------------------------
 Mit dem Prioritäts-Algorithmus wurde zum Einen ein effizienter und mit dem Brute-Force-Ansatz zum Anderen ein optimaler Algorithmus für wenig Ziele vorgestellt. Für zukünftige Arbeit wäre ein einigermaßen effizienter, aber optimaler Algorithmus vom großen Interesse. Dies wäre ein notwendiger Schritt, um theoretische Arbeit für $k$-Achsen in MT-TSP zu leisten. Die dazu gewonnenen theoretischen Resultate aus Kapitel \ref{kap3} waren zwar nützlich, einen exakten Algorithmus für große Eingaben konnte aus zeitlichen Gründen aber nicht präsentiert werden. Darüber hinaus ist das nächste Ziel in dieser Thematik die Betrachtung von zweidimensionalen MT-TSP und das Aufstellen von Heuristiken. Diesen Jahres wurde für generelle Fälle eine Arbeit \cite{moraes} veröffentlicht, in der mit evolutionären Strategien versucht wird, auf eine optimale Tour in vielen Iterationen hinzuarbeiten. Dabei ist allerdings die optimale Tour von vielen verschiedenen Parametern abhängig und garantieren keine optimale Lösung. 
@@ -1033,7 +1078,7 @@ Diese habe ich anhand der Pseudocodes Algorithmus \ref{alg:1D}, Algorithmus \ref
 \section{Funktionsweise des Programmes und Relationen zwischen den Klassen}
 Die Klasse \emph{Constants.java} besitzt alle nötigen Parameter für die Algorithmen und Testmethoden, welche in Tabelle \ref{Constants} abgebildet werden. Es kann mit Hilfe der Parameter ein zufälliger Input mit \emph{GenerateInput.java} generiert oder ein bestimmter Input vorgegeben werden. Der Input besitzt dabei die Form ``1D\_<x>.txt''- oder ``2OA\_<x>.txt''-Datei, je nachdem, ob ein 1D-Fall oder zwei-orthogonale-Achsen-Fall betrachtet wird. Die \emph{main}-Methode liegt in \emph{Main.java}. Diese berechnet abhängig von den Konstanten einen der beiden Fälle oder startet eine der Test-Methoden. 
 
-Die Berechnung der 1D-Fälle erfolgt mit der Klasse \emph{SolveOneDim.java}, bei zwei-orthogonale-Achsen-Fälle wird die Tour mit \emph{SolveWithPriorityApproach} oder \emph{SolveWithBruteForce} berechnet. Die drei Klassen wandeln jeweils den Input in eine Liste von \emph{Target.java}-Objekten um. \emph{SolveOneDim.java} verwendet zusätzlich für die Zustandsliste die Klasse \emph{State.java}. Der Suchbaum des Brute-Force-Algorithmus wird mit \emph{SequenceStep} berechnet, indem für Kinderknoten neue \emph{SequenceStep}-Objekte erstellt werden. In jedem Schritt wird dann auf eine Abschneidung überprüft. 
+Die Berechnung der 1D-Fälle erfolgt mit der Klasse \emph{SolveOneDim.java}, bei zwei-\\orthogonale-Achsen-Fälle wird die Tour mit \emph{SolveWithPriorityApproach} oder \emph{SolveWithBruteForce} berechnet. Die drei Klassen wandeln jeweils den Input in eine Liste von \emph{Target.java}-Objekten um. \emph{SolveOneDim.java} verwendet zusätzlich für die Zustandsliste die Klasse \emph{State.java}. Der Suchbaum des Brute-Force-Algorithmus wird mit \emph{SequenceStep} berechnet, indem für Kinderknoten neue \emph{SequenceStep}-Objekte erstellt werden. In jedem Schritt wird dann auf eine Abschneidung überprüft. 
 
 Mit \emph{CalcSequence} kann eine exakte Zeit bestimmt werden, die eine bestimmte Reihenfolge an Zielen benötigt. Dabei wird nicht auf Ziele überprüft, welche auf dem Weg zu dem nächsten Ziel abgefangen wurden. Es kann also eine Tour eines der Algorithmen in der Reihenfolge der Tour in ``Seq.txt'' gespeichert werden, welche anschließend berechnet wird. Damit kann sichergestellt werden, dass die Tour korrekt berechnet wurde. Dies ist bei Randbedingungen sinnvoll und fördert zugleich das Debuggen. 
 
@@ -1041,7 +1086,7 @@ Mit \emph{CalcSequence} kann eine exakte Zeit bestimmt werden, die eine bestimmt
 
 Die Testumgebung befindet sich innerhalb der $Main.java$. Ab dem Parameter \\\emph{TESTING\_ENABLED} aus Tabelle \ref{Constants} werden anstelle der normalen Berechnungen die Testmethoden in \emph{Main.java} verwendet. Für 1D-Fälle wird dabei die Laufzeit für zufällige Instanzen in \emph{test1DRuntime} getestet. 
 
-Bei zwei-ortogonale-Achsen-Fällen werden verschiedene Tests durchgeführt. Mit \emph{testPrioWithMultipleInstances} werden zufällige Gewichte für zufällig generierte Instanzen durchprobiert und am Ende die besten $10$ Gewichte-Tripel in eine Datei geschrieben. Der Suchbaum beim Brute-Force-Algorithmus wird in \emph{testBFWithMultipleInstances} ebenfalls für zufällige Instanzen analysiert und die Ergebnisse in einer Datei festgehalten. Mit \emph{testPrioQuality} wird die Güte des Prioritäts-Algorithmus für zufällige Instanzen berechnet und weitere Ergebnisse, wie die maximale Güte, in eine Datei geschrieben. Es kann aber auch nur eine Instanz getestet werden. Für diese werden in \emph{testWeightsWithBruteForce} Gewichte zufällig generiert und bei optimalen Ergebnisse werden die Gewichten in eine andere Datei festgehalten. In \emph{testWeightsWithoutBruteForce} werden die Gewichte, zufällig gewählt, festgehalten, die bessere Ergebnisse erzielen, als jene in der vorherigen Iteration. Für \emph{testWeightsWithBruteForce} und \emph{testWeightsWithoutBruteForce} kann mit \emph{calcWeightAverage} der Durchschnitt der Gewichte berechnet werden.
+Bei zwei-ortogonale-Achsen-Fällen werden verschiedene Tests durchgeführt. Mit \emph{testPrioWithMultipleInstances} werden zufällige Gewichte für zufällig generierte Instanzen\\ durchprobiert und am Ende die besten $10$ Gewichte-Tripel in eine Datei geschrieben. Der Suchbaum beim Brute-Force-Algorithmus wird in \emph{testBFWithMultipleInstances} ebenfalls für zufällige Instanzen analysiert und die Ergebnisse in einer Datei festgehalten. Mit \emph{testPrioQuality} wird die Güte des Prioritäts-Algorithmus für zufällige Instanzen berechnet und weitere Ergebnisse, wie die maximale Güte, in eine Datei geschrieben. Es kann aber auch nur eine Instanz getestet werden. Für diese werden in \emph{testWeightsWithBruteForce} Gewichte zufällig generiert und bei optimalen Ergebnisse werden die Gewichten in eine andere Datei festgehalten. In \emph{testWeightsWithoutBruteForce} werden die Gewichte, zufällig gewählt, festgehalten, die bessere Ergebnisse erzielen, als jene in der vorherigen Iteration. Für \emph{testWeightsWithBruteForce} und \emph{testWeightsWithoutBruteForce} kann mit \emph{calcWeightAverage} der Durchschnitt der Gewichte berechnet werden.
 
 \begin{table}[htpb]
 \centering
