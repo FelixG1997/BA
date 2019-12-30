@@ -45,7 +45,7 @@ public class Main {
 					GenerateInput input = new GenerateInput();
 					inputFile = input.generateFile();
 				} else {
-					inputFile = Constants.INPUTFILE_1D;
+					inputFile = Constants.INPUT_FILE_1D;
 				}
 				time1D = main.calc1D(inputFile);
 				if(Constants.USE_BRUTE_FORCE) {
@@ -67,7 +67,7 @@ public class Main {
 					GenerateInput input = new GenerateInput();
 					inputFile = input.generateFile();
 				} else {
-					inputFile = Constants.INPUTFILE_2OA;
+					inputFile = Constants.INPUT_FILE_2OA;
 				}
 				// weights for calculating the priority of a target
 				// velocity, distance towards or away, distance position - intersection, 
@@ -89,10 +89,10 @@ public class Main {
 				}
 			} else {
 				System.out.println("Testing started..");
-				if(Constants.TEST_PRIO_WITH_MULTIPLE_INSTANCES) {
+				if(Constants.TEST_MULTIPLE_PRIO_INSTANCES) {
 					file = "Weights_0.txt";
 					main.testPrioWithMultipleInstances(file);
-				} else if(Constants.TEST_BF_WITH_MULTIPLE_INSTANCES) {
+				} else if(Constants.TEST_MULTIPLE_BF_INSTANCES) {
 					file = "BF_Results.txt";
 					main.testBFWithMultipleInstances(file);
 				} else if(Constants.TEST_PRIO_QUALITY) {
@@ -104,7 +104,7 @@ public class Main {
 						GenerateInput input = new GenerateInput();
 						inputFile = input.generateFile();
 					} else {
-						inputFile = Constants.INPUTFILE_2OA;
+						inputFile = Constants.INPUT_FILE_2OA;
 					}
 					// Testing different weights					
 					if(Constants.USE_BRUTE_FORCE) {
@@ -118,7 +118,7 @@ public class Main {
 					}
 				}
 				// Consider a specific Sequence
-				if (Constants.CALC_SPECIFIC_SEQUENCE) {
+				if (Constants.TEST_SPECIFIC_SEQUENCE) {
 					inputFile = "Seq.txt";
 					double timeSequence = main.calcSequence(inputFile);
 					System.out.println(timeSequence);
@@ -241,7 +241,7 @@ public class Main {
 	private void testPrioWithMultipleInstances(String weightFile) throws IOException {
 		Main main = new Main();
 		// generate weights
-		ArrayList<double[]> weights = new ArrayList<>();
+		ArrayList<double[]> randomWeights = new ArrayList<>();
 		for(int i=0; i<Constants.TEST_ITERATIONS; i++) {
 			// 4th index contains the tourtime, last index contains the rating
 			Random rand = new Random();
@@ -249,7 +249,7 @@ public class Main {
 			int b = rand.nextInt(Constants.LIMIT_RANDOM_WEIGHTS);
 			int c = rand.nextInt(Constants.LIMIT_RANDOM_WEIGHTS);
 			double[] instance = {a,b,c,0,0};
-			weights.add(instance);
+			randomWeights.add(instance);
 		}
 		
 		int testInstances = Constants.TEST_INSTANCES;
@@ -262,11 +262,11 @@ public class Main {
 			String inputFile = input.generateFile();
 			
 			for(int j=0; j<Constants.TEST_ITERATIONS; j++) {
-				weights.get(j)[3] = main.calcPrio(inputFile,(int) weights.get(j)[0],(int) weights.get(j)[1],(int) weights.get(j)[2]);
+				randomWeights.get(j)[3] = main.calcPrio(inputFile,(int) randomWeights.get(j)[0],(int) randomWeights.get(j)[1],(int) randomWeights.get(j)[2]);
 			}
 			
 			// sort in ordner of the time (nonincreasing)
-			Collections.sort(weights, new Comparator<double[]>() {
+			Collections.sort(randomWeights, new Comparator<double[]>() {
 		        @Override
 		        public int compare(double[] w1, double[] w2) {
 		            return w1[3] < w2[3]? 1 : (w1[3] > w2[3]? -1 : 0);
@@ -275,7 +275,7 @@ public class Main {
 			
 			// calc rating of each weights
 			for(int j=0; j<Constants.TEST_ITERATIONS; j++) {
-				weights.get(weights.indexOf(weights.get(j)))[4] += j;
+				randomWeights.get(randomWeights.indexOf(randomWeights.get(j)))[4] += j;
 			}			
 			
 			// delete testinstance
@@ -284,7 +284,7 @@ public class Main {
 		}
 		
 		// sort in ordner of the rating (nondecreasing)
-		Collections.sort(weights, new Comparator<double[]>() {
+		Collections.sort(randomWeights, new Comparator<double[]>() {
 	        @Override
 	        public int compare(double[] w1, double[] w2) {
 	            return w1[4] < w2[4]? 1 : (w1[4] > w2[4]? -1 : 0);
@@ -293,7 +293,7 @@ public class Main {
 		// write the best 3 weights in the file
 		BufferedWriter writer = new BufferedWriter(new FileWriter(weightFile));
 		for (int i = 0; i < 10; i++) {
-			writer.write(weights.get(i)[0] + " " + weights.get(i)[1] + " " + weights.get(i)[2]);
+			writer.write(randomWeights.get(i)[0] + " " + randomWeights.get(i)[1] + " " + randomWeights.get(i)[2]);
 			writer.newLine();
 		}
 		writer.close();

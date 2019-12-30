@@ -1,0 +1,6 @@
+Results for n = 12, v_iMax = 60 and v_Max = 61
+
+Min Quality: 1.0
+Max Quality: 82.28591545602215
+Average Quality: 5.301908133392428
+Optimal Tours: 4

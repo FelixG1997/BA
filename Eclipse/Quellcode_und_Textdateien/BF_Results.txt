@@ -1,0 +1,38 @@
+
+Instance Number: 0
+Total Vertices: 751963524
+Considered Vertices: 1890392
+Proportion Considered Vertices: 0.002513941088450987
+Cuts: 747701
+Reached Roots: 541
+tauMin: 33131.86363636359
+
+Instance Number: 1
+Instance Number: 2
+Instance Number: 3
+Instance Number: 4
+Instance Number: 5
+Instance Number: 6
+Instance Number: 7
+Instance Number: 8
+Total Vertices: 751963524
+Considered Vertices: 1466687
+Proportion Considered Vertices: 0.0019504762574095282
+Cuts: 554494
+Reached Roots: 2057
+tauMin: 7229.502702702703
+
+Instance Number: 9
+Total Vertices: 751963524
+Considered Vertices: 11742661
+Proportion Considered Vertices: 0.01561599815046348
+Cuts: 2139016
+Reached Roots: 3479
+tauMin: 3506.8144242303074
+
+Results:
+Average Consisidered Vertices: 5033246.666666667
+Average Proportion Vertices: 0.006693471832107998
+Average Cuts: 1147070.3333333333
+Average Reached Roots: 2025.6666666666667
+Fails: 7

@@ -64,7 +64,7 @@ public class GenerateInput {
 		// Pursuer position currently fixed
 		String axisPur = "0";
 		if(!Constants.IS_1D) {
-			axisPur = Constants.PURSUER_STARTS_ON_LEFTRIGHT_AXIS? "0":"1";	
+			axisPur = Constants.PURSUER_POS_AXIS? "0":"1";	
 		}
 		writer.write(Constants.PURSUER_POS + " " + axisPur + "\n");
 		
@@ -87,7 +87,7 @@ public class GenerateInput {
 				if(Constants.CONSTANT_VELOCITIES) {
 					tmp = Constants.V_I_MAX;
 				} else{
-					tmp = rand.nextInt((int)Constants.V_PURSUER)+1;
+					tmp = rand.nextInt((int)Constants.V_I_MAX)+1;
 				}
 				tmp = rand.nextInt(2)==0? tmp : tmp*(-1);
 				vel += String.valueOf(tmp);
