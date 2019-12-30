@@ -59,7 +59,7 @@ public final class Constants {
 	/**
 	 * weights for prioApproach
 	 */
-	public static final int[] WEIGHTS = {87,34,31}; // 9,3,8 |48,2,4 |75,9,17|90,30,80|87,34,31
+	public static final int[] WEIGHTS = {87,34,31}; 
 	/**
 	 * sets velocities
 	 */
