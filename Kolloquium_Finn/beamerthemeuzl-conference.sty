@@ -1,0 +1,210 @@
+% Copyright by Till Tantau and the University of Luebeck
+
+% This file is *not* under GPL. If you wish to use it, you need to be
+% a member of the University of Luebeck or you need to get permission
+% from the university.
+
+\RequirePackage{calc}
+
+\def\uzlgraphicextension{pdf}
+\def\uzlgraphicscalelogo{.62}
+\def\uzlgraphicscaleslogan{.4}
+\DeclareOption{dvisvgm}{%
+  \def\uzlgraphicextension{svg}%
+  \def\uzlgraphicscalelogo{.4}
+  \def\uzlgraphicscaleslogan{.258}
+}
+\ProcessOptions
+
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+
+%\usepackage[textlf]{Myriad}
+\let\sfdefault\rmdefault
+\usepackage{microtype}
+
+%\def\sfdefault{Humanist}
+\def\rmdefault{ptm} % Times
+\def\ttdefault{pcr} % Courier
+
+\mode<presentation>
+
+%
+% Let's start with some colors
+%
+
+\definecolor{Ozeangruen}{cmyk}{1,0,.20,.78}
+\definecolor{OzeangruenRGB}{RGB}{0,41,49}
+
+\colorlet{theme.subitem}{OzeangruenRGB}
+\colorlet{theme.violetbar}{OzeangruenRGB}
+\definecolor{theme.item}{RGB}{192,192,192}
+\definecolor{theme.subsubitem}{RGB}{128,128,128}
+\definecolor{theme.sidebar.bg}{RGB}{248,248,248}
+
+\setbeamercolor{structure}{fg=Ozeangruen!50}
+
+\setbeamercolor{item}{fg=black!50}
+
+\setbeamercolor{itemize item}{fg=black!25}
+\setbeamercolor{itemize subitem}{fg=theme.subitem}
+\setbeamercolor{itemize subsubitem}{fg=black!50}
+\setbeamercolor{itemize/enumerate subsubbody}{parent=itemize subsubitem}
+
+\setbeamercolor{sidebar right}{fg=theme.item}
+
+\setbeamercolor{footline}{fg=black!50}
+\setbeamercolor{date}{fg=theme.subsubitem}
+
+\setbeamercolor{title}{}
+\setbeamercolor{subtitle}{fg=black}
+\setbeamercolor{frametitle}{}
+\setbeamercolor{framesubtitle}{parent=alerted text}
+
+\setbeamercolor{institute}{parent=structure}
+
+\setbeamercolor{author}{fg=black}
+
+\setbeamercolor{alerted text}{fg=Ozeangruen!50}
+
+\setbeamercolor{description item}{parent=alerted text}
+
+
+%
+% Now let us define the fonts. Currently only Futura...
+%
+
+\setbeamerfont*{structure}{}
+\setbeamerfont*{frametitle}{parent=structure,size=\fontsize{12}{13}}
+\setbeamerfont*{framesubtitle}{parent=structure,size=\normalsize}
+\setbeamerfont*{title}{parent=structure,size=\fontsize{13}{15}}
+\setbeamerfont*{subtitle}{size=\normalsize}
+\setbeamerfont*{author}{size=\fontsize{10}{12}}
+\setbeamerfont*{institute}{size=\fontsize{8}{10}}
+\setbeamerfont*{block title}{parent=structure}
+\setbeamerfont*{item}{}
+\setbeamerfont*{sidebar right}{parent=structure,size=\fontsize{6}{7}}
+\setbeamerfont*{author in head/foot}{parent=structure,size=\fontsize{8}{9.5}}
+\setbeamerfont*{title in head/foot}{parent=structure,size=\fontsize{8}{9.5}}
+\setbeamerfont*{footline}{size=\fontsize{5}{6}}
+\setbeamerfont*{date}{size=\fontsize{8}{10}}
+\setbeamerfont*{section in toc}{parent=structure}
+
+\setbeamerfont*{description item}{}
+\setbeamerfont*{enumerate item}{parent=structure,size=\fontsize{10}{12}}
+\setbeamerfont*{enumerate subitem}{parent=structure,size=\fontsize{9}{10.5}}
+\setbeamerfont*{enumerate subsubitem}{parent=structure,size=\fontsize{7}{8.5}}
+
+\setbeamerfont*{alerted text}{shape=\itshape}
+
+
+
+
+%
+% Now comes the inner theme
+%
+
+\setbeamertemplate{itemize item}{\hbox{\vrule width 1ex height 1ex}}
+\setbeamertemplate{itemize subitem}{\raise.25ex\hbox{\vrule width .5ex height .5ex}}
+\setbeamertemplate{itemize subsubitem}{–}
+
+\setlength\leftmargini  {1.5em}
+\setlength\leftmarginii  {1.5em}
+\setlength\leftmarginiii  {1.5em}
+
+\setbeamertemplate{subsection in toc}{%
+  \vskip.25em%
+  \leavevmode\hbox to1.5em{\hss\usebeamertemplate**{itemize item}\hss}%
+  \usebeamercolor[fg]{subsection in toc}\inserttocsubsection\par}
+
+\setbeamertemplate{navigation symbols}{}
+
+\def\maketitle{\ifbeamer@inframe\titlepage\else\frame[plain]{\titlepage}\fi}
+
+%\logo{\luebeckercslogo[6mm]}
+
+%\def\unilogo{\includegraphics[height=25mm]{beamerthemeLuebeckCS-uni-logo-green.pdf}}
+
+\logo{\includegraphics[scale=\uzlgraphicscalelogo]{uzl-logo-Uni.\uzlgraphicextension}}
+
+\setbeamertemplate{title page}
+{
+  \begin{tikzpicture}
+    \pgf@relevantforpicturesizefalse
+    \pgftransformxshift{-8.5mm}
+    
+    \node (logo) at (0,0) [below right] {\insertlogo};
+    
+    \node at (\paperwidth,-\paperheight+.2\paperwidth) [above left=2mm] {\includegraphics[scale=\uzlgraphicscalelogo]{uzl-slogan.\uzlgraphicextension}};
+
+    \pgftext[x=0cm,y=-\paperheight,bottom,left] {%
+      \includegraphics[width=\paperwidth]{beamerthemeuzl-conference-turm.jpg}}
+                     
+    \pgftext[x=1.35cm,y=-3.3cm,base,left] {%
+      \begin{minipage}[t]{10cm}
+        \raggedright
+        {\leavevmode\usebeamerfont{title}\usebeamercolor[fg]{title}\ifx\inserttitlegraphic\pgfutil@empty\inserttitle\else\inserttitlegraphic\fi\par}
+        \vskip.5em
+        \rightskip=1.5cm plus 1fil%
+        \usebeamerfont*{subtitle}%
+        \ifx\insertsubtitle\@empty%
+        \else%
+          {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle}\par%
+          \vskip1em%
+        \fi%
+        \usebeamerfont{author}\usebeamercolor[fg]{author}\insertauthor
+        \vskip1em
+        \ifx\insertinstitute\@empty\else\usebeamerfont{institute}\usebeamercolor[fg]{institute}\insertinstitute
+        \vskip1em\fi
+        \usebeamerfont{date}\usebeamercolor[fg]{date}\insertdate
+      \end{minipage}
+    }
+
+%     \pgfsetfillcolor{theme.violetbar}
+%     \pgfpathrectangle{\pgfpoint{0pt}{-\paperheight+.2\paperwidth}}{\pgfqpoint{.6\paperwidth}{1.3mm}}
+%     \pgfusepathqfill
+
+%     \pgfsetfillcolor{black!9}
+%     \pgfpathrectangle{\pgfpoint{.6\paperwidth}{-\paperheight+.2\paperwidth}}{\pgfqpoint{.4\paperwidth}{1.3mm}}
+%     \pgfusepathqfill
+    
+%     \fill[color=theme.violetbar] (\paperwidth,0) rectangle (\paperwidth-1.3mm,0 |- logo.south);
+  \end{tikzpicture}
+  \vskip0pt plus1filll
+}
+
+
+\newbox\mybox
+\setbeamertemplate{frametitle}{%
+  \vskip3mm\leftskip-4mm\strut\insertframetitle\strut\par%
+  {%
+    \ifx\insertframesubtitle\@empty%
+    \else%
+    {\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\insertframesubtitle\strut\par}%
+    \fi
+  }%
+}
+
+
+\setbeamersize{text margin left=8.5mm,text margin right=8.5mm}
+
+\setbeamertemplate{sidebar right}{}
+
+
+\setbeamertemplate{footline}
+{
+  \hbox{\raise1em\hbox to\paperwidth{\kern1em%
+      \usebeamerfont{footline}\usebeamercolor[fg]{footline}\hfill
+       \insertshortauthor\qquad
+      \insertshortdate\quad \hbox to
+      1.5em{\hfil{\insertframenumber}}\,/\,{\inserttotalframenumber}\qquad
+      \lower0.8pt\hbox{\includegraphics[scale=\uzlgraphicscaleslogan]{uzl-slogan.\uzlgraphicextension}}\kern1em
+  }}%
+}
+
+
+
+
+
+\mode
+<all>

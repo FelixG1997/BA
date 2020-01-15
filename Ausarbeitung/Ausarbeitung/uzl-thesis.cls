@@ -10,21 +10,10 @@
 % The copyright of this file lies with the University of Lübeck. It
 % can (and should) be used by students for their Bachelor and Master
 % theses.
-%
-%
-% Changelog
-%
-% 2019-11-21, Till Tantau
-% - Made \UzLStyle and thus also \uzlemph robust
-% - Fixed "Masterarbeit" key, now "Masterarbet" only supported for 2019-07
-%   version.
-% - Changed basic lineskip to 14.5pt instead of 14pt.
-%
-% 2019-07-01 Till Tantau
-% - First version
+
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{uzl-thesis}[2019/11/21 University of Luebeck Thesis Class]
+\ProvidesClass{uzl-thesis}[2019/08/01 University of Luebeck Thesis Class]
 
 
 
@@ -43,11 +32,10 @@
 %%%
 
 \newif\ifuzlversion@set
-\newif\ifuzlversion@nineteenseven
-\newif\ifuzlversion@nineteeneleven
+\newif\ifuzlversion@nineteen
 
-\DeclareOption{version-2019-07}{\uzlversion@nineteenseventrue\uzlversion@settrue}
-\DeclareOption{version-2019-11}{\uzlversion@nineteeneleventrue\uzlversion@settrue}
+\DeclareOption{version-2019-07}{\uzlversion@nineteentrue\uzlversion@settrue}
+
 
 
 %%%
@@ -124,9 +112,8 @@
 
 \RequirePackage{pgf}
 
-\DeclareRobustCommand\UzLStyle{\pgfqkeys{/uzlstyle}}
+\def\UzLStyle{\pgfqkeys{/uzlstyle}}
 \def\UzLThesisSetup{\pgfqkeys{/uzlthesissetup}}
-
 
 
 
@@ -217,7 +204,6 @@
 \newdimen\uzl@Large
 \newdimen\uzl@large
 \newdimen\uzl@normalsize
-\newdimen\uzl@normalsizeskip
 \newdimen\uzl@small
 \newdimen\uzl@footnotesize
 \newdimen\uzl@scriptsize
@@ -234,7 +220,6 @@
 \uzl@scriptsize     8pt
 \uzl@tiny           6pt
 
-\uzl@normalsizeskip 14.5pt 
 
 \newcommand\Huge{\@setfontsize\Huge\uzl@Huge{30}}
 \newcommand\huge{\@setfontsize\huge\uzl@huge{25}}
@@ -242,7 +227,7 @@
 \newcommand\Large{\@setfontsize\Large\uzl@Large{18}}
 \newcommand\large{\@setfontsize\large\uzl@large{15}}
 \renewcommand\normalsize{%
-   \@setfontsize\normalsize\uzl@normalsize\uzl@normalsizeskip%
+   \@setfontsize\normalsize\uzl@normalsize{14}%
    \abovedisplayskip 12\p@ \@plus3\p@ \@minus6\p@
    \abovedisplayshortskip \z@ \@plus3\p@
    \belowdisplayshortskip 6.5\p@ \@plus3.5\p@ \@minus3\p@
@@ -1153,10 +1138,6 @@
 
 \RequirePackage[unicode,breaklinks,bookmarksnumbered,hidelinks]{hyperref}
 
-\pdfstringdefDisableCommands{%  
-  \let\UzLStyle\@gobble
-}
-
 
 %%%
 %
@@ -1192,7 +1173,7 @@
   Betreuer/.code=\uzl@storer#1\uzl@relax\uzl@supervisor,
   Betreuerin/.forward to=/uzlthesissetup/Betreuer,
   Bachelorarbeit/.code=\def\uzl@degree{Bachelorarbeit},
-  Masterarbeit/.code=\def\uzl@degree{Masterarbeit},
+  Masterarbet/.code=\def\uzl@degree{Masterarbeit},
   Studiengang/.code=\uzl@storer#1\uzl@relax\uzl@programme,
   Datum/.code=\uzl@storer#1\uzl@relax\uzl@date,
   Abstract/.store in=\uzl@abstract,
@@ -2688,31 +2669,6 @@
 % has no effect.
 % 
 %%%%%%%
-
-
-
-
-
-
-
-
-
-
-
-%%%%%%
-%
-% Compatibility
-%
-%%%%%%
-
-
-\ifuzlversion@nineteenseven
-  % Old spelling mistake:
-  \UzLThesisSetup{
-    Masterarbet/.code=\def\uzl@degree{Masterarbeit},
-  }
-  \uzl@normalsizeskip 14pt 
-\fi
 
 
 
