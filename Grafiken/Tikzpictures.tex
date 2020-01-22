@@ -11,8 +11,7 @@
 \usepackage{listings}
 \usepackage{subfig}
 \usepackage{tikz}
-\usetikzlibrary{positioning, shapes, snakes}
-
+\usetikzlibrary{positioning, shapes, snakes, automata}
 \usepackage{typearea}
 \areaset[5mm]{135mm}{237mm}
 
@@ -22,6 +21,42 @@
 \tikzstyle{green} = [color=green, circle, draw]
 
 \begin{document}
+
+\begin{figure}
+\centering
+\scalebox{0.8}{
+\begin{tikzpicture}[->]
+\node[state,initial] (A0) {$A_0$};
+\node[state, above right = of A0, yshift=+1.1cm, xshift=0.2cm] (A1) {$A_1$};
+\node[state, below right = of A0, yshift=-1.1cm, xshift=0.2cm] (A2) {$A_2$};
+\node[state, above right = of A1, yshift=-0.3cm, xshift=0.6cm] (A5) {$A_5$};
+\node[state, below right = of A1, yshift=+0.3cm, xshift=0.6cm] (A6) {$A_6$};
+\node[state, above right = of A2, yshift=-0.3cm, xshift=0.6cm] (A3) {$A_3$};
+\node[state, below right = of A2, yshift=+0.3cm, xshift=0.6cm] (A4) {$A_4$};
+\node[state, right = of A6, xshift=0.6cm] (A7) {$A_7$};
+\node[state, right = of A3, xshift=0.6cm] (A8) {$A_8$};
+\node[state, right = of A0, xshift = 8cm, accepting] (A9) {$A_9$};
+
+\path (A0) edge [bend left] (A1) node[xshift=0.8cm, yshift=1.5cm] {$\tau_{left}$};
+\path (A0) edge [bend right] (A2) node[xshift=0.8cm, yshift=-1.5cm] {$\tau_{right}$};
+
+\path (A1) edge [bend left] (A5) node[xshift=1.1cm, yshift=0.9cm] {$\tau_{left}$};
+\path (A1) edge [bend right] (A6) node[xshift=1.1cm, yshift=-0.9cm] {$\tau_{right}$};
+\path (A2) edge [bend left] (A3) node[xshift=1.1cm, yshift=0.8cm] {$\tau_{right}$};
+\path (A2) edge [bend right] (A4) node[xshift=1.1cm, yshift=-0.9cm] {$\tau_{left}$};
+
+\path (A5) edge [bend left] (A9) node[xshift=3.8cm, yshift=-0.9cm] {$\tau_{final}$};
+\path (A4) edge [bend right] (A9) node[xshift=3.8cm, yshift=0.8cm] {$\tau_{final}$};
+
+\path (A6) edge (A7) node[xshift=1.3cm, yshift=+0.2cm] {$\tau_{left}$};
+\path (A6) edge (A8) node[xshift=1.0cm, yshift=-0.5cm] {$\tau_{right}$};
+\path (A3) edge (A7) node[xshift=1.0cm, yshift=+0.5cm] {$\tau_{left}$};
+\path (A3) edge (A8) node[xshift=1.3cm, yshift=-0.2cm] {$\tau_{right}$};
+
+\path (A7) edge (A9) node[xshift=1.1cm, yshift=-0.8cm] {$\tau_{final}$};
+\path (A8) edge (A9) node[xshift=1.1cm, yshift=+0.8cm] {$\tau_{final}$};
+\end{tikzpicture}}
+\end{figure}
 
 \begin{figure}
 \centering
